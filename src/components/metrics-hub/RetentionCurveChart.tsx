@@ -12,16 +12,13 @@ import {
   ReferenceLine,
   CartesianGrid,
 } from 'recharts';
-import { LineChart, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { LineChart, Clock, Radio, Info } from 'lucide-react';
 
 export const RetentionCurveChart: React.FC = () => {
   const { currentChannel, retentionData, episodes } = useHolding();
   const currentEp = episodes.find((e) => e.channelId === currentChannel.id);
 
-  const hookGateVal = retentionData.find((d) => d.second === 3)?.retention ?? 75;
-  const min1Val = retentionData.find((d) => d.second === 60)?.retention ?? 55;
-  const midVal = retentionData.find((d) => d.second >= 300 && d.second <= 600)?.retention ?? 50;
-  const endPoint = retentionData[retentionData.length - 1];
+  const hasData = retentionData && retentionData.length > 0;
 
   return (
     <div className="space-y-6">
@@ -61,21 +58,12 @@ export const RetentionCurveChart: React.FC = () => {
                 Porcentaje de Espectadores Activos (%)
               </h3>
               <span className="text-[11px] text-zinc-400 font-mono">
-                {currentEp
-                  ? `${currentEp.title} • Duración: ${currentEp.duration} min • Muestra: ${currentChannel.stats.totalViews.toLocaleString()} views`
-                  : `${currentChannel.name} • Datos de Audiencia`}
+                {currentEp ? `${currentEp.title} • Duración: ${currentEp.duration} min` : currentChannel.name}
               </span>
             </div>
           </div>
 
           <div className="flex items-center space-x-4 text-xs font-mono">
-            <div className="flex items-center space-x-1.5">
-              <span
-                className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: currentChannel.accentColor }}
-              ></span>
-              <span className="text-zinc-300">Retención Real</span>
-            </div>
             <div className="flex items-center space-x-1.5">
               <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
               <span className="text-zinc-400">Objetivo 50% AVD</span>
@@ -83,95 +71,56 @@ export const RetentionCurveChart: React.FC = () => {
           </div>
         </div>
 
-        {/* Recharts Container */}
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={retentionData}
-              margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
-            >
-              <defs>
-                <linearGradient id="retentionGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={currentChannel.accentColor} stopOpacity={0.4} />
-                  <stop offset="95%" stopColor={currentChannel.accentColor} stopOpacity={0.0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-              <XAxis
-                dataKey="label"
-                stroke="#71717a"
-                fontSize={11}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                stroke="#71717a"
-                fontSize={11}
-                tickLine={false}
-                axisLine={false}
-                domain={[0, 100]}
-                unit="%"
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#18181b',
-                  borderColor: '#27272a',
-                  borderRadius: '0.75rem',
-                  fontSize: '12px',
-                  color: '#fff',
-                }}
-                formatter={(val: any) => [`${val}%`, 'Retención']}
-              />
-              <ReferenceLine
-                y={50}
-                stroke="#10b981"
-                strokeDasharray="4 4"
-                strokeWidth={1.5}
-                label={{
-                  value: 'Objetivo 50%',
-                  fill: '#10b981',
-                  fontSize: 10,
-                  position: 'insideTopLeft',
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="retention"
-                stroke={currentChannel.accentColor}
-                strokeWidth={2.5}
-                fillOpacity={1}
-                fill="url(#retentionGrad)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Milestone Audit Badges */}
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-zinc-800/80">
-          <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
-            <div className="text-[10px] font-mono uppercase text-zinc-400">HOOK GATE (0:03s)</div>
-            <div className="text-lg font-bold text-emerald-400 mt-0.5">{hookGateVal}%</div>
-            <div className="text-[10px] text-zinc-400 mt-0.5">Meta &gt; 70% (Aprobado)</div>
+        {hasData ? (
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={retentionData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="retentionGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={currentChannel.accentColor} stopOpacity={0.4} />
+                    <stop offset="95%" stopColor={currentChannel.accentColor} stopOpacity={0.0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
+                <XAxis dataKey="label" stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} />
+                <YAxis stroke="#71717a" fontSize={11} tickLine={false} axisLine={false} domain={[0, 100]} unit="%" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#18181b',
+                    borderColor: '#27272a',
+                    borderRadius: '0.75rem',
+                    fontSize: '12px',
+                    color: '#fff',
+                  }}
+                  formatter={(val: any) => [`${val}%`, 'Retención']}
+                />
+                <ReferenceLine y={50} stroke="#10b981" strokeDasharray="4 4" strokeWidth={1.5} />
+                <Area
+                  type="monotone"
+                  dataKey="retention"
+                  stroke={currentChannel.accentColor}
+                  strokeWidth={2.5}
+                  fillOpacity={1}
+                  fill="url(#retentionGrad)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-
-          <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
-            <div className="text-[10px] font-mono uppercase text-zinc-400">MINUTO 1:00</div>
-            <div className="text-lg font-bold text-white mt-0.5">{min1Val}%</div>
-            <div className="text-[10px] text-zinc-400 mt-0.5">Filtro de curiosidad</div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16 text-center rounded-xl bg-zinc-950/60 border border-zinc-800/60 my-2">
+            <div className="h-12 w-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-3 shadow-inner">
+              <Radio className="h-6 w-6 animate-pulse text-amber-400/80" />
+            </div>
+            <h4 className="text-sm font-bold text-white">Curva en Espera de Reproducciones</h4>
+            <p className="text-xs text-zinc-400 mt-1 max-w-md leading-relaxed">
+              El trazado segundo a segundo se generará automáticamente a partir de los datos de retención de YouTube Studio una vez publicado el Episodio 01.
+            </p>
+            <div className="mt-4 flex items-center space-x-2 text-[11px] font-mono text-zinc-500">
+              <Info className="h-3.5 w-3.5" />
+              <span>Umbral de activación: primeras 100 vistas orgánicas</span>
+            </div>
           </div>
-
-          <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
-            <div className="text-[10px] font-mono uppercase text-zinc-400">DESARROLLO</div>
-            <div className="text-lg font-bold text-white mt-0.5">{midVal}%</div>
-            <div className="text-[10px] text-zinc-400 mt-0.5">Meseta de retención</div>
-          </div>
-
-          <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
-            <div className="text-[10px] font-mono uppercase text-zinc-400">FINAL ({endPoint?.label || 'Fin'})</div>
-            <div className="text-lg font-bold text-amber-400 mt-0.5">{endPoint?.retention || 42}%</div>
-            <div className="text-[10px] text-zinc-400 mt-0.5">Conversión a CTA / Up-Next</div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

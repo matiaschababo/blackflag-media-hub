@@ -5,7 +5,6 @@ import { useHolding } from '../../context/HoldingContext';
 import {
   Film,
   BarChart3,
-  Globe2,
   PlusCircle,
   Clock,
   Sparkles,
@@ -26,34 +25,46 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
   } = useHolding();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-zinc-800/80 bg-[#0a0a0d]/95 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand & Holding Title */}
-        <div className="flex items-center space-x-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 via-amber-600 to-amber-900 shadow-lg shadow-amber-500/20">
-            <Sparkles className="h-5 w-5 text-zinc-950" />
+        {/* Brand & Broadcast Title */}
+        <div className="flex items-center space-x-3 shrink-0">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-xl shadow-lg transition-transform hover:scale-105"
+            style={{
+              background: `linear-gradient(135deg, ${currentChannel.accentColor}, #78350f)`,
+              boxShadow: `0 4px 18px ${currentChannel.accentColor}33`,
+            }}
+          >
+            <Sparkles className="h-5 w-5 text-black" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-mono text-xs tracking-wider text-amber-400">EMPRESA DIGITAL</span>
-              <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/20">
-                {channels.length} CANALES ACTIVOS
+              <span className="font-mono text-[10px] font-black uppercase tracking-widest text-amber-400">
+                HOLDING MEDIA HUB
+              </span>
+              <span className="inline-flex items-center space-x-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/30">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                <span>{channels.length} CANALES ACTIVOS</span>
               </span>
             </div>
-            <h1 className="text-sm font-bold tracking-tight text-white sm:text-base">
-              Holding Media Hub
+            <h1 className="text-base font-extrabold tracking-tight text-white flex items-center gap-1.5">
+              <span>Empresa Contenido Digital</span>
             </h1>
           </div>
         </div>
 
-        {/* Center: Dual-Mode Switcher */}
-        <div className="flex items-center rounded-xl bg-zinc-900 p-1 border border-zinc-800">
+        {/* Center: Dual-Mode Switcher (Content Manager vs Metrics Hub) */}
+        <div className="flex items-center rounded-2xl bg-zinc-900/90 p-1 border border-zinc-800/80 shadow-inner">
           <button
             onClick={() => setMode('content_manager')}
-            className={`flex items-center space-x-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
+            className={`flex items-center space-x-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-200 cursor-pointer ${
               mode === 'content_manager'
-                ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 shadow-md shadow-amber-500/25'
-                : 'text-zinc-400 hover:text-white'
+                ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-zinc-950 shadow-lg shadow-amber-500/30'
+                : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
             }`}
           >
             <Film className="h-3.5 w-3.5" />
@@ -62,10 +73,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
 
           <button
             onClick={() => setMode('metrics_hub')}
-            className={`flex items-center space-x-2 rounded-lg px-3.5 py-1.5 text-xs font-semibold transition-all ${
+            className={`flex items-center space-x-2 rounded-xl px-4 py-2 text-xs font-bold transition-all duration-200 cursor-pointer ${
               mode === 'metrics_hub'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/25'
-                : 'text-zinc-400 hover:text-white'
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30'
+                : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'
             }`}
           >
             <BarChart3 className="h-3.5 w-3.5" />
@@ -73,51 +84,51 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
           </button>
         </div>
 
-        {/* Right: Channel Switcher & Actions */}
-        <div className="flex items-center space-x-3">
-          {/* Timezone indicators */}
-          <div className="hidden items-center space-x-2 rounded-lg border border-zinc-800/80 bg-zinc-900/60 px-2.5 py-1 text-[11px] text-zinc-400 lg:flex">
-            <Clock className="h-3 w-3 text-amber-400" />
-            <span>ART (UTC-3)</span>
-            <span className="text-zinc-600">|</span>
-            <span>EST (UTC-5)</span>
+        {/* Right: Visible Multi-Channel Selector Pills (Mix On style) */}
+        <div className="flex items-center space-x-2 shrink-0">
+          <div className="flex items-center space-x-1.5 bg-zinc-900/90 p-1 rounded-2xl border border-zinc-800">
+            {channels.map((ch) => {
+              const isSelected = selectedChannelId === ch.id;
+              return (
+                <button
+                  key={ch.id}
+                  onClick={() => setSelectedChannelId(ch.id)}
+                  title={`Cambiar al canal ${ch.name}`}
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all duration-200 cursor-pointer ${
+                    isSelected
+                      ? 'text-white shadow-lg'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
+                  }`}
+                  style={
+                    isSelected
+                      ? {
+                          backgroundColor: `${ch.accentColor}25`,
+                          color: ch.accentColor,
+                          border: `1.5px solid ${ch.accentColor}80`,
+                          boxShadow: `0 0 14px -2px ${ch.accentColor}40`,
+                        }
+                      : { border: '1.5px solid transparent' }
+                  }
+                >
+                  <span
+                    className="h-2 w-2 rounded-full shrink-0"
+                    style={{ backgroundColor: ch.accentColor }}
+                  ></span>
+                  <span className="hidden sm:inline">{ch.name}</span>
+                  <span className="font-mono text-[10px]">{ch.shortCode}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Active Channel Selector */}
-          <div className="flex items-center space-x-1.5">
-            <span className="hidden xl:inline text-[11px] font-mono text-zinc-400 uppercase">
-              Canal:
-            </span>
-            <div className="relative">
-              <select
-                value={selectedChannelId}
-                onChange={(e) => setSelectedChannelId(e.target.value)}
-                className="appearance-none rounded-xl border border-zinc-700 bg-zinc-900 py-1.5 pl-3 pr-8 text-xs font-bold text-white shadow-sm transition hover:border-zinc-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
-                style={{
-                  borderLeftColor: currentChannel.accentColor,
-                  borderLeftWidth: '3.5px',
-                }}
-              >
-                {channels.map((ch) => (
-                  <option key={ch.id} value={ch.id} className="bg-zinc-900 text-white">
-                    {ch.name} ({ch.shortCode})
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-400">
-                <Globe2 className="h-3.5 w-3.5" />
-              </div>
-            </div>
-          </div>
-
-          {/* Add Channel Button */}
+          {/* New Channel Button */}
           <button
             onClick={onOpenNewChannelModal}
             title="Dar de alta nuevo canal en el Holding"
-            className="flex items-center space-x-1 rounded-xl border border-zinc-700/60 bg-zinc-900/80 px-2.5 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-amber-500/60 hover:text-white hover:bg-zinc-800"
+            className="flex items-center space-x-1 rounded-xl border border-zinc-700/60 bg-zinc-900/80 px-2.5 py-1.5 text-xs font-bold text-zinc-300 transition hover:bg-zinc-800 hover:text-white hover:border-amber-500/60 cursor-pointer active:scale-95"
           >
             <PlusCircle className="h-3.5 w-3.5 text-amber-400" />
-            <span className="hidden sm:inline">Nuevo Canal</span>
+            <span className="hidden md:inline">Nuevo</span>
           </button>
         </div>
       </div>

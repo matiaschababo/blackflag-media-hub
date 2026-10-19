@@ -10,6 +10,7 @@ import {
   Percent,
   CheckCircle2,
   Sparkles,
+  Info,
 } from 'lucide-react';
 
 export const ABTestingTracker: React.FC = () => {
@@ -37,11 +38,11 @@ export const ABTestingTracker: React.FC = () => {
           Laboratorio de Tríada de Packaging (A/B/C Testing) ({currentChannel.shortCode})
         </h2>
         <p className="text-xs text-zinc-400 mt-0.5">
-          Auditoría de tasa de clics (CTR) en YouTube Studio sobre títulos y miniaturas de alto contraste.
+          Preparación de los 3 títulos y miniaturas de alto contraste antes de iniciar el test en YouTube Studio.
         </p>
       </div>
 
-      {/* 3 Variants Cards */}
+      {/* 3 Variants Cards (In Preparation / 0 Fake Numbers) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {abVariants.map((v, idx) => {
           const letter = String.fromCharCode(65 + idx); // A, B, C
@@ -49,31 +50,25 @@ export const ABTestingTracker: React.FC = () => {
           return (
             <div
               key={v.id}
-              className={`rounded-2xl border p-5 backdrop-blur-sm transition relative overflow-hidden ${
-                v.isWinner
-                  ? 'border-amber-500/60 bg-amber-950/15 shadow-xl shadow-amber-500/10'
-                  : 'border-zinc-800/80 bg-zinc-900/40'
-              }`}
+              className="rounded-2xl border border-zinc-800/90 bg-zinc-900/40 p-5 backdrop-blur-sm transition relative overflow-hidden hover:border-zinc-700"
             >
-              {v.isWinner && (
-                <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-amber-600 text-zinc-950 font-black text-[10px] px-3 py-1 rounded-bl-xl flex items-center space-x-1 shadow-md">
-                  <Trophy className="h-3 w-3" />
-                  <span>VARIANTE GANADORA (WINNER)</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-800 text-xs font-black text-amber-400 border border-zinc-700">
+                    {letter}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-zinc-300">
+                    Variante {letter}
+                  </span>
                 </div>
-              )}
-
-              <div className="flex items-center space-x-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-800 text-xs font-black text-amber-400 border border-zinc-700">
-                  {letter}
-                </span>
-                <span className="text-xs font-mono text-zinc-400">
-                  {v.isWinner ? 'Desplegada en Producción' : 'Variante Retirada'}
+                <span className="studio-pill bg-zinc-950 text-amber-400/90 border border-amber-500/30 text-[9px]">
+                  Lista para Test
                 </span>
               </div>
 
               {/* Title under test */}
               <div className="mt-4">
-                <div className="text-[10px] font-mono uppercase text-zinc-400">TÍTULO EVALUADO</div>
+                <div className="text-[10px] font-mono uppercase text-zinc-500 font-bold">TÍTULO PROPUESTO</div>
                 <h3 className="mt-1 text-sm font-bold text-white line-clamp-2 leading-snug">
                   {v.title}
                 </h3>
@@ -81,38 +76,28 @@ export const ABTestingTracker: React.FC = () => {
 
               {/* Thumbnail Asset Mock */}
               <div className="mt-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3 flex items-center space-x-3">
-                <div className="flex h-10 w-16 shrink-0 items-center justify-center rounded bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-400">
+                <div className="flex h-10 w-16 shrink-0 items-center justify-center rounded bg-zinc-900 border border-zinc-800 text-[10px] font-mono text-zinc-500 font-bold">
                   16:9
                 </div>
                 <div className="overflow-hidden">
-                  <div className="text-[10px] font-mono uppercase text-zinc-400">ASSET MINIATURA</div>
+                  <div className="text-[9px] font-mono uppercase text-zinc-500">ASSET MINIATURA</div>
                   <div className="text-xs font-mono text-zinc-300 truncate">{v.thumbnailName}</div>
                 </div>
               </div>
 
-              {/* Performance Metrics */}
-              <div className="mt-5 grid grid-cols-3 gap-2 pt-4 border-t border-zinc-800/80">
-                <div>
-                  <div className="text-[10px] font-mono text-zinc-400">IMPRESIONES</div>
-                  <div className="mt-0.5 text-xs font-bold text-white font-mono">
-                    {v.impressions.toLocaleString()}
-                  </div>
+              {/* Performance Metrics (Standby) */}
+              <div className="mt-5 grid grid-cols-3 gap-2 pt-4 border-t border-zinc-800/80 font-mono text-center">
+                <div className="bg-zinc-950/60 p-2 rounded-lg border border-zinc-800/60">
+                  <div className="text-[9px] text-zinc-500">IMPRESIONES</div>
+                  <div className="mt-0.5 text-xs font-bold text-zinc-400">0</div>
                 </div>
-                <div>
-                  <div className="text-[10px] font-mono text-zinc-400">CLICS</div>
-                  <div className="mt-0.5 text-xs font-bold text-white font-mono">
-                    {v.clicks.toLocaleString()}
-                  </div>
+                <div className="bg-zinc-950/60 p-2 rounded-lg border border-zinc-800/60">
+                  <div className="text-[9px] text-zinc-500">CLICS</div>
+                  <div className="mt-0.5 text-xs font-bold text-zinc-400">0</div>
                 </div>
-                <div>
-                  <div className="text-[10px] font-mono text-zinc-400">CTR REAL</div>
-                  <div
-                    className={`mt-0.5 text-sm font-black font-mono ${
-                      v.isWinner ? 'text-emerald-400' : 'text-zinc-300'
-                    }`}
-                  >
-                    {v.ctr}%
-                  </div>
+                <div className="bg-zinc-950/60 p-2 rounded-lg border border-zinc-800/60">
+                  <div className="text-[9px] text-zinc-500">CTR</div>
+                  <div className="mt-0.5 text-xs font-bold text-zinc-400">-- %</div>
                 </div>
               </div>
             </div>
@@ -128,10 +113,10 @@ export const ABTestingTracker: React.FC = () => {
             Protocolo de Decisión de Tríada de Packaging:
           </p>
           <p>
-            1. Cada variante corre un mínimo de 48 horas en YouTube Studio Test & Compare hasta alcanzar significancia estadística (&gt;95% de confianza).
+            1. Las 3 variantes correrán un mínimo de 48 horas en YouTube Studio Test & Compare una vez lanzado el video.
           </p>
           <p>
-            2. El thumbnail ganador se bloquea automáticamente como miniatura definitiva en VOD y nutre las carátulas secundarias de los 10 Shorts.
+            2. El algoritmo de YouTube seleccionará la variante ganadora automáticamente según la mayor tasa de clics (CTR).
           </p>
         </div>
       </div>

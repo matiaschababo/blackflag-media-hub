@@ -55,41 +55,31 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [contentTab, setContentTab] = useState<ContentTab>('clips_matrix');
   const [metricsTab, setMetricsTab] = useState<MetricsTab>('overview');
 
-  // Load saved state from localStorage on client with auto-refresh if old cache is partial
+  // Clear legacy hallucinated cache and ensure all 3 core channels always exist
   useEffect(() => {
     try {
-      const savedClips = localStorage.getItem('bf_holding_clips');
-      if (savedClips) {
-        const parsed = JSON.parse(savedClips);
-        // If local cache had fewer clips than the full multi-channel catalog, refresh to initial
-        if (!Array.isArray(parsed) || parsed.length < INITIAL_CLIPS.length) {
-          setClips(INITIAL_CLIPS);
-          localStorage.setItem('bf_holding_clips', JSON.stringify(INITIAL_CLIPS));
-        } else {
-          setClips(parsed);
+      // Clear legacy cache that may have stored single-channel or fake numbers
+      localStorage.removeItem('bf_holding_clips');
+      localStorage.removeItem('bf_holding_channels');
+
+      const savedCustomChannels = localStorage.getItem('holding_custom_channels_v2');
+      if (savedCustomChannels) {
+        const parsed = JSON.parse(savedCustomChannels);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          // Merge custom channels with INITIAL_CHANNELS, avoiding duplicates
+          const customOnly = parsed.filter(
+            (c: Channel) => !INITIAL_CHANNELS.some((init) => init.id === c.id)
+          );
+          setChannels([...INITIAL_CHANNELS, ...customOnly]);
         }
       }
-
-      const savedChannels = localStorage.getItem('bf_holding_channels');
-      if (savedChannels) {
-        const parsedCh = JSON.parse(savedChannels);
-        if (Array.isArray(parsedCh) && parsedCh.length >= INITIAL_CHANNELS.length) {
-          setChannels(parsedCh);
-        }
-      }
-    } catch {
-      // Local storage fallback
-    }
-  }, []);
-
-  // Persist clips
-  const saveClips = (newClips: Clip[]) => {
-    setClips(newClips);
-    try {
-      localStorage.setItem('bf_holding_clips', JSON.stringify(newClips));
     } catch {
       // ignore
     }
+  }, []);
+
+  const saveClips = (newClips: Clip[]) => {
+    setClips(newClips);
   };
 
   const currentChannel = channels.find((c) => c.id === selectedChannelId) || channels[0];
@@ -97,7 +87,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Dynamic channel-specific metrics
   const retentionData =
-    RETENTION_CURVES_BY_CHANNEL[selectedChannelId] || RETENTION_CURVES_BY_CHANNEL['blackflag'];
+    RETENTION_CURVES_BY_CHANNEL[selectedChannelId] || [];
   const platformData =
     PLATFORM_COMPARISONS_BY_CHANNEL[selectedChannelId] || PLATFORM_COMPARISONS_BY_CHANNEL['blackflag'];
   const abVariants =
@@ -189,7 +179,10 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setChannels(newChannels);
     setSelectedChannelId(id);
     try {
-      localStorage.setItem('bf_holding_channels', JSON.stringify(newChannels));
+      const customOnly = newChannels.filter(
+        (c) => !INITIAL_CHANNELS.some((init) => init.id === c.id)
+      );
+      localStorage.setItem('holding_custom_channels_v2', JSON.stringify(customOnly));
     } catch {
       // ignore
     }

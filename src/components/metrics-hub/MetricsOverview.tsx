@@ -12,11 +12,57 @@ import {
   Sparkles,
   ArrowUpRight,
   ShieldCheck,
+  AlertTriangle,
+  CheckCircle2,
+  Zap,
 } from 'lucide-react';
 
 export const MetricsOverview: React.FC = () => {
   const { currentChannel } = useHolding();
   const [timeRange, setTimeRange] = useState<'7D' | '30D' | '90D' | 'ALL'>('30D');
+
+  // Dynamic AI Insights inspired by Mix On Metrics Hub
+  const getAiInsights = () => {
+    const list: { type: 'success' | 'warning' | 'info'; title: string; text: string }[] = [];
+
+    if (currentChannel.stats.avgAvd >= 50) {
+      list.push({
+        type: 'success',
+        title: 'Retención Tier 1 Superior',
+        text: `La permanencia promedio (${currentChannel.stats.avgAvd}%) supera ampliamente el estándar del 50%. El algoritmo favorece las recomendaciones up-next y sugeridos.`,
+      });
+    } else {
+      list.push({
+        type: 'warning',
+        title: 'Optimización de Hook Necesaria',
+        text: `Permanencia en ${currentChannel.stats.avgAvd}%. Se recomienda acortar los primeros 3 segundos a micro-beats de corte antes del segundo 0:08.`,
+      });
+    }
+
+    if (currentChannel.stats.rpm >= 10) {
+      list.push({
+        type: 'success',
+        title: 'RPM de Alta Rentabilidad B2B',
+        text: `Monetización premium de $${currentChannel.stats.rpm.toFixed(2)} USD por millar. El perfil de audiencia (fundadores y directores de IT) maximiza los ingresos por anunciante.`,
+      });
+    } else {
+      list.push({
+        type: 'info',
+        title: 'Escala por Volumen Masivo',
+        text: `Nicho enfocado en reproducción masiva y multi-idioma. Con un RPM de $${currentChannel.stats.rpm.toFixed(2)} USD, el crecimiento de ingresos responde al volumen y co-viewing.`,
+      });
+    }
+
+    list.push({
+      type: 'info',
+      title: 'Sindicación Ripple Shift Activa',
+      text: `La distribución simultánea en Shorts, Reels, TikTok y X multiplica el alcance orgánico sin costo adicional de producción ($0 API fee).`,
+    });
+
+    return list;
+  };
+
+  const insights = getAiInsights();
 
   return (
     <div className="space-y-6">
@@ -164,22 +210,84 @@ export const MetricsOverview: React.FC = () => {
         </div>
       </div>
 
-      {/* Strategic Niche Insight Card */}
-      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 backdrop-blur-sm space-y-3">
-        <div className="flex items-center space-x-2 text-cyan-400">
-          <ShieldCheck className="h-5 w-5" />
+      {/* AI Insights Panel (Replicated from Mix On Metrics Hub) */}
+      <div className="rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-950/20 via-zinc-900/40 to-zinc-950 p-6 backdrop-blur-sm">
+        <div className="flex items-center space-x-2 text-cyan-400 mb-4">
+          <Zap className="h-5 w-5" />
           <h3 className="text-sm font-bold uppercase tracking-wider font-mono">
-            Diagnóstico Financiero & Monetización de Nicho
+            AI Insights & Diagnóstico de Crecimiento ({currentChannel.name})
           </h3>
         </div>
-        <p className="text-xs text-zinc-300 leading-relaxed">
-          {currentChannel.id === 'blackflag' &&
-            'BlackFlag Blueprint opera sobre el nicho de mayor RPM de todo YouTube: Finanzas Offshore e Incorporaciones Corporativas en EE.UU. Su rentabilidad no depende únicamente de las visitas de AdSense, sino del embudo High-Ticket de afiliados (Doola $1,800 CPA, Firstbase y bancos internacionales).'}
-          {currentChannel.id === 'podmon' &&
-            'Podmon aprovecha el algoritmo de retención prolongada de series cinemáticas en Farming Simulator 25. Con videos de 25-45 minutos y AVD > 55%, cada espectador reproduce entre 3 y 5 anuncios mid-roll en mercados Tier 1 (EE.UU., UK, Canadá).'}
-          {currentChannel.id === 'neon_marbles' &&
-            'Neon Marbles & Sensory Arcade está optimizado para monetización en Smart TVs bajo el estándar General Audience (No Made for Kids). Al ser 100% no-verbal, un solo video compila vistas en más de 100 países conservando anuncios personalizados activos.'}
-        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {insights.map((ins, idx) => (
+            <div
+              key={idx}
+              className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-4 space-y-2 backdrop-blur-sm"
+            >
+              <div className="flex items-center space-x-2">
+                {ins.type === 'success' && <TrendingUp className="h-4 w-4 text-emerald-400 shrink-0" />}
+                {ins.type === 'warning' && <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />}
+                {ins.type === 'info' && <Target className="h-4 w-4 text-cyan-400 shrink-0" />}
+                <h4 className="text-xs font-bold text-white">{ins.title}</h4>
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed">{ins.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Growth Plan & Monetization Milestones */}
+      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 backdrop-blur-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2 text-amber-400">
+            <ShieldCheck className="h-5 w-5" />
+            <h3 className="text-sm font-bold uppercase tracking-wider font-mono">
+              Plan de Crecimiento & Hitos de Monetización
+            </h3>
+          </div>
+          <span className="text-[10px] font-mono text-zinc-400">FASE ACTIVA: PRODUCCIÓN & ESCALA</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3.5">
+            <div className="flex items-center justify-between text-xs font-bold text-white mb-1.5">
+              <span>Hito 1: Partner Program</span>
+              <span className="text-emerald-400 font-mono text-[11px]">100% OK</span>
+            </div>
+            <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-emerald-400 h-full w-full"></div>
+            </div>
+            <p className="text-[11px] text-zinc-400 mt-2">
+              4,000 hs de visualización y 1,000 suscriptores superados.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3.5">
+            <div className="flex items-center justify-between text-xs font-bold text-white mb-1.5">
+              <span>Hito 2: Monopolio Up-Next</span>
+              <span className="text-amber-400 font-mono text-[11px]">84%</span>
+            </div>
+            <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-amber-400 h-full w-[84%]"></div>
+            </div>
+            <p className="text-[11px] text-zinc-400 mt-2">
+              CTR en test A/B/C sostenido &gt; 8% y playlists seriadas activas.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-3.5">
+            <div className="flex items-center justify-between text-xs font-bold text-white mb-1.5">
+              <span>Hito 3: Sindicación Masiva 5x</span>
+              <span className="text-cyan-400 font-mono text-[11px]">En Proceso</span>
+            </div>
+            <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+              <div className="bg-cyan-400 h-full w-[65%]"></div>
+            </div>
+            <p className="text-[11px] text-zinc-400 mt-2">
+              10 Shorts distribuidos en YouTube, Meta, TikTok y X con Ripple Shift.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

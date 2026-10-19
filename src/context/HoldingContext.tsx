@@ -10,8 +10,17 @@ import {
   MetricsTab,
   Platform,
   PublicationRecord,
+  RetentionDataPoint,
+  ABVariant,
 } from '../types';
-import { INITIAL_CHANNELS, INITIAL_EPISODES, INITIAL_CLIPS } from '../data/mockData';
+import {
+  INITIAL_CHANNELS,
+  INITIAL_EPISODES,
+  INITIAL_CLIPS,
+  RETENTION_CURVES_BY_CHANNEL,
+  PLATFORM_COMPARISONS_BY_CHANNEL,
+  AB_VARIANTS_BY_CHANNEL,
+} from '../data/mockData';
 
 interface HoldingContextType {
   channels: Channel[];
@@ -20,6 +29,9 @@ interface HoldingContextType {
   episodes: Episode[];
   clips: Clip[];
   filteredClips: Clip[];
+  retentionData: RetentionDataPoint[];
+  platformData: Array<{ platform: string; views: number; hours: number; engagementRate: number }>;
+  abVariants: ABVariant[];
   mode: AppMode;
   contentTab: ContentTab;
   metricsTab: MetricsTab;
@@ -43,14 +55,28 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [contentTab, setContentTab] = useState<ContentTab>('clips_matrix');
   const [metricsTab, setMetricsTab] = useState<MetricsTab>('overview');
 
-  // Load saved state from localStorage on client
+  // Load saved state from localStorage on client with auto-refresh if old cache is partial
   useEffect(() => {
     try {
       const savedClips = localStorage.getItem('bf_holding_clips');
-      if (savedClips) setClips(JSON.parse(savedClips));
+      if (savedClips) {
+        const parsed = JSON.parse(savedClips);
+        // If local cache had fewer clips than the full multi-channel catalog, refresh to initial
+        if (!Array.isArray(parsed) || parsed.length < INITIAL_CLIPS.length) {
+          setClips(INITIAL_CLIPS);
+          localStorage.setItem('bf_holding_clips', JSON.stringify(INITIAL_CLIPS));
+        } else {
+          setClips(parsed);
+        }
+      }
 
       const savedChannels = localStorage.getItem('bf_holding_channels');
-      if (savedChannels) setChannels(JSON.parse(savedChannels));
+      if (savedChannels) {
+        const parsedCh = JSON.parse(savedChannels);
+        if (Array.isArray(parsedCh) && parsedCh.length >= INITIAL_CHANNELS.length) {
+          setChannels(parsedCh);
+        }
+      }
     } catch {
       // Local storage fallback
     }
@@ -68,6 +94,14 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const currentChannel = channels.find((c) => c.id === selectedChannelId) || channels[0];
   const filteredClips = clips.filter((c) => c.channelId === selectedChannelId);
+
+  // Dynamic channel-specific metrics
+  const retentionData =
+    RETENTION_CURVES_BY_CHANNEL[selectedChannelId] || RETENTION_CURVES_BY_CHANNEL['blackflag'];
+  const platformData =
+    PLATFORM_COMPARISONS_BY_CHANNEL[selectedChannelId] || PLATFORM_COMPARISONS_BY_CHANNEL['blackflag'];
+  const abVariants =
+    AB_VARIANTS_BY_CHANNEL[selectedChannelId] || AB_VARIANTS_BY_CHANNEL['blackflag'];
 
   const updateClipStatus = (
     clipId: string,
@@ -99,7 +133,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const clip = clips.find((c) => c.id === clipId);
     if (!clip) return;
 
-    // Simulate ripple shift: set clip to next turn and advance others
+    // Ripple shift simulation: mark clip as urgent priority and set scheduled for next slot
     const updated = clips.map((c) => {
       if (c.id === clipId) {
         return {
@@ -107,11 +141,11 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
           isUrgent: true,
           platforms: {
             ...c.platforms,
-            YOUTUBE_SHORT: { ...c.platforms.YOUTUBE_SHORT, status: 'SCHEDULED' as const, slotTime: '14:00 ART (Próximo Turno)' },
-            INSTAGRAM_REEL: { ...c.platforms.INSTAGRAM_REEL, status: 'SCHEDULED' as const, slotTime: '14:00 ART (Próximo Turno)' },
-            FACEBOOK_REEL: { ...c.platforms.FACEBOOK_REEL, status: 'SCHEDULED' as const, slotTime: '14:00 ART (Próximo Turno)' },
-            TIKTOK: { ...c.platforms.TIKTOK, status: 'SCHEDULED' as const, slotTime: '14:00 ART (Próximo Turno)' },
-            X_TWITTER: { ...c.platforms.X_TWITTER, status: 'SCHEDULED' as const, slotTime: '14:00 ART (Próximo Turno)' },
+            YOUTUBE_SHORT: { ...c.platforms.YOUTUBE_SHORT, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+            INSTAGRAM_REEL: { ...c.platforms.INSTAGRAM_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+            FACEBOOK_REEL: { ...c.platforms.FACEBOOK_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+            TIKTOK: { ...c.platforms.TIKTOK, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+            X_TWITTER: { ...c.platforms.X_TWITTER, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
           },
         };
       }
@@ -170,6 +204,9 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         episodes,
         clips,
         filteredClips,
+        retentionData,
+        platformData,
+        abVariants,
         mode,
         contentTab,
         metricsTab,

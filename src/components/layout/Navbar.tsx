@@ -35,13 +35,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-mono text-xs tracking-wider text-amber-400">HOLDING ENGINE</span>
+              <span className="font-mono text-xs tracking-wider text-amber-400">EMPRESA DIGITAL</span>
               <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-400 border border-emerald-500/20">
-                LIVE 24/7
+                {channels.length} CANALES ACTIVOS
               </span>
             </div>
             <h1 className="text-sm font-bold tracking-tight text-white sm:text-base">
-              BlackFlag Media Hub
+              Holding Media Hub
             </h1>
           </div>
         </div>
@@ -84,20 +84,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
           </div>
 
           {/* Active Channel Selector */}
-          <div className="relative">
-            <select
-              value={selectedChannelId}
-              onChange={(e) => setSelectedChannelId(e.target.value)}
-              className="appearance-none rounded-xl border border-zinc-700 bg-zinc-900 py-1.5 pl-3 pr-8 text-xs font-bold text-white shadow-sm transition hover:border-zinc-600 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
-            >
-              {channels.map((ch) => (
-                <option key={ch.id} value={ch.id} className="bg-zinc-900 text-white">
-                  {ch.name} ({ch.shortCode})
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-400">
-              <Globe2 className="h-3.5 w-3.5" />
+          <div className="flex items-center space-x-1.5">
+            <span className="hidden xl:inline text-[11px] font-mono text-zinc-400 uppercase">
+              Canal:
+            </span>
+            <div className="relative">
+              <select
+                value={selectedChannelId}
+                onChange={(e) => setSelectedChannelId(e.target.value)}
+                className="appearance-none rounded-xl border border-zinc-700 bg-zinc-900 py-1.5 pl-3 pr-8 text-xs font-bold text-white shadow-sm transition hover:border-zinc-500 focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 cursor-pointer"
+                style={{
+                  borderLeftColor: currentChannel.accentColor,
+                  borderLeftWidth: '3.5px',
+                }}
+              >
+                {channels.map((ch) => (
+                  <option key={ch.id} value={ch.id} className="bg-zinc-900 text-white">
+                    {ch.name} ({ch.shortCode})
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-400">
+                <Globe2 className="h-3.5 w-3.5" />
+              </div>
             </div>
           </div>
 

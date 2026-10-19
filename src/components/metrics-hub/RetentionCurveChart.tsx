@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useHolding } from '../../context/HoldingContext';
-import { RETENTION_CURVE_DATA } from '../../data/mockData';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -16,7 +15,13 @@ import {
 import { LineChart, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
 
 export const RetentionCurveChart: React.FC = () => {
-  const { currentChannel } = useHolding();
+  const { currentChannel, retentionData, episodes } = useHolding();
+  const currentEp = episodes.find((e) => e.channelId === currentChannel.id);
+
+  const hookGateVal = retentionData.find((d) => d.second === 3)?.retention ?? 75;
+  const min1Val = retentionData.find((d) => d.second === 60)?.retention ?? 55;
+  const midVal = retentionData.find((d) => d.second >= 300 && d.second <= 600)?.retention ?? 50;
+  const endPoint = retentionData[retentionData.length - 1];
 
   return (
     <div className="space-y-6">
@@ -33,20 +38,20 @@ export const RetentionCurveChart: React.FC = () => {
             RETENTION ENGINE
           </span>
           <span className="text-xs text-zinc-400 font-mono">
-            Análisis Segundo a Segundo (AVD)
+            Análisis Segundo a Segundo (AVD) • {currentChannel.name}
           </span>
         </div>
         <h2 className="mt-1.5 text-lg font-bold text-white sm:text-xl">
-          Curva Forense de Retención de Audiencia
+          Curva Forense de Retención de Audiencia ({currentChannel.shortCode})
         </h2>
         <p className="text-xs text-zinc-400 mt-0.5">
-          Diagnóstico de permanencia del Episodio 01. Línea verde de referencia fijada en el estándar de oro del 50%.
+          Diagnóstico de permanencia por segundo. Línea verde de referencia fijada en el estándar del 50% de AVD.
         </p>
       </div>
 
       {/* Main Chart Card */}
       <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-6 backdrop-blur-sm">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center space-x-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
               <LineChart className="h-4 w-4" />
@@ -56,14 +61,19 @@ export const RetentionCurveChart: React.FC = () => {
                 Porcentaje de Espectadores Activos (%)
               </h3>
               <span className="text-[11px] text-zinc-400 font-mono">
-                Episodio 01: 14:48 min • Muestra: 14.250 reproducciones
+                {currentEp
+                  ? `${currentEp.title} • Duración: ${currentEp.duration} min • Muestra: ${currentChannel.stats.totalViews.toLocaleString()} views`
+                  : `${currentChannel.name} • Datos de Audiencia`}
               </span>
             </div>
           </div>
 
           <div className="flex items-center space-x-4 text-xs font-mono">
             <div className="flex items-center space-x-1.5">
-              <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: currentChannel.accentColor }}
+              ></span>
               <span className="text-zinc-300">Retención Real</span>
             </div>
             <div className="flex items-center space-x-1.5">
@@ -77,13 +87,13 @@ export const RetentionCurveChart: React.FC = () => {
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={RETENTION_CURVE_DATA}
+              data={retentionData}
               margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="retentionGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#00E5FF" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#00E5FF" stopOpacity={0.0} />
+                  <stop offset="5%" stopColor={currentChannel.accentColor} stopOpacity={0.4} />
+                  <stop offset="95%" stopColor={currentChannel.accentColor} stopOpacity={0.0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
@@ -104,19 +114,30 @@ export const RetentionCurveChart: React.FC = () => {
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#09090b',
+                  backgroundColor: '#18181b',
                   borderColor: '#27272a',
                   borderRadius: '0.75rem',
                   fontSize: '12px',
                   color: '#fff',
                 }}
-                formatter={(val: any) => [`${val ?? 0}%`, 'Retención']}
+                formatter={(val: any) => [`${val}%`, 'Retención']}
               />
-              <ReferenceLine y={50} stroke="#10b981" strokeDasharray="4 4" />
+              <ReferenceLine
+                y={50}
+                stroke="#10b981"
+                strokeDasharray="4 4"
+                strokeWidth={1.5}
+                label={{
+                  value: 'Objetivo 50%',
+                  fill: '#10b981',
+                  fontSize: 10,
+                  position: 'insideTopLeft',
+                }}
+              />
               <Area
                 type="monotone"
                 dataKey="retention"
-                stroke="#00E5FF"
+                stroke={currentChannel.accentColor}
                 strokeWidth={2.5}
                 fillOpacity={1}
                 fill="url(#retentionGrad)"
@@ -129,26 +150,26 @@ export const RetentionCurveChart: React.FC = () => {
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-zinc-800/80">
           <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
             <div className="text-[10px] font-mono uppercase text-zinc-400">HOOK GATE (0:03s)</div>
-            <div className="text-lg font-bold text-emerald-400 mt-0.5">74.8%</div>
+            <div className="text-lg font-bold text-emerald-400 mt-0.5">{hookGateVal}%</div>
             <div className="text-[10px] text-zinc-400 mt-0.5">Meta &gt; 70% (Aprobado)</div>
           </div>
 
           <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
             <div className="text-[10px] font-mono uppercase text-zinc-400">MINUTO 1:00</div>
-            <div className="text-lg font-bold text-white mt-0.5">54.8%</div>
+            <div className="text-lg font-bold text-white mt-0.5">{min1Val}%</div>
             <div className="text-[10px] text-zinc-400 mt-0.5">Filtro de curiosidad</div>
           </div>
 
           <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
-            <div className="text-[10px] font-mono uppercase text-zinc-400">MINUTO 5:00</div>
-            <div className="text-lg font-bold text-white mt-0.5">48.7%</div>
-            <div className="text-[10px] text-zinc-400 mt-0.5">Meseta de desarrollo</div>
+            <div className="text-[10px] font-mono uppercase text-zinc-400">DESARROLLO</div>
+            <div className="text-lg font-bold text-white mt-0.5">{midVal}%</div>
+            <div className="text-[10px] text-zinc-400 mt-0.5">Meseta de retención</div>
           </div>
 
           <div className="rounded-xl bg-zinc-950 p-3 border border-zinc-800">
-            <div className="text-[10px] font-mono uppercase text-zinc-400">FINAL (14:48)</div>
-            <div className="text-lg font-bold text-amber-400 mt-0.5">42.1%</div>
-            <div className="text-[10px] text-zinc-400 mt-0.5">Conversión a Call to Action</div>
+            <div className="text-[10px] font-mono uppercase text-zinc-400">FINAL ({endPoint?.label || 'Fin'})</div>
+            <div className="text-lg font-bold text-amber-400 mt-0.5">{endPoint?.retention || 42}%</div>
+            <div className="text-[10px] text-zinc-400 mt-0.5">Conversión a CTA / Up-Next</div>
           </div>
         </div>
       </div>

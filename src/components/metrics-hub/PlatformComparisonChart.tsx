@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useHolding } from '../../context/HoldingContext';
-import { PLATFORM_COMPARISON_DATA } from '../../data/mockData';
 import {
   ResponsiveContainer,
   BarChart,
@@ -18,7 +17,7 @@ import { Share2 } from 'lucide-react';
 const COLORS = ['#ef4444', '#ec4899', '#06b6d4', '#3b82f6', '#38bdf8'];
 
 export const PlatformComparisonChart: React.FC = () => {
-  const { currentChannel } = useHolding();
+  const { currentChannel, platformData } = useHolding();
 
   return (
     <div className="space-y-6">
@@ -35,11 +34,11 @@ export const PlatformComparisonChart: React.FC = () => {
             SINDICACIÓN MULTI-RED
           </span>
           <span className="text-xs text-zinc-400 font-mono">
-            YouTube • Meta • Buffer • X
+            YouTube • Meta • Buffer • X • {currentChannel.name}
           </span>
         </div>
         <h2 className="mt-1.5 text-lg font-bold text-white sm:text-xl">
-          Comparativa de Tráfico y Rendimiento por Plataforma
+          Comparativa de Tráfico y Rendimiento por Plataforma ({currentChannel.shortCode})
         </h2>
         <p className="text-xs text-zinc-400 mt-0.5">
           Distribución de reproducciones y tasa de interacción (ER%) en las 5 redes oficiales.
@@ -54,7 +53,7 @@ export const PlatformComparisonChart: React.FC = () => {
           </span>
           <div>
             <h3 className="text-sm font-bold text-white">
-              Reproducciones Consolidadas por Red
+              Reproducciones Consolidadas por Red ({currentChannel.name})
             </h3>
             <span className="text-[11px] text-zinc-400 font-mono">
               Datos agregados de Shorts, Reels, TikToks y Tweets
@@ -65,7 +64,7 @@ export const PlatformComparisonChart: React.FC = () => {
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={PLATFORM_COMPARISON_DATA}
+              data={platformData}
               margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
@@ -93,7 +92,7 @@ export const PlatformComparisonChart: React.FC = () => {
                 formatter={(val: any) => [`${Number(val || 0).toLocaleString()} vistas`, 'Reproducciones']}
               />
               <Bar dataKey="views" radius={[6, 6, 0, 0]}>
-                {PLATFORM_COMPARISON_DATA.map((entry, index) => (
+                {platformData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Bar>
@@ -101,31 +100,33 @@ export const PlatformComparisonChart: React.FC = () => {
           </ResponsiveContainer>
         </div>
 
-        {/* Detailed Breakdown Table */}
-        <div className="mt-6 overflow-x-auto pt-4 border-t border-zinc-800/80">
+        {/* Breakdown Table */}
+        <div className="mt-6 border-t border-zinc-800/80 pt-4 overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="text-[10px] font-mono uppercase text-zinc-400 border-b border-zinc-800">
-              <tr>
-                <th className="py-2.5 px-3">Plataforma</th>
-                <th className="py-2.5 px-3">Reproducciones</th>
-                <th className="py-2.5 px-3">Horas Vistas</th>
-                <th className="py-2.5 px-3 text-right">Engagement Rate (ER)</th>
+            <thead>
+              <tr className="border-b border-zinc-800 text-zinc-400 font-mono text-[10px] uppercase">
+                <th className="pb-2">Plataforma</th>
+                <th className="pb-2 text-right">Vistas</th>
+                <th className="pb-2 text-right">Horas de Reproducción</th>
+                <th className="pb-2 text-right">Engagement (ER%)</th>
+                <th className="pb-2 text-right">Estado Sindicación</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/60 font-mono">
-              {PLATFORM_COMPARISON_DATA.map((p, idx) => (
-                <tr key={p.platform} className="hover:bg-zinc-800/20">
-                  <td className="py-3 px-3 font-bold text-white flex items-center space-x-2">
-                    <span
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: COLORS[idx] }}
-                    ></span>
-                    <span>{p.platform}</span>
+              {platformData.map((row) => (
+                <tr key={row.platform} className="hover:bg-zinc-800/30 transition">
+                  <td className="py-2.5 font-bold text-white font-sans">{row.platform}</td>
+                  <td className="py-2.5 text-right text-zinc-300">
+                    {row.views.toLocaleString()}
                   </td>
-                  <td className="py-3 px-3 text-zinc-300">{p.views.toLocaleString()}</td>
-                  <td className="py-3 px-3 text-zinc-400">{p.hours} hs</td>
-                  <td className="py-3 px-3 text-right font-bold text-emerald-400">
-                    {p.engagementRate}%
+                  <td className="py-2.5 text-right text-zinc-400">{row.hours} hs</td>
+                  <td className="py-2.5 text-right text-emerald-400 font-bold">
+                    {row.engagementRate}%
+                  </td>
+                  <td className="py-2.5 text-right">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      Sincronizado
+                    </span>
                   </td>
                 </tr>
               ))}

@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'BlackFlag Media Hub · Holding Digital & Metrics Hub',
+  title: 'Holding Media Hub · Content Manager & Metrics (Multi-Canal)',
   description:
-    'Centro neurálgico de producción, sindicación multi-plataforma y analítica de audiencias para canales de medios digitales.',
+    'Centro neurálgico unificado de producción, sindicación multi-plataforma y analítica de audiencias para todos los canales de la empresa (BlackFlag Blueprint, Podmon, Neon Marbles).',
 };
 
 export default function RootLayout({

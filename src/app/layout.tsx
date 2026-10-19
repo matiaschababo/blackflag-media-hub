@@ -1,22 +1,35 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { ClientProviders } from '../components/providers/ClientProviders';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const inter = Inter({
   subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space',
 });
+
+export const viewport: Viewport = {
+  themeColor: '#09090b',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: 'Holding Media Hub · Content Manager & Metrics (Multi-Canal)',
   description:
-    'Centro neurálgico unificado de producción, sindicación multi-plataforma y analítica de audiencias para todos los canales de la empresa (BlackFlag Blueprint, Podmon, Neon Marbles).',
+    'Centro neurálgico unificado de producción, sindicación multi-plataforma y analítica para BlackFlag Blueprint, Podmon y Level Pop.',
+  icons: {
+    icon: '/channels/blackflag-logo.png',
+  },
 };
 
 export default function RootLayout({
@@ -27,9 +40,9 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950">
+      <body className="min-h-full flex flex-col bg-[#09090c] text-zinc-100 font-sans selection:bg-amber-500/20 selection:text-amber-300">
         <ClientProviders>{children}</ClientProviders>
       </body>
     </html>

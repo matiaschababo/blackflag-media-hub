@@ -11,6 +11,8 @@ export const INITIAL_CHANNELS: Channel[] = [
     badgeBg: 'bg-amber-950/40',
     badgeBorder: 'border-amber-600/40',
     badgeText: 'text-amber-400',
+    avatarUrl: '/channels/blackflag-logo.png',
+    bannerUrl: '/channels/blackflag-banner.png',
     shortsPerDay: 2,
     timeSlots: ['14:00 ART (12:00 EST)', '20:00 ART (18:00 EST)'],
     accounts: {
@@ -39,6 +41,8 @@ export const INITIAL_CHANNELS: Channel[] = [
     badgeBg: 'bg-yellow-950/40',
     badgeBorder: 'border-yellow-600/40',
     badgeText: 'text-yellow-400',
+    avatarUrl: '/channels/podmon-logo.png',
+    bannerUrl: '/channels/podmon-banner.png',
     shortsPerDay: 2,
     timeSlots: ['16:00 ART (14:00 EST)', '22:00 ART (20:00 EST)'],
     accounts: {
@@ -58,23 +62,25 @@ export const INITIAL_CHANNELS: Channel[] = [
     },
   },
   {
-    id: 'neon_marbles',
-    name: 'Neon Marbles & Sensory Arcade',
-    shortCode: 'NMS',
-    niche: 'OLED 60FPS Physics & Living Room Co-Viewing',
-    audience: 'Family / General Audience (100+ Countries, No-Verbal)',
+    id: 'levelpop',
+    name: 'Level Pop',
+    shortCode: 'LP',
+    niche: 'Kids Sensory & Satisfying Marble Runs',
+    audience: 'Universal / Kids & Family Co-Viewing (Global COPPA Compliant)',
     accentColor: '#00E5FF',
     badgeBg: 'bg-cyan-950/40',
     badgeBorder: 'border-cyan-600/40',
     badgeText: 'text-cyan-400',
+    avatarUrl: '/channels/levelpop-logo.png',
+    bannerUrl: '/channels/levelpop-banner.png',
     shortsPerDay: 3,
     timeSlots: ['10:00 ART (08:00 EST)', '15:00 ART (13:00 EST)', '21:00 ART (19:00 EST)'],
     accounts: {
-      youtube: '@NeonMarblesArcade',
-      instagram: '@neonmarbles',
-      facebook: 'Neon Marbles',
-      tiktok: '@neonmarbles',
-      x: '@neonmarbles',
+      youtube: '@LevelPopOfficial',
+      instagram: '@levelpopkids',
+      facebook: 'Level Pop Kids',
+      tiktok: '@levelpoparcade',
+      x: '@levelpop',
     },
     stats: {
       subscribers: 0,
@@ -126,7 +132,7 @@ export const INITIAL_EPISODES: Episode[] = [
   },
   {
     id: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     episodeNumber: 1,
     title: 'Neon Spiral 120 BPM: World Cup Race #01',
     duration: '18:20',
@@ -165,11 +171,11 @@ export const INITIAL_CLIPS: Clip[] = [
       youtube: 'The 18-Word Tax Loophole That Defeats the IRS | Watch the full investigation on our channel.',
     },
     platforms: {
-      YOUTUBE_SHORT: { status: 'SCHEDULED', slotTime: '14:00 ART' },
-      INSTAGRAM_REEL: { status: 'SCHEDULED', slotTime: '14:00 ART' },
-      FACEBOOK_REEL: { status: 'SCHEDULED', slotTime: '14:00 ART' },
-      TIKTOK: { status: 'SCHEDULED', slotTime: '14:00 ART' },
-      X_TWITTER: { status: 'SCHEDULED', slotTime: '14:00 ART' },
+      YOUTUBE_SHORT: { status: 'PENDING', slotTime: '14:00 ART' },
+      INSTAGRAM_REEL: { status: 'PENDING', slotTime: '14:00 ART' },
+      FACEBOOK_REEL: { status: 'PENDING', slotTime: '14:00 ART' },
+      TIKTOK: { status: 'PENDING', slotTime: '14:00 ART' },
+      X_TWITTER: { status: 'PENDING', slotTime: '14:00 ART' },
     },
     views: 0,
     hookRate: 0,
@@ -192,11 +198,11 @@ export const INITIAL_CLIPS: Clip[] = [
       youtube: 'Where Software Gets Taxed (IRC § 861) | BlackFlag Blueprint',
     },
     platforms: {
-      YOUTUBE_SHORT: { status: 'SCHEDULED', slotTime: '20:00 ART' },
-      INSTAGRAM_REEL: { status: 'SCHEDULED', slotTime: '20:00 ART' },
-      FACEBOOK_REEL: { status: 'SCHEDULED', slotTime: '20:00 ART' },
-      TIKTOK: { status: 'SCHEDULED', slotTime: '20:00 ART' },
-      X_TWITTER: { status: 'SCHEDULED', slotTime: '20:00 ART' },
+      YOUTUBE_SHORT: { status: 'PENDING', slotTime: '20:00 ART' },
+      INSTAGRAM_REEL: { status: 'PENDING', slotTime: '20:00 ART' },
+      FACEBOOK_REEL: { status: 'PENDING', slotTime: '20:00 ART' },
+      TIKTOK: { status: 'PENDING', slotTime: '20:00 ART' },
+      X_TWITTER: { status: 'PENDING', slotTime: '20:00 ART' },
     },
     views: 0,
     hookRate: 0,
@@ -699,7 +705,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c01',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 1,
     title: 'Neon Spiral: Drop of 32 Nations',
     file: 'NMS_Short_01_Drop_32_Nations.mp4',
@@ -726,7 +732,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c02',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 2,
     title: 'The Funnel of Death (Group A)',
     file: 'NMS_Short_02_Funnel_Of_Death.mp4',
@@ -753,7 +759,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c03',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 3,
     title: 'Xylophone Staircase ASMR',
     file: 'NMS_Short_03_Xylophone_Staircase_ASMR.mp4',
@@ -780,7 +786,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c04',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 4,
     title: 'The 90-Degree Pinball Bouncers',
     file: 'NMS_Short_04_Pinball_Bouncers.mp4',
@@ -807,7 +813,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c05',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 5,
     title: 'Magnetic Accelerator Loop',
     file: 'NMS_Short_05_Magnetic_Accelerator.mp4',
@@ -834,7 +840,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c06',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 6,
     title: 'Color Sorting Mega Ramp',
     file: 'NMS_Short_06_Color_Sorting_Mega_Ramp.mp4',
@@ -861,7 +867,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c07',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 7,
     title: 'The Triple Pendulum Obstacle',
     file: 'NMS_Short_07_Triple_Pendulum.mp4',
@@ -888,7 +894,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c08',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 8,
     title: 'OLED Neon Spiral Finish Line',
     file: 'NMS_Short_08_Neon_Spiral_Finish.mp4',
@@ -915,7 +921,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c09',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 9,
     title: 'ASMR Kinetic Waterfall Drop',
     file: 'NMS_Short_09_ASMR_Waterfall.mp4',
@@ -942,7 +948,7 @@ export const INITIAL_CLIPS: Clip[] = [
   {
     id: 'nms-c10',
     episodeId: 'nms-ep01',
-    channelId: 'neon_marbles',
+    channelId: 'levelpop',
     clipNumber: 10,
     title: 'Podium Crown Ceremony 👑',
     file: 'NMS_Short_10_Podium_Crown_Ceremony.mp4',
@@ -972,7 +978,7 @@ export const INITIAL_CLIPS: Clip[] = [
 export const RETENTION_CURVES_BY_CHANNEL: Record<string, RetentionDataPoint[]> = {
   blackflag: [],
   podmon: [],
-  neon_marbles: [],
+  levelpop: [],
 };
 
 export const RETENTION_CURVE_DATA: RetentionDataPoint[] = [];
@@ -996,7 +1002,7 @@ export const PLATFORM_COMPARISONS_BY_CHANNEL: Record<
     { platform: 'Facebook', views: 0, hours: 0, engagementRate: 0 },
     { platform: 'X / Twitter', views: 0, hours: 0, engagementRate: 0 },
   ],
-  neon_marbles: [
+  levelpop: [
     { platform: 'YouTube', views: 0, hours: 0, engagementRate: 0 },
     { platform: 'Facebook', views: 0, hours: 0, engagementRate: 0 },
     { platform: 'TikTok', views: 0, hours: 0, engagementRate: 0 },
@@ -1067,7 +1073,7 @@ export const AB_VARIANTS_BY_CHANNEL: Record<string, ABVariant[]> = {
       isWinner: false,
     },
   ],
-  neon_marbles: [
+  levelpop: [
     {
       id: 'nms-var-a',
       title: 'Neon Marble World Cup #01: 32 Nations Helical Race',

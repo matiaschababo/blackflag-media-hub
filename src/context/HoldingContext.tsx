@@ -61,18 +61,8 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       // Clear legacy cache that may have stored single-channel or fake numbers
       localStorage.removeItem('bf_holding_clips');
       localStorage.removeItem('bf_holding_channels');
-
-      const savedCustomChannels = localStorage.getItem('holding_custom_channels_v2');
-      if (savedCustomChannels) {
-        const parsed = JSON.parse(savedCustomChannels);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          // Merge custom channels with INITIAL_CHANNELS, avoiding duplicates
-          const customOnly = parsed.filter(
-            (c: Channel) => !INITIAL_CHANNELS.some((init) => init.id === c.id)
-          );
-          setChannels([...INITIAL_CHANNELS, ...customOnly]);
-        }
-      }
+      localStorage.removeItem('holding_custom_channels_v2');
+      setChannels(INITIAL_CHANNELS);
     } catch {
       // ignore
     }
@@ -156,6 +146,8 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       badgeBg: 'bg-sky-950/40',
       badgeBorder: 'border-sky-600/40',
       badgeText: 'text-sky-400',
+      avatarUrl: data.avatarUrl || '/channels/blackflag-logo.png',
+      bannerUrl: data.bannerUrl || '/channels/blackflag-banner.png',
       shortsPerDay: data.shortsPerDay || 2,
       timeSlots: data.timeSlots || ['14:00 ART', '20:00 ART'],
       accounts: {

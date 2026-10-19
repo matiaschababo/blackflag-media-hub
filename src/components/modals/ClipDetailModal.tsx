@@ -13,6 +13,7 @@ import {
   Clock,
   Sparkles,
 } from 'lucide-react';
+import { PlatformIcon } from '../ui/PlatformIcon';
 
 interface ClipDetailModalProps {
   clip: Clip | null;
@@ -123,39 +124,43 @@ export const ClipDetailModal: React.FC<ClipDetailModalProps> = ({ clip, onClose 
 
           {/* Right: Copy & Metadata (7 cols) */}
           <div className="md:col-span-7 space-y-4">
-            {/* Tab Switcher */}
+            {/* Tab Switcher with Official Platform Icons */}
             <div className="flex items-center space-x-1 rounded-xl bg-zinc-900 p-1 border border-zinc-800 text-xs font-bold">
               <button
                 onClick={() => setActiveTab('instagram')}
-                className={`flex-1 py-1.5 rounded-lg transition ${
-                  activeTab === 'instagram' ? 'bg-pink-600 text-white' : 'text-zinc-400 hover:text-white'
+                className={`flex-1 py-1.5 rounded-lg transition flex items-center justify-center space-x-1.5 ${
+                  activeTab === 'instagram' ? 'bg-pink-600/25 text-pink-400 border border-pink-500/40' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                Instagram
+                <PlatformIcon platform="INSTAGRAM" size={14} />
+                <span>Instagram</span>
               </button>
               <button
                 onClick={() => setActiveTab('facebook')}
-                className={`flex-1 py-1.5 rounded-lg transition ${
-                  activeTab === 'facebook' ? 'bg-blue-600 text-white' : 'text-zinc-400 hover:text-white'
+                className={`flex-1 py-1.5 rounded-lg transition flex items-center justify-center space-x-1.5 ${
+                  activeTab === 'facebook' ? 'bg-blue-600/25 text-blue-400 border border-blue-500/40' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                Facebook
+                <PlatformIcon platform="FACEBOOK" size={14} />
+                <span>Facebook</span>
               </button>
               <button
                 onClick={() => setActiveTab('x')}
-                className={`flex-1 py-1.5 rounded-lg transition ${
-                  activeTab === 'x' ? 'bg-zinc-800 text-sky-400' : 'text-zinc-400 hover:text-white'
+                className={`flex-1 py-1.5 rounded-lg transition flex items-center justify-center space-x-1.5 ${
+                  activeTab === 'x' ? 'bg-zinc-800 text-white border border-zinc-700' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                X (Twitter)
+                <PlatformIcon platform="TWITTER" size={14} />
+                <span>X</span>
               </button>
               <button
                 onClick={() => setActiveTab('youtube')}
-                className={`flex-1 py-1.5 rounded-lg transition ${
-                  activeTab === 'youtube' ? 'bg-red-600 text-white' : 'text-zinc-400 hover:text-white'
+                className={`flex-1 py-1.5 rounded-lg transition flex items-center justify-center space-x-1.5 ${
+                  activeTab === 'youtube' ? 'bg-red-600/25 text-red-400 border border-red-500/40' : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                YouTube
+                <PlatformIcon platform="YOUTUBE" size={14} />
+                <span>YouTube</span>
               </button>
             </div>
 

@@ -10,6 +10,7 @@ import { ParrillaPublicacion } from '../components/content-manager/ParrillaPubli
 import { EpisodeManager } from '../components/content-manager/EpisodeManager';
 import { StockRadar } from '../components/content-manager/StockRadar';
 import { ContentOverview } from '../components/content-manager/ContentOverview';
+import { TelegramBotEngine } from '../components/content-manager/TelegramBotEngine';
 import { MetricsOverview } from '../components/metrics-hub/MetricsOverview';
 import { RetentionCurveChart } from '../components/metrics-hub/RetentionCurveChart';
 import { PlatformComparisonChart } from '../components/metrics-hub/PlatformComparisonChart';
@@ -40,6 +41,7 @@ export default function Home() {
                 <ClipsMatrix onOpenClipDetail={(clip) => setSelectedClipForDetail(clip)} />
               )}
               {contentTab === 'parrilla' && <ParrillaPublicacion />}
+              {contentTab === 'telegram_bot' && <TelegramBotEngine />}
               {contentTab === 'episodes' && <EpisodeManager />}
               {contentTab === 'radar' && <StockRadar />}
               {contentTab === 'overview' && <ContentOverview />}

@@ -66,6 +66,8 @@ export interface Channel {
   badgeBg: string;
   badgeBorder: string;
   badgeText: string;
+  avatarUrl: string;
+  bannerUrl?: string;
   shortsPerDay: number;
   timeSlots: string[];
   accounts: {
@@ -103,6 +105,6 @@ export interface ABVariant {
 
 export type AppMode = 'content_manager' | 'metrics_hub';
 
-export type ContentTab = 'overview' | 'episodes' | 'clips_matrix' | 'parrilla' | 'radar';
+export type ContentTab = 'overview' | 'episodes' | 'clips_matrix' | 'parrilla' | 'radar' | 'telegram_bot';
 
 export type MetricsTab = 'overview' | 'retention' | 'platforms' | 'ab_testing';

@@ -13,8 +13,8 @@ import {
   Calendar,
   Flame,
   FileVideo,
-  Send,
   Layers,
+  Tag,
 } from 'lucide-react';
 import { PlatformIcon } from '../ui/PlatformIcon';
 
@@ -62,7 +62,7 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
       case 'PENDING':
       default:
         return (
-          <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-zinc-800 text-zinc-400 border border-zinc-700/80">
+          <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-zinc-900 text-zinc-400 border border-zinc-800">
             <span>EN STOCK</span>
           </span>
         );
@@ -92,7 +92,7 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Ambient Header Banner */}
       <div className="relative rounded-2xl border border-zinc-800/90 bg-[#101014] p-5 sm:p-6 backdrop-blur-xl shadow-xl overflow-hidden">
         <div
@@ -125,21 +125,21 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
               <h2 className="mt-1 text-xl sm:text-2xl font-extrabold text-white tracking-tight">
                 Matriz de Sindicación: 10 Clips Verticales (9:16)
               </h2>
-              <p className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+              <p className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5 flex-wrap">
                 <span>Alimentado por:</span>
-                <strong className="text-zinc-200">{currentEp?.title || 'Episodio 01'}</strong>
-                <span className="text-zinc-500">({currentEp?.duration || '14:48'} min)</span>
+                <strong className="text-zinc-200 font-bold">{currentEp?.title || 'Episodio 01'}</strong>
+                <span className="text-zinc-400 font-mono">({currentEp?.duration || '14:53'} min)</span>
               </p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2.5 shrink-0">
             <div className="rounded-xl border border-zinc-800 bg-[#16161c] px-3 py-2 text-right">
-              <div className="text-[9px] uppercase font-mono text-zinc-500 font-bold">SAFE ZONE</div>
+              <div className="text-[9px] uppercase font-mono text-zinc-400 font-bold">SAFE ZONE</div>
               <div className="text-xs font-black text-amber-400 font-mono">MarginV=720</div>
             </div>
             <div className="rounded-xl border border-zinc-800 bg-[#16161c] px-3 py-2 text-right">
-              <div className="text-[9px] uppercase font-mono text-zinc-500 font-bold">SUBTÍTULOS ASS</div>
+              <div className="text-[9px] uppercase font-mono text-zinc-400 font-bold">SUBTÍTULOS ASS</div>
               <div className="text-xs font-black text-white font-mono">Gold 60pt</div>
             </div>
             <button
@@ -166,7 +166,7 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
               }`}
             >
               {clip.isUrgent && (
-                <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-amber-600 text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl shadow-md flex items-center space-x-1">
+                <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-amber-600 text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl shadow-md flex items-center space-x-1 font-mono">
                   <Flame className="h-3 w-3" />
                   <span>PRIORIDAD RIPPLE SHIFT</span>
                 </div>
@@ -203,7 +203,7 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
 
                   {/* Unified Action Toolbar */}
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10px] font-mono text-zinc-500 truncate max-w-xs bg-zinc-900/80 px-2 py-1 rounded-lg border border-zinc-800/80 flex items-center gap-1.5">
+                    <span className="text-[10px] font-mono text-zinc-400 truncate max-w-xs bg-zinc-900/80 px-2.5 py-1 rounded-lg border border-zinc-800/80 flex items-center gap-1.5">
                       <FileVideo className="h-3 w-3 text-zinc-400 shrink-0" />
                       <span className="truncate">{clip.file}</span>
                     </span>
@@ -260,7 +260,7 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
 
                 {/* Right: Distribution Grid with Real Official Logos & Click to Toggle */}
                 <div className="flex flex-col space-y-2 lg:items-end w-full lg:w-auto">
-                  <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-zinc-500 flex items-center justify-between w-full">
+                  <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center justify-between w-full">
                     <span>ESTADO EN LAS 5 PLATAFORMAS (CLICK PARA CAMBIAR):</span>
                   </div>
 

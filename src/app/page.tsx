@@ -31,7 +31,7 @@ export default function Home() {
       {/* Main Container */}
       <div className="flex-1 flex flex-col md:flex-row">
         {/* Left Sidebar */}
-        <Sidebar />
+        <Sidebar onOpenNewChannelModal={() => setIsNewChannelModalOpen(true)} />
 
         {/* Dynamic Center Stage */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl overflow-y-auto">

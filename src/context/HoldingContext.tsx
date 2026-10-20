@@ -52,7 +52,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [episodes, setEpisodes] = useState<Episode[]>(INITIAL_EPISODES);
   const [clips, setClips] = useState<Clip[]>(INITIAL_CLIPS);
   const [mode, setMode] = useState<AppMode>('content_manager');
-  const [contentTab, setContentTab] = useState<ContentTab>('clips_matrix');
+  const [contentTab, setContentTab] = useState<ContentTab>('overview');
   const [metricsTab, setMetricsTab] = useState<MetricsTab>('overview');
 
   // Clear legacy hallucinated cache and ensure all 3 core channels always exist

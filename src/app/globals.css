@@ -7,14 +7,15 @@
 
 @layer base {
   :root {
-    --color-background: #09090c;
-    --color-surface: #101014;
-    --color-surface-hover: #16161c;
-    --color-surface-card: #121217;
-    --color-border: #22222a;
-    --color-border-hover: #33333f;
-    --color-text-main: #f4f4f6;
-    --color-text-muted: #9ca3af;
+    --color-background: #0b0c0e;
+    --color-surface: #111317;
+    --color-surface-hover: #16181e;
+    --color-surface-card: #13151a;
+    --color-border: #1e2129;
+    --color-border-hover: #2c313d;
+    --color-text-main: #f0f2f5;
+    --color-text-muted: #848d97;
+    --color-text-faint: #4e5561;
   }
 
   html {
@@ -30,93 +31,84 @@
     font-family: var(--font-sans);
     min-height: 100dvh;
     overflow-x: clip;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.011em;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-mono);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.022em;
+    font-weight: 700;
   }
 
-  /* Custom Ultra-thin Broadcast Scrollbar */
+  /* Linear-style tabular numbers for all data displays */
+  .tabular-nums, table, [data-tabular] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Ultra-clean flat scrollbar */
   ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #09090c;
+    background: #0b0c0e;
   }
   ::-webkit-scrollbar-thumb {
-    background: #27272f;
-    border-radius: 9999px;
+    background: #21242c;
+    border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3f3f4c;
+    background: #2e3340;
   }
 }
 
 @layer utilities {
-  .studio-panel {
+  .app-surface {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.6);
   }
 
-  .studio-card {
+  .app-card {
     background-color: var(--color-surface-card);
     border: 1px solid var(--color-border);
-    border-radius: 1rem;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 0.75rem;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
   }
-  .studio-card:hover {
+  .app-card:hover {
     border-color: var(--color-border-hover);
     background-color: var(--color-surface-hover);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
   }
 
-  .glass-panel {
-    background-color: rgba(16, 16, 20, 0.75);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
-  }
-
-  .glass-card {
-    background-color: rgba(18, 18, 23, 0.65);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 1rem;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .glass-card:hover {
-    background-color: rgba(24, 24, 31, 0.85);
-    border-color: rgba(255, 255, 255, 0.16);
-    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.8);
-  }
-
-  .studio-btn {
+  .app-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
     font-weight: 600;
-    font-size: 0.75rem;
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.875rem;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
     cursor: pointer;
     user-select: none;
-  }
-  .studio-btn:active {
-    transform: scale(0.96);
+    line-height: 1.25rem;
   }
 
-  .studio-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.65rem;
-    border-radius: 9999px;
-    font-size: 0.6875rem;
+  .app-button-primary {
+    background-color: #ffffff;
+    color: #0b0c0e;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  }
+  .app-button-primary:hover {
+    background-color: #e5e7eb;
+  }
+
+  .app-button-secondary {
+    background-color: #16181e;
+    border: 1px solid #21242c;
+    color: #f0f2f5;
+  }
+  .app-button-secondary:hover {
+    background-color: #1e2129;
+    border-color: #2c313d;
   }
 }

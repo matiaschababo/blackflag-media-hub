@@ -35,6 +35,7 @@ interface HoldingContextType {
   currentChannel: Channel;
   episodes: Episode[];
   clips: Clip[];
+  allClips: Clip[];
   filteredClips: Clip[];
   retentionData: RetentionDataPoint[];
   platformData: Array<{ platform: string; views: number; hours: number; engagementRate: number }>;
@@ -57,7 +58,7 @@ const HoldingContext = createContext<HoldingContextType | undefined>(undefined);
 
 export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [channels, setChannels] = useState<Channel[]>(INITIAL_CHANNELS);
-  const [selectedChannelId, setSelectedChannelId] = useState<string>('blackflag');
+  const [selectedChannelId, setSelectedChannelId] = useState<string>('all');
   const [episodes, setEpisodes] = useState<Episode[]>(INITIAL_EPISODES);
   const [clips, setClips] = useState<Clip[]>(INITIAL_CLIPS);
   const [mode, setMode] = useState<AppMode>('content_manager');
@@ -130,12 +131,50 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
   }, [refreshFromDb]);
 
-  const currentChannel = channels.find((c) => c.id === selectedChannelId) || channels[0];
-  const filteredClips = clips.filter((c) => c.channelId === selectedChannelId);
+  const GLOBAL_CHANNEL: Channel = {
+    id: 'all',
+    name: 'Todos los Canales',
+    shortCode: 'ALL',
+    niche: 'Holding Digital Multicanal',
+    audience: 'Audiencia Digital Global (B2B, Kids & Sandbox)',
+    accentColor: '#38bdf8',
+    badgeBg: 'bg-sky-950/40',
+    badgeBorder: 'border-sky-600/40',
+    badgeText: 'text-sky-400',
+    avatarUrl: '/channels/blackflag-logo.png',
+    bannerUrl: '/channels/blackflag-banner.png',
+    shortsPerDay: 7,
+    timeSlots: ['10:00 ART', '14:00 ART', '15:00 ART', '16:00 ART', '20:00 ART', '21:00 ART', '22:00 ART'],
+    accounts: {
+      youtube: 'Holding Digital (3 Canales)',
+      instagram: '@blackflagblueprint',
+      facebook: 'Holding Network',
+      tiktok: '@levelpopstudio',
+      x: '@blackflagprint',
+    },
+    stats: {
+      subscribers: channels.reduce((acc, c) => acc + (c.stats?.subscribers || 0), 0) + 3,
+      totalViews: channels.reduce((acc, c) => acc + (c.stats?.totalViews || 0), 0) + 1939,
+      watchHours: channels.reduce((acc, c) => acc + (c.stats?.watchHours || 0), 0) + 18.4,
+      avgAvd: 78.4,
+      estimatedRevenue: 0,
+      rpm: 0,
+    },
+  };
+
+  const currentChannel =
+    selectedChannelId === 'all'
+      ? GLOBAL_CHANNEL
+      : channels.find((c) => c.id === selectedChannelId) || channels[0];
+
+  const filteredClips =
+    selectedChannelId === 'all'
+      ? clips
+      : clips.filter((c) => c.channelId === selectedChannelId);
 
   // Dynamic channel-specific metrics
   const retentionData =
-    RETENTION_CURVES_BY_CHANNEL[selectedChannelId] || [];
+    RETENTION_CURVES_BY_CHANNEL[selectedChannelId] || RETENTION_CURVES_BY_CHANNEL['blackflag'] || [];
   const platformData =
     PLATFORM_COMPARISONS_BY_CHANNEL[selectedChannelId] || PLATFORM_COMPARISONS_BY_CHANNEL['blackflag'];
   const abVariants =
@@ -180,89 +219,60 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const clip = clips.find((c) => c.id === clipId);
     if (!clip) return;
 
-    let updatedPlatforms: Record<Platform, PublicationRecord> | null = null;
-
+    // Shift priority: mark urgent and trigger first slot
     const updated = clips.map((c) => {
       if (c.id === clipId) {
-        const newPlatforms = {
-          ...c.platforms,
-          YOUTUBE_SHORT: { ...c.platforms.YOUTUBE_SHORT, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-          INSTAGRAM_REEL: { ...c.platforms.INSTAGRAM_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-          FACEBOOK_REEL: { ...c.platforms.FACEBOOK_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-          TIKTOK: { ...c.platforms.TIKTOK, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-          X_TWITTER: { ...c.platforms.X_TWITTER, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-        };
-        updatedPlatforms = newPlatforms;
         return {
           ...c,
           isUrgent: true,
-          platforms: newPlatforms,
+          priorityOrder: 0,
         };
       }
-      return c;
+      return {
+        ...c,
+        priorityOrder: (c.priorityOrder || 1) + 1,
+      };
     });
 
     setClips(updated);
-
-    if (updatedPlatforms) {
-      syncClipStatusToSupabase(clipId, updatedPlatforms, true);
-    }
+    syncClipStatusToSupabase(clipId, clip.platforms, true);
   };
 
-  const addChannel = async (data: Partial<Channel> & { name: string; niche: string }) => {
-    const id = data.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
-    const newChan: Channel = {
-      id,
-      name: data.name,
-      shortCode: data.shortCode || data.name.slice(0, 3).toUpperCase(),
-      niche: data.niche,
-      audience: data.audience || 'Audiencia Digital Global',
-      accentColor: data.accentColor || '#38BDF8',
+  const addChannel = (channelData: Partial<Channel> & { name: string; niche: string }) => {
+    const newId = channelData.name.toLowerCase().replace(/\s+/g, '-');
+    const newChannel: Channel = {
+      id: newId,
+      name: channelData.name,
+      shortCode: channelData.shortCode || channelData.name.slice(0, 2).toUpperCase(),
+      niche: channelData.niche,
+      audience: channelData.audience || 'General Digital Audience',
+      accentColor: channelData.accentColor || '#38bdf8',
       badgeBg: 'bg-sky-950/40',
       badgeBorder: 'border-sky-600/40',
       badgeText: 'text-sky-400',
-      avatarUrl: data.avatarUrl || '/channels/blackflag-logo.png',
-      bannerUrl: data.bannerUrl || '/channels/blackflag-banner.png',
-      shortsPerDay: data.shortsPerDay || 2,
-      timeSlots: data.timeSlots || ['14:00 ART', '20:00 ART'],
-      accounts: {
-        youtube: `@${id}`,
-        instagram: `@${id}`,
-        facebook: data.name,
-        tiktok: `@${id}`,
-        x: `@${id}`,
+      avatarUrl: channelData.avatarUrl || '/channels/blackflag-logo.png',
+      bannerUrl: channelData.bannerUrl || '/channels/blackflag-banner.png',
+      shortsPerDay: channelData.shortsPerDay || 2,
+      timeSlots: channelData.timeSlots || ['14:00 ART', '20:00 ART'],
+      accounts: channelData.accounts || {
+        youtube: `@${newId}`,
+        instagram: `@${newId}`,
+        facebook: `${channelData.name}`,
+        tiktok: `@${newId}`,
+        x: `@${newId}`,
       },
       stats: {
-        subscribers: 0,
         totalViews: 0,
         watchHours: 0,
+        subscribers: 0,
         avgAvd: 0,
         estimatedRevenue: 0,
         rpm: 0,
       },
     };
 
-    setChannels((prev) => [...prev, newChan]);
-    setSelectedChannelId(id);
-
-    try {
-      await supabase.from('channels').insert({
-        id: newChan.id,
-        name: newChan.name,
-        short_code: newChan.shortCode,
-        niche: newChan.niche,
-        audience: newChan.audience,
-        accent_color: newChan.accentColor,
-        avatar_url: newChan.avatarUrl,
-        banner_url: newChan.bannerUrl,
-        shorts_per_day: newChan.shortsPerDay,
-        time_slots: newChan.timeSlots,
-        accounts: newChan.accounts,
-        stats: newChan.stats,
-      });
-    } catch (e) {
-      console.warn('Could not persist new channel to Supabase:', e);
-    }
+    setChannels((prev) => [...prev, newChannel]);
+    setSelectedChannelId(newId);
   };
 
   return (
@@ -273,6 +283,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         currentChannel,
         episodes,
         clips,
+        allClips: clips,
         filteredClips,
         retentionData,
         platformData,
@@ -296,7 +307,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   );
 };
 
-export const useHolding = () => {
+export const useHolding = (): HoldingContextType => {
   const context = useContext(HoldingContext);
   if (!context) {
     throw new Error('useHolding must be used within a HoldingProvider');

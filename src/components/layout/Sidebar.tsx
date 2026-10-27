@@ -107,6 +107,31 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               </div>
 
               <div className="space-y-0.5">
+                <button
+                  onClick={() => {
+                    setSelectedChannelId('all');
+                    setIsChannelDropdownOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between p-2 rounded-lg text-left transition cursor-pointer ${
+                    selectedChannelId === 'all'
+                      ? 'bg-[#1e2129] text-white'
+                      : 'text-[#848d97] hover:bg-[#181b21] hover:text-[#f0f2f5]'
+                  }`}
+                >
+                  <div className="flex items-center space-x-2 overflow-hidden">
+                    <div className="h-6 w-6 rounded-md bg-sky-950/60 border border-sky-500/30 flex items-center justify-center text-[10px] font-bold text-sky-400 shrink-0">
+                      ALL
+                    </div>
+                    <div className="overflow-hidden">
+                      <div className="text-xs font-semibold text-white truncate">
+                        Todos los Canales
+                      </div>
+                      <div className="text-[10px] text-[#848d97] truncate">Holding global</div>
+                    </div>
+                  </div>
+                  {selectedChannelId === 'all' && <Check className="h-3.5 w-3.5 text-white shrink-0 ml-2" />}
+                </button>
+
                 {channels.map((ch) => {
                   const isSelected = selectedChannelId === ch.id;
                   return (

@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useHolding } from '../../context/HoldingContext';
+import { AppMode } from '../../types';
 import {
-  Film,
-  BarChart3,
-  PlusCircle,
   ChevronDown,
-  Check,
+  Layers,
+  Database,
+  Tv,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -23,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
     mode,
     setMode,
     isDbConnected,
+    allClips,
   } = useHolding();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -76,8 +77,36 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
                 </div>
 
                 <div className="space-y-0.5">
+                  {/* Option: Todos los Canales */}
+                  <button
+                    onClick={() => {
+                      setSelectedChannelId('all');
+                      setIsDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between p-2 rounded-lg text-left transition cursor-pointer ${
+                      selectedChannelId === 'all'
+                        ? 'bg-[#1e2129] text-white'
+                        : 'text-[#848d97] hover:bg-[#181b21] hover:text-[#f0f2f5]'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2 overflow-hidden">
+                      <div className="h-6 w-6 rounded-md bg-sky-950/60 border border-sky-500/30 flex items-center justify-center text-[10px] font-bold text-sky-400 shrink-0">
+                        ALL
+                      </div>
+                      <div className="overflow-hidden">
+                        <div className="text-xs font-semibold text-white truncate">
+                          Todos los Canales
+                        </div>
+                        <div className="text-[10px] text-[#848d97] truncate">
+                          Stock global ({allClips.length} clips)
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+
                   {channels.map((ch) => {
                     const isSelected = selectedChannelId === ch.id;
+                    const chClipsCount = allClips.filter((c) => c.channelId === ch.id).length;
                     return (
                       <button
                         key={ch.id}
@@ -104,68 +133,83 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
                             <div className="text-[10px] text-[#848d97] truncate">{ch.niche}</div>
                           </div>
                         </div>
-
-                        {isSelected && <Check className="h-3.5 w-3.5 text-white shrink-0 ml-2" />}
+                        <span className="text-[10px] font-mono text-[#848d97] ml-2 shrink-0">
+                          {chClipsCount} clips
+                        </span>
                       </button>
                     );
                   })}
                 </div>
 
-                <div className="mt-1 pt-1 border-t border-[#1e2129]">
+                <div className="pt-1 mt-1 border-t border-[#1e2129]">
                   <button
                     onClick={() => {
                       setIsDropdownOpen(false);
                       onOpenNewChannelModal();
                     }}
-                    className="w-full flex items-center justify-center space-x-1.5 py-1.5 px-2 rounded-lg text-xs font-medium text-[#848d97] hover:text-white hover:bg-[#181b21] transition cursor-pointer"
+                    className="w-full text-center py-1.5 text-xs text-[#848d97] hover:text-white transition cursor-pointer"
                   >
-                    <PlusCircle className="h-3.5 w-3.5" />
-                    <span>Dar de alta canal</span>
+                    + Agregar canal
                   </button>
                 </div>
               </div>
             )}
           </div>
-
-          {isDbConnected && (
-            <div className="hidden lg:flex items-center space-x-1.5 px-2 py-1 rounded-md border border-[#1e2129] bg-[#13151a] text-[11px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e] animate-pulse"></span>
-              <span className="text-[#848d97] font-mono text-[10px]">DB</span>
-              <span className="text-[#f0f2f5] font-medium">Supabase</span>
-            </div>
-          )}
         </div>
 
-        {/* Center: Neutral Segmented Control (Zero Gradient Slop) */}
-        <div className="flex items-center rounded-lg bg-[#13151a] p-0.5 border border-[#1e2129]">
+        {/* Center: Clean Functional Navigation Mode Switcher */}
+        <div className="flex items-center space-x-1 bg-[#13151a] p-1 rounded-lg border border-[#1e2129]">
           <button
             onClick={() => setMode('content_manager')}
-            className={`flex items-center space-x-1.5 rounded-md px-3 py-1 text-xs font-medium transition cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
               mode === 'content_manager'
-                ? 'bg-[#22262f] text-white font-semibold'
-                : 'text-[#848d97] hover:text-white'
+                ? 'bg-[#1e2129] text-[#f0f2f5] font-semibold'
+                : 'text-[#848d97] hover:text-[#f0f2f5]'
             }`}
           >
-            <Film className="h-3.5 w-3.5" />
+            <Layers className="h-3.5 w-3.5" />
             <span>Content Manager</span>
           </button>
 
           <button
             onClick={() => setMode('metrics_hub')}
-            className={`flex items-center space-x-1.5 rounded-md px-3 py-1 text-xs font-medium transition cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-medium transition cursor-pointer ${
               mode === 'metrics_hub'
-                ? 'bg-[#22262f] text-white font-semibold'
-                : 'text-[#848d97] hover:text-white'
+                ? 'bg-[#1e2129] text-[#f0f2f5] font-semibold'
+                : 'text-[#848d97] hover:text-[#f0f2f5]'
             }`}
           >
-            <BarChart3 className="h-3.5 w-3.5" />
+            <Tv className="h-3.5 w-3.5" />
             <span>Metrics Hub</span>
           </button>
         </div>
 
         {/* Right: Clean Channel Switcher Pills */}
         <div className="hidden sm:flex items-center space-x-1.5">
+          {/* Live Supabase indicator badge */}
+          <div
+            title={isDbConnected ? "Conectado en vivo a Supabase PostgreSQL" : "Modo local / fallback"}
+            className="flex items-center space-x-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono border transition mr-1 bg-[#101914] border-emerald-500/30 text-emerald-400"
+          >
+            <Database className="h-2.5 w-2.5 text-emerald-400 animate-pulse" />
+            <span>Supabase DB</span>
+          </div>
+
           <div className="flex items-center space-x-1 bg-[#13151a] p-0.5 rounded-lg border border-[#1e2129]">
+            {/* TODOS pill */}
+            <button
+              onClick={() => setSelectedChannelId('all')}
+              title="Ver catálogo completo de todos los canales"
+              className={`flex items-center space-x-1 px-2 py-1 rounded-md text-xs transition cursor-pointer ${
+                selectedChannelId === 'all'
+                  ? 'bg-[#22262f] text-sky-400 font-bold border border-sky-500/30'
+                  : 'text-[#848d97] hover:text-white'
+              }`}
+            >
+              <span>TODOS</span>
+              <span className="text-[10px] opacity-70">({allClips.length})</span>
+            </button>
+
             {channels.map((ch) => {
               const isSelected = selectedChannelId === ch.id;
               return (
@@ -193,10 +237,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
           <button
             onClick={onOpenNewChannelModal}
             title="Dar de alta nuevo canal"
-            className="flex items-center space-x-1 rounded-lg border border-[#1e2129] bg-[#13151a] px-2.5 py-1 text-xs font-medium text-[#848d97] hover:text-white hover:border-[#2c313d] transition cursor-pointer"
+            className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#1e2129] bg-[#13151a] text-[#848d97] hover:border-[#2c313d] hover:text-white transition cursor-pointer text-xs"
           >
-            <PlusCircle className="h-3 w-3" />
-            <span className="hidden md:inline">Nuevo</span>
+            +
           </button>
         </div>
       </div>

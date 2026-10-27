@@ -12,6 +12,34 @@ const BADGE_STYLES: Record<string, { bg: string; border: string; text: string }>
   levelpop: { bg: 'bg-cyan-950/40', border: 'border-cyan-600/40', text: 'text-cyan-400' },
 };
 
+export function getClipThumbnail(clip: Clip): string {
+  // 1. YouTube direct thumbnail if URL exists
+  const ytUrl = clip.platforms?.YOUTUBE_SHORT?.url;
+  if (ytUrl) {
+    const match = ytUrl.match(/(?:shorts\/|v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (match && match[1]) {
+      return `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg`;
+    }
+  }
+
+  // 2. Local LevelPop thumbnail
+  if (clip.id.startsWith('lp-')) {
+    return `/thumbnails/${clip.id}-thumb.jpg`;
+  }
+
+  // 3. BlackFlag thumbnail
+  if (clip.channelId === 'blackflag') {
+    return '/thumbnails/ep01-blackflag.png';
+  }
+
+  // 4. Podmon fallback banner or logo
+  if (clip.channelId === 'podmon') {
+    return '/channels/podmon-banner.png';
+  }
+
+  return '/channels/levelpop-banner.png';
+}
+
 export async function getChannelsFromSupabase(): Promise<Channel[] | null> {
   try {
     const { data, error } = await supabase.from('channels').select('*').order('created_at', { ascending: true });
@@ -33,12 +61,9 @@ export async function getChannelsFromSupabase(): Promise<Channel[] | null> {
       timeSlots: row.time_slots,
       accounts: row.accounts || {},
       stats: row.stats || {
-        subscribers: 0,
         totalViews: 0,
         watchHours: 0,
-        avgAvd: 0,
-        estimatedRevenue: 0,
-        rpm: 0,
+        subscribers: 0,
       },
     }));
   } catch (err) {
@@ -113,11 +138,15 @@ export async function syncClipStatusToSupabase(
       platforms,
       updated_at: new Date().toISOString(),
     };
-    if (typeof isUrgent === 'boolean') {
+    if (isUrgent !== undefined) {
       updatePayload.is_urgent = isUrgent;
     }
 
-    const { error } = await supabase.from('clips').update(updatePayload).eq('id', clipId);
+    const { error } = await supabase
+      .from('clips')
+      .update(updatePayload)
+      .eq('id', clipId);
+
     if (error) {
       console.error('Error updating clip in Supabase:', error);
       return false;
@@ -130,7 +159,7 @@ export async function syncClipStatusToSupabase(
 }
 
 export async function syncPublicationToSupabase(publication: {
-  id: string;
+  id?: string | number;
   clipId: string;
   channelId: string;
   platform: string;
@@ -141,8 +170,7 @@ export async function syncPublicationToSupabase(publication: {
   url?: string;
 }): Promise<boolean> {
   try {
-    const { error } = await supabase.from('publications').upsert({
-      id: publication.id,
+    const { error } = await supabase.from('publications').insert({
       clip_id: publication.clipId,
       channel_id: publication.channelId,
       platform: publication.platform,
@@ -151,15 +179,14 @@ export async function syncPublicationToSupabase(publication: {
       status: publication.status,
       published_at: publication.publishedAt ? new Date(publication.publishedAt).toISOString() : null,
       url: publication.url || null,
-      updated_at: new Date().toISOString(),
     });
     if (error) {
-      console.error('Error upserting publication in Supabase:', error);
+      console.error('Error inserting publication in Supabase:', error);
       return false;
     }
     return true;
   } catch (err) {
-    console.error('Exception upserting publication in Supabase:', err);
+    console.error('Exception inserting publication in Supabase:', err);
     return false;
   }
 }

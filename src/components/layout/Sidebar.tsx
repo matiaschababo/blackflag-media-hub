@@ -269,7 +269,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <LayoutDashboard className="h-3.5 w-3.5" />
-                  <span>Inicio (Cabina de Mando)</span>
+                  <span>Inicio</span>
                 </div>
               </button>
 
@@ -283,7 +283,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <Tv className="h-3.5 w-3.5" />
-                  <span>Episodios VOD</span>
+                  <span>Episodios</span>
                 </div>
                 <span className="text-[10px] text-[#848d97]">1440p</span>
               </button>
@@ -298,7 +298,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-3.5 w-3.5" />
-                  <span>Parrilla 24/7</span>
+                  <span>Parrilla</span>
                 </div>
                 <span className="text-[10px] text-[#848d97]">Slots</span>
               </button>
@@ -313,7 +313,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <Radar className="h-3.5 w-3.5" />
-                  <span>Radar de Stock</span>
+                  <span>Stock</span>
                 </div>
                 <span className="text-[10px] text-[#848d97]">Runway</span>
               </button>
@@ -328,7 +328,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <Layers className="h-3.5 w-3.5" />
-                  <span>Matriz de Clips</span>
+                  <span>Clips</span>
                 </div>
                 <span className="text-[10px] text-[#848d97] tabular-nums font-semibold">
                   {filteredClips.length}
@@ -359,7 +359,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <LineChart className="h-3.5 w-3.5" />
-                  <span>Curva de Retención</span>
+                  <span>Retención</span>
                 </div>
                 <span className="text-[10px] text-[#848d97]">&gt;50%</span>
               </button>
@@ -373,7 +373,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
                 }`}
               >
                 <Share2 className="h-3.5 w-3.5" />
-                <span>Comparativa Multi-Red</span>
+                <span>Multi-Red</span>
               </button>
 
               <button
@@ -386,7 +386,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <SplitSquareVertical className="h-3.5 w-3.5" />
-                  <span>Tríada Packaging</span>
+                  <span>Packaging CTR</span>
                 </div>
                 <span className="text-[10px] text-[#848d97]">CTR</span>
               </button>

@@ -72,31 +72,26 @@ export const TelegramBotEngine: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="relative rounded-2xl border border-zinc-800/90 bg-[#101014] p-5 sm:p-6 backdrop-blur-xl shadow-xl overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-[100px] opacity-15 pointer-events-none -z-0 bg-blue-500" />
-
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="flex items-start space-x-4">
-            <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0 mt-0.5">
-              <Bot className="h-6 w-6 text-white" />
+      {/* Header */}
+      <div className="rounded-xl border border-[#1e2129] bg-[#13151a] p-5">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-start space-x-3.5">
+            <div className="h-10 w-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+              <Bot className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-md bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                  MOTOR OFICIAL API & TELEGRAM
+                <span className="text-xs font-semibold text-white">
+                  Ingesta & Subida API
                 </span>
-                <span className="inline-flex items-center space-x-1 text-xs text-emerald-400 font-mono font-bold">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>Daemon Activo 24/7</span>
+                <span className="inline-flex items-center space-x-1 text-xs text-emerald-400 font-mono font-medium">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>Activo</span>
                 </span>
               </div>
-              <h2 className="mt-1 text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                Flujo Automatizado de Ingesta & Subida Oficial
-              </h2>
-              <p className="text-xs text-zinc-400 mt-0.5">
-                Replicando la arquitectura probada de Mix On: Telegram Desktop ➔ Validación ➔ YouTube Data API v3 ➔ Notificación Privada.
-              </p>
+              <div className="text-xs text-[#848d97] mt-0.5">
+                {currentChannel.name} • C:\Users\Mati\Downloads\Telegram Desktop\
+              </div>
             </div>
           </div>
 
@@ -104,7 +99,7 @@ export const TelegramBotEngine: React.FC = () => {
             <button
               onClick={handleScanTelegram}
               disabled={isScanning}
-              className="studio-btn bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 space-x-2 shadow-lg shadow-blue-600/25 active:scale-95 disabled:opacity-50"
+              className="app-button app-button-secondary text-xs flex items-center space-x-1.5"
             >
               <RotateCw className={`h-3.5 w-3.5 ${isScanning ? 'animate-spin' : ''}`} />
               <span>{isScanning ? 'Escaneando...' : 'Escanear Telegram Desktop'}</span>
@@ -276,22 +271,18 @@ export const TelegramBotEngine: React.FC = () => {
               })}
             </div>
           </div>
-
-          <div className="pt-2 text-[11px] text-zinc-500 font-mono">
-            * Al subir por API, el bot programa el Short automáticamente sin riesgo de baneo (0%).
-          </div>
         </div>
 
         {/* Live Terminal Log */}
-        <div className="rounded-2xl border border-zinc-800/90 bg-black p-4 flex flex-col font-mono text-xs">
+        <div className="rounded-xl border border-[#1e2129] bg-black p-4 flex flex-col font-mono text-xs">
           <div className="flex items-center justify-between pb-2 border-b border-zinc-900 text-zinc-400">
             <div className="flex items-center space-x-2">
               <Terminal className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">
-                Consola de Ejecución en Vivo (Terminal Daemon)
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">
+                Terminal
               </span>
             </div>
-            <span className="text-[10px] text-zinc-600">bash / python 3.12</span>
+            <span className="text-[10px] text-zinc-600">daemon</span>
           </div>
 
           <div className="mt-3 flex-1 overflow-y-auto space-y-1.5 text-zinc-300 text-[11px] min-h-[220px] max-h-[280px]">

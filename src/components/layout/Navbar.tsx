@@ -58,7 +58,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
               className="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg border border-[#1e2129] bg-[#13151a] hover:border-[#2c313d] hover:bg-[#181b21] transition cursor-pointer text-left"
             >
               <div className="flex items-center space-x-1.5">
-                <span className="text-[11px] text-[#848d97] font-medium">Canal:</span>
                 <span className="text-xs font-bold text-[#f0f2f5] truncate max-w-[160px]">
                   {currentChannel.name}
                 </span>

@@ -12,15 +12,14 @@ export const StockRadar: React.FC = () => {
   const { channels, clips, currentChannel, setSelectedChannelId, setContentTab } = useHolding();
 
   return (
-    <div className="space-y-5">
-      {/* Header */}
-      <div className="rounded-xl border border-[#1e2129] bg-[#13151a] p-4">
+    <div className="space-y-4" data-testid="stock-radar">
+      <div className="rounded-xl border border-[#1e2129] bg-[#13151a] p-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-white tracking-tight">
-          Radar de Stock y Monitoreo de Runway
+          Radar de Stock
         </h2>
-        <p className="text-xs text-[#848d97] mt-0.5">
-          Auditoría de días de inventario virgen restante para evitar baches en la grilla diaria.
-        </p>
+        <span className="text-xs font-mono text-[#848d97]">
+          {channels.length} canales auditados
+        </span>
       </div>
 
       {/* Runway Cards for All Channels */}
@@ -55,7 +54,7 @@ export const StockRadar: React.FC = () => {
                     <h3 className="text-sm font-bold text-white">
                       {ch.name}
                     </h3>
-                    <span className="text-[11px] text-[#848d97]">
+                    <span className="text-[11px] text-[#848d97] font-mono">
                       {ch.shortsPerDay} shorts/día
                     </span>
                   </div>
@@ -84,12 +83,12 @@ export const StockRadar: React.FC = () => {
 
               <div className="mt-4 pt-3 border-t border-[#1e2129] grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[10px] text-[#848d97] block">Stock virgen</span>
+                  <span className="text-[10px] text-[#848d97] block font-medium">Stock virgen</span>
                   <div className="text-base font-bold text-white tabular-nums mt-0.5">{virginCount} clips</div>
                 </div>
 
                 <div>
-                  <span className="text-[10px] text-[#848d97] block">Cobertura</span>
+                  <span className="text-[10px] text-[#848d97] block font-medium">Runway</span>
                   <div className={`text-base font-bold tabular-nums mt-0.5 ${isCritical ? 'text-rose-400' : 'text-emerald-400'}`}>
                     {daysRemaining} días
                   </div>
@@ -99,7 +98,7 @@ export const StockRadar: React.FC = () => {
               {/* Action */}
               <div className="mt-3 pt-3 border-t border-[#1e2129] flex items-center justify-between">
                 {isCurrent ? (
-                  <span className="text-xs text-white font-medium">Canal en vista</span>
+                  <span className="text-xs text-white font-medium">Canal activo</span>
                 ) : (
                   <button
                     onClick={() => setSelectedChannelId(ch.id)}

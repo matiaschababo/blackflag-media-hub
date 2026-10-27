@@ -74,9 +74,9 @@ export const ClipDetailModal: React.FC<ClipDetailModalProps> = ({ clip, onClose 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Left: Mobile 9:16 Simulator (4 cols) */}
           <div className="md:col-span-5 flex flex-col items-center">
-            <div className="text-[11px] font-mono text-zinc-400 uppercase font-bold mb-2 flex items-center space-x-1.5">
+            <div className="text-[11px] font-mono text-zinc-400 font-semibold mb-2 flex items-center space-x-1.5">
               <Smartphone className="h-3.5 w-3.5 text-amber-400" />
-              <span>SIMULADOR SAFE ZONE 9:16</span>
+              <span>Safe Zone 9:16</span>
             </div>
 
             {/* Phone Body */}
@@ -89,9 +89,6 @@ export const ClipDetailModal: React.FC<ClipDetailModalProps> = ({ clip, onClose 
 
               {/* Center: Dynamic Subtitle Safe Zone (`MarginV=720`) */}
               <div className="space-y-2 text-center my-auto px-2">
-                <div className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
-                  [ZONA SEGURA VERTICAL]
-                </div>
                 <div
                   className="rounded-lg px-2.5 py-1.5 text-xs font-black tracking-wide shadow-md"
                   style={{
@@ -166,21 +163,21 @@ export const ClipDetailModal: React.FC<ClipDetailModalProps> = ({ clip, onClose 
 
             {/* Copy Content Box */}
             <div className="relative rounded-2xl border border-zinc-800 bg-zinc-900/60 p-4 min-h-[220px]">
-              <div className="flex items-center justify-between text-[11px] font-mono text-zinc-400 mb-2">
-                <span>TEXTO OFICIAL DE PUBLICACIÓN</span>
+              <div className="flex items-center justify-between text-xs text-zinc-400 mb-2">
+                <span className="font-medium text-white">Copy</span>
                 <button
                   onClick={() => handleCopy(getCopyText())}
-                  className="inline-flex items-center space-x-1 rounded-lg bg-zinc-800 px-2.5 py-1 text-xs font-bold text-white hover:bg-zinc-700 transition"
+                  className="inline-flex items-center space-x-1 rounded-lg bg-zinc-800 px-2.5 py-1 text-xs font-medium text-white hover:bg-zinc-700 transition"
                 >
                   {copied ? (
                     <>
                       <Check className="h-3.5 w-3.5 text-emerald-400" />
-                      <span className="text-emerald-400">Copiado al Portapapeles</span>
+                      <span className="text-emerald-400">Copiado</span>
                     </>
                   ) : (
                     <>
                       <Copy className="h-3.5 w-3.5" />
-                      <span>Copiar Texto</span>
+                      <span>Copiar</span>
                     </>
                   )}
                 </button>
@@ -200,10 +197,10 @@ export const ClipDetailModal: React.FC<ClipDetailModalProps> = ({ clip, onClose 
                   triggerRippleShift(clip.id);
                   onClose();
                 }}
-                className="flex items-center space-x-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-2 text-xs font-bold text-zinc-950 hover:from-amber-400 hover:to-amber-500 transition shadow-lg shadow-amber-500/20"
+                className="app-button app-button-primary text-xs flex items-center space-x-1.5"
               >
-                <Flame className="h-4 w-4" />
-                <span>Despachar en Próximo Turno (+1 Ripple)</span>
+                <Flame className="h-3.5 w-3.5" />
+                <span>Despachar turno</span>
               </button>
 
               <button

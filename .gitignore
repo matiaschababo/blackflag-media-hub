@@ -44,3 +44,4 @@ next-env.d.ts
 
 desktop.ini
 */desktop.ini
+.env*.local

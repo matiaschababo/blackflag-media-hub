@@ -40,6 +40,25 @@ export const ContentOverview: React.FC = () => {
 
   const daysRemaining = Math.max(0, Math.floor(virginStockClips.length / currentChannel.shortsPerDay));
 
+  const getAccountUrl = (key: Platform, handle: string) => {
+    if (!handle) return '#';
+    const clean = handle.replace('@', '');
+    switch (key) {
+      case 'YOUTUBE_SHORT':
+        return `https://youtube.com/${handle.startsWith('@') ? handle : '@' + handle}`;
+      case 'INSTAGRAM_REEL':
+        return `https://instagram.com/${clean}/`;
+      case 'TIKTOK':
+        return `https://www.tiktok.com/@${clean}`;
+      case 'FACEBOOK_REEL':
+        return `https://facebook.com/${clean}`;
+      case 'X_TWITTER':
+        return `https://x.com/${clean}`;
+      default:
+        return '#';
+    }
+  };
+
   const platformsList: Array<{ key: Platform; label: string; iconKey: string; handle: string }> = [
     { key: 'YOUTUBE_SHORT', label: 'YouTube Shorts', iconKey: 'YOUTUBE', handle: currentChannel.accounts.youtube },
     { key: 'INSTAGRAM_REEL', label: 'Instagram Reels', iconKey: 'INSTAGRAM', handle: currentChannel.accounts.instagram },
@@ -360,8 +379,17 @@ export const ContentOverview: React.FC = () => {
                       </div>
                     </td>
 
-                    <td className="py-2.5 px-3 text-[#848d97]">
-                      {p.handle}
+                    <td className="py-2.5 px-3">
+                      <a
+                        href={getAccountUrl(p.key, p.handle)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center space-x-1.5 text-xs text-[#848d97] hover:text-white transition group"
+                        title={`Abrir perfil de ${p.label}`}
+                      >
+                        <span className="font-mono">{p.handle}</span>
+                        <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition shrink-0" />
+                      </a>
                     </td>
 
                     <td className="py-2.5 px-3 text-right tabular-nums text-white font-medium">

@@ -42,7 +42,7 @@ CHANNELS_CONFIG = {
         "name": "Level Pop",
         "shortCode": "LP",
         "category_id": "24",  # Entretenimiento
-        "made_for_kids": True,  # COPPA estricto
+        "made_for_kids": False,  # General Audience / Co-Viewing (comentarios activos y ads personalizados)
         "slots": ["10:00", "15:00", "21:00"],
         "topic": "Level Pop",
         "token_file": "token_levelpop.json",

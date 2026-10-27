@@ -177,7 +177,7 @@ El script [scripts/holding_bot_uploader.py](file:///D:/Antigravity%20Projects/bl
 4. **Subida por API Oficial:**
    - Emplea la **YouTube Data API v3** oficial con tokens OAuth (`token_blackflag.json`, `token_podmon.json`, `token_levelpop.json`).
    - Aplica las directivas obligatorias de título limpio (prohibido colocar el hashtag `#Shorts` en el título si ya está categorizado como vertical).
-   - Respeta estrictamente la directiva COPPA (`madeForKids = True` en Level Pop; `madeForKids = False` en BlackFlag y Podmon).
+   - Respeta estrictamente la directiva COPPA y General Audience: `selfDeclaredMadeForKids = False` en el 100% de los canales y videos (incluyendo Level Pop, BlackFlag y Podmon) para preservar comentarios activos, interacciones comunitarias y monetización de anuncios personalizados.
 5. **Cierre de Ciclo en Supabase:** Al completarse la subida, actualiza el registro en `publications` y en `clips` a `PUBLISHED`, guardando el ID del video y la URL pública.
 
 ---

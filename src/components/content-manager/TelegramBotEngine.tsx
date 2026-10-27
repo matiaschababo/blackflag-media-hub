@@ -200,14 +200,12 @@ export const TelegramBotEngine: React.FC = () => {
                 <div className="flex justify-between">
                   <span className="text-zinc-500">Categoría YT:</span>
                   <span className="font-bold text-zinc-200">
-                    {ch.id === 'blackflag' ? '27 (Educación)' : ch.id === 'podmon' ? '20 (Gaming)' : '24 (Kids)'}
+                    {ch.id === 'blackflag' ? '27 (Educación)' : ch.id === 'podmon' ? '20 (Gaming)' : '24 (Entretenimiento)'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-zinc-500">COPPA:</span>
-                  <span className={`font-bold ${ch.id === 'levelpop' ? 'text-cyan-400' : 'text-zinc-400'}`}>
-                    {ch.id === 'levelpop' ? 'madeForKids: true' : 'madeForKids: false'}
-                  </span>
+                  <span className="text-zinc-500">Audiencia:</span>
+                  <span className="text-emerald-400 font-bold">General (madeForKids: false)</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-zinc-500">Títulos:</span>

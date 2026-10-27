@@ -184,62 +184,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
           </button>
         </div>
 
-        {/* Right: Clean Channel Switcher Pills */}
-        <div className="hidden sm:flex items-center space-x-1.5">
+        {/* Right: DB Status & New Channel */}
+        <div className="flex items-center space-x-2">
           {/* Live Supabase indicator badge */}
           <div
             title={isDbConnected ? "Conectado en vivo a Supabase PostgreSQL" : "Modo local / fallback"}
-            className="flex items-center space-x-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono border transition mr-1 bg-[#101914] border-emerald-500/30 text-emerald-400"
+            className="flex items-center space-x-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono border transition bg-[#101914] border-emerald-500/30 text-emerald-400"
           >
-            <Database className="h-2.5 w-2.5 text-emerald-400 animate-pulse" />
-            <span>Supabase DB</span>
-          </div>
-
-          <div className="flex items-center space-x-1 bg-[#13151a] p-0.5 rounded-lg border border-[#1e2129]">
-            {/* TODOS pill */}
-            <button
-              onClick={() => setSelectedChannelId('all')}
-              title="Ver catálogo completo de todos los canales"
-              className={`flex items-center space-x-1 px-2 py-1 rounded-md text-xs transition cursor-pointer ${
-                selectedChannelId === 'all'
-                  ? 'bg-[#22262f] text-sky-400 font-bold border border-sky-500/30'
-                  : 'text-[#848d97] hover:text-white'
-              }`}
-            >
-              <span>TODOS</span>
-              <span className="text-[10px] opacity-70">({allClips.length})</span>
-            </button>
-
-            {channels.map((ch) => {
-              const isSelected = selectedChannelId === ch.id;
-              return (
-                <button
-                  key={ch.id}
-                  onClick={() => setSelectedChannelId(ch.id)}
-                  title={`Cambiar a ${ch.name}`}
-                  className={`flex items-center space-x-1.5 px-2 py-1 rounded-md text-xs transition cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#22262f] text-white font-semibold'
-                      : 'text-[#848d97] hover:text-white'
-                  }`}
-                >
-                  <img
-                    src={ch.avatarUrl || '/channels/blackflag-logo.png'}
-                    alt={ch.name}
-                    className="h-3.5 w-3.5 rounded object-cover"
-                  />
-                  <span>{ch.shortCode}</span>
-                </button>
-              );
-            })}
+            <Database className="h-3 w-3 text-emerald-400 animate-pulse" />
+            <span className="hidden sm:inline">Supabase DB</span>
           </div>
 
           <button
             onClick={onOpenNewChannelModal}
-            title="Dar de alta nuevo canal"
-            className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#1e2129] bg-[#13151a] text-[#848d97] hover:border-[#2c313d] hover:text-white transition cursor-pointer text-xs"
+            title="Dar de alta nuevo canal en el holding"
+            className="flex items-center space-x-1.5 px-2.5 py-1 rounded-md border border-[#1e2129] bg-[#13151a] text-xs font-medium text-[#848d97] hover:border-[#2c313d] hover:text-white transition cursor-pointer"
           >
-            +
+            <span className="text-sm leading-none">+</span>
+            <span className="hidden sm:inline">Nuevo Canal</span>
           </button>
         </div>
       </div>

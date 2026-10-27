@@ -183,32 +183,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               )}
             </div>
           )}
-
-          {/* 1-Click Segmented Tabs */}
-          <div className="mt-1.5 grid grid-cols-3 gap-1 p-0.5 rounded-lg bg-[#13151a] border border-[#1e2129]">
-            {channels.map((ch) => {
-              const isSelected = selectedChannelId === ch.id;
-              return (
-                <button
-                  key={ch.id}
-                  onClick={() => setSelectedChannelId(ch.id)}
-                  title={ch.name}
-                  className={`flex items-center justify-center space-x-1 py-1 rounded-md text-[11px] font-medium transition cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#1e2129] text-white font-semibold'
-                      : 'text-[#848d97] hover:text-white'
-                  }`}
-                >
-                  <img
-                    src={ch.avatarUrl || '/channels/blackflag-logo.png'}
-                    alt={ch.name}
-                    className="h-3.5 w-3.5 rounded object-cover"
-                  />
-                  <span>{ch.shortCode}</span>
-                </button>
-              );
-            })}
-          </div>
         </div>
 
         {/* ========================================================= */}
@@ -354,7 +328,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2">
                   <Layers className="h-3.5 w-3.5" />
-                  <span>Matriz 10 Clips</span>
+                  <span>Matriz de Clips</span>
                 </div>
                 <span className="text-[10px] text-[#848d97] tabular-nums font-semibold">
                   {filteredClips.length}

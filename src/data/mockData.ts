@@ -82,7 +82,7 @@ export const INITIAL_CHANNELS: Channel[] = [
       '22:30 EST (02:30 UTC) - Night Drift & Sensory'
     ],
     accounts: {
-      youtube: '@levelpopstudio',
+      youtube: '@LevelPopStudio',
       instagram: '@levelpopstudio',
       facebook: 'Level Pop Studio',
       tiktok: '@levelpopstudio',
@@ -142,7 +142,7 @@ export const INITIAL_EPISODES: Episode[] = [
     episodeNumber: 1,
     title: 'LevelPop Season 1: Neon Marbles & Supercar Drift Tournaments',
     duration: '18:45',
-    youtubeUrl: 'https://youtube.com/@levelpopstudio',
+    youtubeUrl: 'https://youtube.com/@LevelPopStudio',
     status: 'PUBLISHED',
     releaseDate: '2026-10-24',
     thumbnailUrl: '/channels/levelpop-banner.png',
@@ -1004,6 +1004,34 @@ export const INITIAL_CLIPS: Clip[] = [
     views: 0,
     hookRate: 80.5,
     completionRate: 61.3,
+  },
+  {
+    id: 'lp-c12',
+    episodeId: 'lp-ep01',
+    channelId: 'levelpop',
+    clipNumber: 12,
+    title: 'CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Bridge Assault',
+    file: 'levelpop_bridge_assault_01.mp4',
+    hook: '100 blue runners storm the bridge against incoming obstacles! Can any make it to the finish line?',
+    durationSec: 36,
+    timestamps: { start: '00:00', end: '00:36' },
+    captions: {
+      youtube: 'CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Bridge Assault #Shorts #BridgeAssault #Gaming #CrowdRunner #LevelPop',
+      tiktok: 'CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Watch until the finish line! #BridgeAssault #LevelPop',
+      instagram: 'Can 100 runners survive the bridge assault? 🚗💨 #Gaming #Hypercasual',
+      facebook: 'Asalto al puente: 100 corredores intentan cruzar esquivando autos.',
+      x: 'Can 100 runners cross the bridge? Pure hypercasual action.',
+    },
+    platforms: {
+      YOUTUBE_SHORT: { status: 'PUBLISHED', slotTime: '10:00 ART', publishedAt: '2026-10-27T00:49:15Z', url: 'https://youtube.com/shorts/dCgDp1A919Y' },
+      TIKTOK: { status: 'SCHEDULED', slotTime: '10:42 UTC', url: 'https://buffer.com' },
+      INSTAGRAM_REEL: { status: 'PENDING' },
+      FACEBOOK_REEL: { status: 'PENDING' },
+      X_TWITTER: { status: 'PENDING' },
+    },
+    views: 0,
+    hookRate: 85.0,
+    completionRate: 64.5,
   },
 ];
 

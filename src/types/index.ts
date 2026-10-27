@@ -28,6 +28,7 @@ export interface Clip {
     facebook: string;
     x: string;
     youtube: string;
+    tiktok?: string;
   };
   platforms: Record<Platform, PublicationRecord>;
   isUrgent?: boolean;

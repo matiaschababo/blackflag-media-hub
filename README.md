@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 BlackFlag Holding Media Hub
 
-## Getting Started
+Plataforma unificada de **Content Management y Metrics Hub** para los canales digitales del holding de Matías Chababo:
+- **BlackFlag Blueprint (`BF`):** Finanzas offshore y B2B Tier 1.
+- **Podmon (`POD`):** Narrativa cinematográfica y thrillers en Farming Simulator 25.
+- **Level Pop (`LP`):** Carreras de canicas neón y autitos a 60 FPS (COPPA Compliant).
 
-First, run the development server:
+---
+
+## 📖 Manual Operativo y Arquitectura
+
+Para conocer en detalle el funcionamiento, los roles, el modelo de datos relacional en Supabase y el pipeline de publicación desatendida, consulta:
+👉 **[APP_HOLDING_MANUAL.md](./APP_HOLDING_MANUAL.md)**
+
+---
+
+## 🛠️ Stack Tecnológico
+
+- **Frontend:** Next.js 16.4.2 (App Router, Turbopack, Tailwind CSS con diseño anti-slop Swiss/Linear).
+- **Base de Datos Cloud:** PostgreSQL en Supabase Cloud (`holding-media-db`).
+- **Sincronización:** Supabase Realtime (`postgres_changes`).
+- **Automatización:** Python Daemon (`scripts/holding_bot_uploader.py`) con YouTube Data API v3 Oficial.
+- **Producción:** Desplegado en Vercel &rarr; [https://blackflag-media-hub.vercel.app](https://blackflag-media-hub.vercel.app)
+
+---
+
+## 💻 Desarrollo Local
 
 ```bash
+# Instalar dependencias
+npm install
+
+# Correr servidor de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Compilar para producción
+npm run build
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

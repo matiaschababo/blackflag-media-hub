@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import {
   Channel,
   Episode,
@@ -21,6 +21,13 @@ import {
   PLATFORM_COMPARISONS_BY_CHANNEL,
   AB_VARIANTS_BY_CHANNEL,
 } from '../data/mockData';
+import {
+  supabase,
+  getChannelsFromSupabase,
+  getEpisodesFromSupabase,
+  getClipsFromSupabase,
+  syncClipStatusToSupabase,
+} from '../lib/supabase';
 
 interface HoldingContextType {
   channels: Channel[];
@@ -35,6 +42,7 @@ interface HoldingContextType {
   mode: AppMode;
   contentTab: ContentTab;
   metricsTab: MetricsTab;
+  isDbConnected: boolean;
   setSelectedChannelId: (id: string) => void;
   setMode: (mode: AppMode) => void;
   setContentTab: (tab: ContentTab) => void;
@@ -42,6 +50,7 @@ interface HoldingContextType {
   updateClipStatus: (clipId: string, platform: Platform, status: PublicationRecord['status'], url?: string) => void;
   addChannel: (channel: Partial<Channel> & { name: string; niche: string }) => void;
   triggerRippleShift: (clipId: string) => void;
+  refreshFromDb: () => Promise<void>;
 }
 
 const HoldingContext = createContext<HoldingContextType | undefined>(undefined);
@@ -54,23 +63,72 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [mode, setMode] = useState<AppMode>('content_manager');
   const [contentTab, setContentTab] = useState<ContentTab>('overview');
   const [metricsTab, setMetricsTab] = useState<MetricsTab>('overview');
+  const [isDbConnected, setIsDbConnected] = useState<boolean>(false);
 
-  // Clear legacy hallucinated cache and ensure all 3 core channels always exist
-  useEffect(() => {
+  // Sync data from Supabase
+  const refreshFromDb = useCallback(async () => {
     try {
-      // Clear legacy cache that may have stored single-channel or fake numbers
-      localStorage.removeItem('bf_holding_clips');
-      localStorage.removeItem('bf_holding_channels');
-      localStorage.removeItem('holding_custom_channels_v2');
-      setChannels(INITIAL_CHANNELS);
-    } catch {
-      // ignore
+      const [dbChannels, dbEpisodes, dbClips] = await Promise.all([
+        getChannelsFromSupabase(),
+        getEpisodesFromSupabase(),
+        getClipsFromSupabase(),
+      ]);
+
+      if (dbChannels && dbChannels.length > 0) {
+        setChannels(dbChannels);
+      }
+      if (dbEpisodes && dbEpisodes.length > 0) {
+        setEpisodes(dbEpisodes);
+      }
+      if (dbClips && dbClips.length > 0) {
+        setClips(dbClips);
+      }
+
+      if (dbChannels || dbClips) {
+        setIsDbConnected(true);
+      }
+    } catch (err) {
+      console.warn('Fallback to local state (Supabase sync failed):', err);
     }
   }, []);
 
-  const saveClips = (newClips: Clip[]) => {
-    setClips(newClips);
-  };
+  // Initial load & real-time subscription
+  useEffect(() => {
+    refreshFromDb();
+
+    // Subscribe to real-time changes on clips
+    const channelSub = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'clips' },
+        (payload) => {
+          if (payload.eventType === 'UPDATE' && payload.new) {
+            const updated = payload.new as any;
+            setClips((prev) =>
+              prev.map((c) =>
+                c.id === updated.id
+                  ? {
+                      ...c,
+                      platforms: updated.platforms || c.platforms,
+                      isUrgent: updated.is_urgent ?? c.isUrgent,
+                      priorityOrder: updated.priority_order ?? c.priorityOrder,
+                      views: updated.views ?? c.views,
+                    }
+                  : c
+              )
+            );
+          } else {
+            refreshFromDb();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channelSub);
+    };
+  }, [refreshFromDb]);
 
   const currentChannel = channels.find((c) => c.id === selectedChannelId) || channels[0];
   const filteredClips = clips.filter((c) => c.channelId === selectedChannelId);
@@ -89,52 +147,69 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     status: PublicationRecord['status'],
     url?: string
   ) => {
+    let updatedPlatforms: Record<Platform, PublicationRecord> | null = null;
+
     const updated = clips.map((c) => {
       if (c.id === clipId) {
+        const newPlatforms = {
+          ...c.platforms,
+          [platform]: {
+            ...c.platforms[platform],
+            status,
+            ...(url ? { url } : {}),
+            ...(status === 'PUBLISHED' ? { publishedAt: new Date().toISOString().replace('T', ' ').slice(0, 16) } : {}),
+          },
+        };
+        updatedPlatforms = newPlatforms;
         return {
           ...c,
-          platforms: {
-            ...c.platforms,
-            [platform]: {
-              ...c.platforms[platform],
-              status,
-              ...(url ? { url } : {}),
-              ...(status === 'PUBLISHED' ? { publishedAt: new Date().toISOString().replace('T', ' ').slice(0, 16) } : {}),
-            },
-          },
+          platforms: newPlatforms,
         };
       }
       return c;
     });
-    saveClips(updated);
+
+    setClips(updated);
+
+    if (updatedPlatforms) {
+      syncClipStatusToSupabase(clipId, updatedPlatforms);
+    }
   };
 
   const triggerRippleShift = (clipId: string) => {
     const clip = clips.find((c) => c.id === clipId);
     if (!clip) return;
 
-    // Ripple shift simulation: mark clip as urgent priority and set scheduled for next slot
+    let updatedPlatforms: Record<Platform, PublicationRecord> | null = null;
+
     const updated = clips.map((c) => {
       if (c.id === clipId) {
+        const newPlatforms = {
+          ...c.platforms,
+          YOUTUBE_SHORT: { ...c.platforms.YOUTUBE_SHORT, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          INSTAGRAM_REEL: { ...c.platforms.INSTAGRAM_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          FACEBOOK_REEL: { ...c.platforms.FACEBOOK_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          TIKTOK: { ...c.platforms.TIKTOK, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          X_TWITTER: { ...c.platforms.X_TWITTER, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+        };
+        updatedPlatforms = newPlatforms;
         return {
           ...c,
           isUrgent: true,
-          platforms: {
-            ...c.platforms,
-            YOUTUBE_SHORT: { ...c.platforms.YOUTUBE_SHORT, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-            INSTAGRAM_REEL: { ...c.platforms.INSTAGRAM_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-            FACEBOOK_REEL: { ...c.platforms.FACEBOOK_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-            TIKTOK: { ...c.platforms.TIKTOK, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-            X_TWITTER: { ...c.platforms.X_TWITTER, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
-          },
+          platforms: newPlatforms,
         };
       }
       return c;
     });
-    saveClips(updated);
+
+    setClips(updated);
+
+    if (updatedPlatforms) {
+      syncClipStatusToSupabase(clipId, updatedPlatforms, true);
+    }
   };
 
-  const addChannel = (data: Partial<Channel> & { name: string; niche: string }) => {
+  const addChannel = async (data: Partial<Channel> & { name: string; niche: string }) => {
     const id = data.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
     const newChan: Channel = {
       id,
@@ -167,16 +242,26 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
       },
     };
 
-    const newChannels = [...channels, newChan];
-    setChannels(newChannels);
+    setChannels((prev) => [...prev, newChan]);
     setSelectedChannelId(id);
+
     try {
-      const customOnly = newChannels.filter(
-        (c) => !INITIAL_CHANNELS.some((init) => init.id === c.id)
-      );
-      localStorage.setItem('holding_custom_channels_v2', JSON.stringify(customOnly));
-    } catch {
-      // ignore
+      await supabase.from('channels').insert({
+        id: newChan.id,
+        name: newChan.name,
+        short_code: newChan.shortCode,
+        niche: newChan.niche,
+        audience: newChan.audience,
+        accent_color: newChan.accentColor,
+        avatar_url: newChan.avatarUrl,
+        banner_url: newChan.bannerUrl,
+        shorts_per_day: newChan.shortsPerDay,
+        time_slots: newChan.timeSlots,
+        accounts: newChan.accounts,
+        stats: newChan.stats,
+      });
+    } catch (e) {
+      console.warn('Could not persist new channel to Supabase:', e);
     }
   };
 
@@ -195,6 +280,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         mode,
         contentTab,
         metricsTab,
+        isDbConnected,
         setSelectedChannelId,
         setMode,
         setContentTab,
@@ -202,6 +288,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         updateClipStatus,
         addChannel,
         triggerRippleShift,
+        refreshFromDb,
       }}
     >
       {children}

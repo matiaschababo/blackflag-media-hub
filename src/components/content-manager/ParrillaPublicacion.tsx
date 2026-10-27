@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useHolding } from '../../context/HoldingContext';
 import { Platform } from '../../types';
+import { syncPublicationToSupabase } from '../../lib/supabase';
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -48,6 +49,15 @@ export const ParrillaPublicacion: React.FC = () => {
           (['YOUTUBE_SHORT', 'INSTAGRAM_REEL', 'TIKTOK', 'FACEBOOK_REEL', 'X_TWITTER'] as Platform[]).forEach((p) => {
             updateClipStatus(clip.id, p, 'SCHEDULED');
           });
+          syncPublicationToSupabase({
+            id: `pub_${clip.id}_${dIdx}_${sIdx}`,
+            clipId: clip.id,
+            channelId: currentChannel.id,
+            platform: 'YOUTUBE_SHORT',
+            slotTime: currentSlots[sIdx] || '14:00 ART',
+            scheduledDate: days[dIdx]?.date || '2026-10-26',
+            status: 'SCHEDULED',
+          });
           clipPointer++;
         }
       });
@@ -69,6 +79,15 @@ export const ParrillaPublicacion: React.FC = () => {
       (['YOUTUBE_SHORT', 'INSTAGRAM_REEL', 'TIKTOK', 'FACEBOOK_REEL', 'X_TWITTER'] as Platform[]).forEach((p) => {
         updateClipStatus(unassignedClip.id, p, 'SCHEDULED');
       });
+      syncPublicationToSupabase({
+        id: `pub_${unassignedClip.id}_${dayIdx}_${slotIdx}`,
+        clipId: unassignedClip.id,
+        channelId: currentChannel.id,
+        platform: 'YOUTUBE_SHORT',
+        slotTime: currentSlots[slotIdx] || '14:00 ART',
+        scheduledDate: days[dayIdx]?.date || '2026-10-26',
+        status: 'SCHEDULED',
+      });
     }
   };
 
@@ -81,6 +100,15 @@ export const ParrillaPublicacion: React.FC = () => {
     });
     (['YOUTUBE_SHORT', 'INSTAGRAM_REEL', 'TIKTOK', 'FACEBOOK_REEL', 'X_TWITTER'] as Platform[]).forEach((p) => {
       updateClipStatus(clipId, p, 'PENDING');
+    });
+    syncPublicationToSupabase({
+      id: `pub_${clipId}_${dayIdx}_${slotIdx}`,
+      clipId: clipId,
+      channelId: currentChannel.id,
+      platform: 'YOUTUBE_SHORT',
+      slotTime: currentSlots[slotIdx] || '14:00 ART',
+      scheduledDate: days[dayIdx]?.date || '2026-10-26',
+      status: 'CANCELLED',
     });
   };
 

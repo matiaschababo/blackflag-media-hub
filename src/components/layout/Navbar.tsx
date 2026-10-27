@@ -22,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
     currentChannel,
     mode,
     setMode,
+    isDbConnected,
   } = useHolding();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -125,6 +126,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNewChannelModal }) => {
               </div>
             )}
           </div>
+
+          {isDbConnected && (
+            <div className="hidden lg:flex items-center space-x-1.5 px-2 py-1 rounded-md border border-[#1e2129] bg-[#13151a] text-[11px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e] animate-pulse"></span>
+              <span className="text-[#848d97] font-mono text-[10px]">DB</span>
+              <span className="text-[#f0f2f5] font-medium">Supabase</span>
+            </div>
+          )}
         </div>
 
         {/* Center: Neutral Segmented Control (Zero Gradient Slop) */}

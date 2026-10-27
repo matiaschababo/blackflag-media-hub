@@ -28,3 +28,10 @@ Todo cambio en `master` se despliega a producción en [https://blackflag-media-h
 ```bash
 npx vercel --prod --yes
 ```
+
+
+## Integración con Supabase PostgreSQL (`holding-media-db`)
+- **Base de Datos Cloud:** Proyecto `ayfftcgvacbrniyrkety` en región US-East-1.
+- **Tablas:** `channels`, `episodes`, `clips` (32 clips cargados), `publications`.
+- **Sincronización:** React Context (`HoldingContext.tsx`) consulta Supabase al iniciar y escucha cambios en vivo mediante WebSockets (`postgres_changes`).
+- **Vista Global TODOS:** Permite visualizar el catálogo consolidado de todos los canales o filtrar individualmente por Level Pop, BlackFlag o Podmon.

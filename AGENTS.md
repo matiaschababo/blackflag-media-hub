@@ -7,3 +7,24 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+
+# BLACKFLAG MEDIA HUB – AGENT DIRECTIVES & ARCHITECTURE GUIDE
+
+Este repositorio (`matiaschababo/blackflag-media-hub`) aloja la plataforma de **Content Management y Metrics Hub global** del holding digital de Matías Chababo:
+- **BlackFlag Blueprint (`BF`):** Finanzas offshore y estructuración B2B para founders tech.
+- **Podmon (`POD`):** Narrativa cinematográfica y thrillers sandbox en Farming Simulator 25.
+- **Level Pop (`LP`):** Carreras de canicas neón y autitos sensoriales a 60 FPS (YouTube Shorts + TikTok @levelpopstudio).
+
+## Estructura de Datos y Modelo React Context
+- **Origen de Datos:** [`src/data/mockData.ts`](src/data/mockData.ts) contiene los canales iniciales (`INITIAL_CHANNELS`), episodios (`INITIAL_EPISODES`) y la matriz de clips (`INITIAL_CLIPS`).
+- **Estado de Aplicación:** Administrado en [`src/context/HoldingContext.tsx`](src/context/HoldingContext.tsx).
+- **Radar de Stock:** Calcula en tiempo real el *runway* de días restantes dividiendo los clips en cola (`SCHEDULED` + `PENDING`) por el ritmo de publicación diario del canal (`shortsPerDay`).
+- **Parrilla 24/7:** Visualiza los slots de publicación diarios de cada canal.
+- **Miniaturas:** Los fotogramas y carátulas se alojan en [`public/thumbnails/`](public/thumbnails/) (ej. `lp-c01-thumb.jpg`).
+
+## Despliegue en Producción
+Todo cambio en `master` se despliega a producción en [https://blackflag-media-hub.vercel.app/](https://blackflag-media-hub.vercel.app/) mediante Vercel CLI:
+```bash
+npx vercel --prod --yes
+```

@@ -44,6 +44,9 @@ interface HoldingContextType {
   contentTab: ContentTab;
   metricsTab: MetricsTab;
   isDbConnected: boolean;
+  toastMessage: string | null;
+  showToast: (msg: string) => void;
+  copyShareLink: () => Promise<boolean>;
   setSelectedChannelId: (id: string) => void;
   setMode: (mode: AppMode) => void;
   setContentTab: (tab: ContentTab) => void;
@@ -65,6 +68,118 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [contentTab, setContentTab] = useState<ContentTab>('overview');
   const [metricsTab, setMetricsTab] = useState<MetricsTab>('overview');
   const [isDbConnected, setIsDbConnected] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = useCallback((msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage((current) => (current === msg ? null : current));
+    }, 3200);
+  }, []);
+
+  // Sync URL query params seamlessly without page reloads
+  const syncUrl = useCallback((chId: string, appMode: AppMode, tab: string) => {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      params.set('channel', chId);
+      params.set('mode', appMode);
+      params.set('tab', tab);
+      const newRelativePathQuery = `${window.location.pathname}?${params.toString()}`;
+      window.history.replaceState({ ...window.history.state, as: newRelativePathQuery, url: newRelativePathQuery }, '', newRelativePathQuery);
+
+      localStorage.setItem('holding_last_channel', chId);
+      localStorage.setItem('holding_last_mode', appMode);
+      localStorage.setItem('holding_last_tab', tab);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // Initial load from URL search params with fallback to localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlChannel = params.get('channel') || localStorage.getItem('holding_last_channel');
+      const urlMode = (params.get('mode') || localStorage.getItem('holding_last_mode')) as AppMode;
+      const urlTab = params.get('tab') || localStorage.getItem('holding_last_tab');
+
+      if (urlChannel) {
+        setSelectedChannelId(urlChannel);
+      }
+      if (urlMode === 'content_manager' || urlMode === 'metrics_hub') {
+        setMode(urlMode);
+        if (urlTab) {
+          if (urlMode === 'content_manager') {
+            setContentTab(urlTab as ContentTab);
+          } else {
+            setMetricsTab(urlTab as MetricsTab);
+          }
+        }
+      } else if (urlTab) {
+        setContentTab(urlTab as ContentTab);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // Listen to browser Back/Forward navigation (popstate)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const ch = params.get('channel');
+      const md = params.get('mode') as AppMode;
+      const tb = params.get('tab');
+      if (ch) setSelectedChannelId(ch);
+      if (md === 'content_manager' || md === 'metrics_hub') setMode(md);
+      if (tb) {
+        if (md === 'content_manager') setContentTab(tb as ContentTab);
+        else if (md === 'metrics_hub') setMetricsTab(tb as MetricsTab);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Wrapped state setters that keep URL in sync
+  const handleSetSelectedChannel = useCallback((id: string) => {
+    setSelectedChannelId(id);
+    const activeTab = mode === 'content_manager' ? contentTab : metricsTab;
+    syncUrl(id, mode, activeTab);
+  }, [mode, contentTab, metricsTab, syncUrl]);
+
+  const handleSetMode = useCallback((m: AppMode) => {
+    setMode(m);
+    const activeTab = m === 'content_manager' ? contentTab : metricsTab;
+    syncUrl(selectedChannelId, m, activeTab);
+  }, [selectedChannelId, contentTab, metricsTab, syncUrl]);
+
+  const handleSetContentTab = useCallback((t: ContentTab) => {
+    setContentTab(t);
+    syncUrl(selectedChannelId, 'content_manager', t);
+  }, [selectedChannelId, syncUrl]);
+
+  const handleSetMetricsTab = useCallback((t: MetricsTab) => {
+    setMetricsTab(t);
+    syncUrl(selectedChannelId, 'metrics_hub', t);
+  }, [selectedChannelId, syncUrl]);
+
+  // One-click shareable link
+  const copyShareLink = useCallback(async () => {
+    if (typeof window === 'undefined') return false;
+    try {
+      const url = window.location.href;
+      await navigator.clipboard.writeText(url);
+      showToast('¡Enlace de esta vista copiado! Tus compañeros abrirán exactamente este canal y pestaña.');
+      return true;
+    } catch (err) {
+      console.error('Error copying link:', err);
+      return false;
+    }
+  }, [showToast]);
 
   // Sync data from Supabase
   const refreshFromDb = useCallback(async () => {
@@ -219,60 +334,89 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const clip = clips.find((c) => c.id === clipId);
     if (!clip) return;
 
-    // Shift priority: mark urgent and trigger first slot
+    let updatedPlatforms: Record<Platform, PublicationRecord> | null = null;
+
     const updated = clips.map((c) => {
       if (c.id === clipId) {
+        const newPlatforms = {
+          ...c.platforms,
+          YOUTUBE_SHORT: { ...c.platforms.YOUTUBE_SHORT, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          INSTAGRAM_REEL: { ...c.platforms.INSTAGRAM_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          FACEBOOK_REEL: { ...c.platforms.FACEBOOK_REEL, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          TIKTOK: { ...c.platforms.TIKTOK, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+          X_TWITTER: { ...c.platforms.X_TWITTER, status: 'SCHEDULED' as const, slotTime: 'Próximo Turno Inmediato' },
+        };
+        updatedPlatforms = newPlatforms;
         return {
           ...c,
           isUrgent: true,
-          priorityOrder: 0,
+          platforms: newPlatforms,
         };
       }
-      return {
-        ...c,
-        priorityOrder: (c.priorityOrder || 1) + 1,
-      };
+      return c;
     });
 
     setClips(updated);
-    syncClipStatusToSupabase(clipId, clip.platforms, true);
+
+    if (updatedPlatforms) {
+      syncClipStatusToSupabase(clipId, updatedPlatforms, true);
+    }
   };
 
-  const addChannel = (channelData: Partial<Channel> & { name: string; niche: string }) => {
-    const newId = channelData.name.toLowerCase().replace(/\s+/g, '-');
-    const newChannel: Channel = {
-      id: newId,
-      name: channelData.name,
-      shortCode: channelData.shortCode || channelData.name.slice(0, 2).toUpperCase(),
-      niche: channelData.niche,
-      audience: channelData.audience || 'General Digital Audience',
-      accentColor: channelData.accentColor || '#38bdf8',
+  const addChannel = async (data: Partial<Channel> & { name: string; niche: string }) => {
+    const id = data.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+    const newChan: Channel = {
+      id,
+      name: data.name,
+      shortCode: data.shortCode || data.name.slice(0, 3).toUpperCase(),
+      niche: data.niche,
+      audience: data.audience || 'Audiencia Digital Global',
+      accentColor: data.accentColor || '#38BDF8',
       badgeBg: 'bg-sky-950/40',
       badgeBorder: 'border-sky-600/40',
       badgeText: 'text-sky-400',
-      avatarUrl: channelData.avatarUrl || '/channels/blackflag-logo.png',
-      bannerUrl: channelData.bannerUrl || '/channels/blackflag-banner.png',
-      shortsPerDay: channelData.shortsPerDay || 2,
-      timeSlots: channelData.timeSlots || ['14:00 ART', '20:00 ART'],
-      accounts: channelData.accounts || {
-        youtube: `@${newId}`,
-        instagram: `@${newId}`,
-        facebook: `${channelData.name}`,
-        tiktok: `@${newId}`,
-        x: `@${newId}`,
+      avatarUrl: data.avatarUrl || '/channels/blackflag-logo.png',
+      bannerUrl: data.bannerUrl || '/channels/blackflag-banner.png',
+      shortsPerDay: data.shortsPerDay || 2,
+      timeSlots: data.timeSlots || ['14:00 ART', '20:00 ART'],
+      accounts: {
+        youtube: `@${id}`,
+        instagram: `@${id}`,
+        facebook: data.name,
+        tiktok: `@${id}`,
+        x: `@${id}`,
       },
       stats: {
+        subscribers: 0,
         totalViews: 0,
         watchHours: 0,
-        subscribers: 0,
         avgAvd: 0,
         estimatedRevenue: 0,
         rpm: 0,
       },
     };
 
-    setChannels((prev) => [...prev, newChannel]);
-    setSelectedChannelId(newId);
+    setChannels((prev) => [...prev, newChan]);
+    handleSetSelectedChannel(id);
+
+    try {
+      await supabase.from('channels').insert({
+        id: newChan.id,
+        name: newChan.name,
+        short_code: newChan.shortCode,
+        niche: newChan.niche,
+        audience: newChan.audience,
+        accent_color: newChan.accentColor,
+        avatar_url: newChan.avatarUrl,
+        banner_url: newChan.bannerUrl,
+        shorts_per_day: newChan.shortsPerDay,
+        time_slots: newChan.timeSlots,
+        accounts: newChan.accounts,
+        stats: newChan.stats,
+      });
+    } catch (e) {
+      console.warn('Could not persist new channel to Supabase:', e);
+    }
   };
 
   return (
@@ -292,10 +436,13 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
         contentTab,
         metricsTab,
         isDbConnected,
-        setSelectedChannelId,
-        setMode,
-        setContentTab,
-        setMetricsTab,
+        toastMessage,
+        showToast,
+        copyShareLink,
+        setSelectedChannelId: handleSetSelectedChannel,
+        setMode: handleSetMode,
+        setContentTab: handleSetContentTab,
+        setMetricsTab: handleSetMetricsTab,
         updateClipStatus,
         addChannel,
         triggerRippleShift,
@@ -307,7 +454,7 @@ export const HoldingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   );
 };
 
-export const useHolding = (): HoldingContextType => {
+export const useHolding = () => {
   const context = useContext(HoldingContext);
   if (!context) {
     throw new Error('useHolding must be used within a HoldingProvider');

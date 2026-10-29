@@ -13,7 +13,12 @@ const BADGE_STYLES: Record<string, { bg: string; border: string; text: string }>
 };
 
 export function getClipThumbnail(clip: Clip): string {
-  // 1. YouTube direct thumbnail if URL exists
+// 1. Native 9:16 AI LevelPop thumbnail first
+  if (clip.id.startsWith('lp-')) {
+    return `/thumbnails/${clip.id}-thumb.jpg`;
+  }
+
+  // 2. YouTube direct thumbnail if URL exists
   const ytUrl = clip.platforms?.YOUTUBE_SHORT?.url;
   if (ytUrl) {
     const match = ytUrl.match(/(?:shorts\/|v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -22,10 +27,6 @@ export function getClipThumbnail(clip: Clip): string {
     }
   }
 
-  // 2. Local LevelPop thumbnail
-  if (clip.id.startsWith('lp-')) {
-    return `/thumbnails/${clip.id}-thumb.jpg`;
-  }
 
   // 3. BlackFlag thumbnail
   if (clip.channelId === 'blackflag') {

@@ -85,7 +85,114 @@ export interface Channel {
     avgAvd: number;
     estimatedRevenue: number;
     rpm: number;
+    lastSyncedAt?: string;
+    forensic_analytics?: ForensicAnalyticsData;
   };
+}
+
+export interface ForensicVideo {
+  id: string;
+  title: string;
+  category: string;
+  status: string;
+  views: number;
+  likes: number;
+  comments: number;
+  engagementRate: number;
+  viewsPerHour: number;
+  durationSec: number;
+  durationLabel: string;
+  durationBucket: string;
+  publishedAt: string | null;
+  publishAt: string | null;
+  url: string;
+  thumbnailUrl: string;
+  tier: string;
+}
+
+export interface FormatComparison {
+  category: string;
+  totalViews: number;
+  avgViewsPerShort: number;
+  totalLikes: number;
+  avgEngagementRate: number;
+  totalVideos: number;
+  publicVideos: number;
+}
+
+export interface DurationComparison {
+  bucket: string;
+  totalViews: number;
+  shortsCount: number;
+  avgViewsPerShort: number;
+  totalLikes: number;
+}
+
+export interface ForensicRetentionPoint {
+  second: number;
+  label: string;
+  ultraShort45s: number;
+  long120s: number;
+}
+
+export interface Winner24hInfo {
+  id: string;
+  title: string;
+  views: number;
+  viewsPerHour: number;
+  durationLabel: string;
+  durationSec: number;
+  category: string;
+  er: number;
+  thumbnailUrl: string;
+  url: string;
+  whyItWon: string;
+}
+
+export interface LaggingAnalysisInfo {
+  worstFormat: string;
+  avgViews: number;
+  vsWinnerDelta: string;
+  whyItLags: string;
+  correctiveAction: string;
+}
+
+export interface ExecutiveBriefingInfo {
+  dateStr: string;
+  period: string;
+  headline: string;
+  topMetricGains: string;
+  cmoSummary: string;
+  swarmRecommendation: string;
+}
+
+export interface ForensicAnalyticsData {
+  updatedAtUtc: string;
+  channel: {
+    title: string;
+    handle: string;
+    channelId: string;
+    subscribers: number;
+    publicViews: number;
+    auditedViewsSum: number;
+    totalLikes: number;
+    totalComments: number;
+    videoCount: number;
+    estimatedWatchHours: number;
+    avgAvdPercent: number;
+    medianViews: number;
+    subscribersProgressPct: number;
+    hoursProgressPct: number;
+  };
+  formatComparison: FormatComparison[];
+  durationComparison: DurationComparison[];
+  retentionCurves: ForensicRetentionPoint[];
+  keyFindings: string[];
+  actionableDecisions: string[];
+  videos: ForensicVideo[];
+  winner24h?: Winner24hInfo;
+  laggingAnalysis?: LaggingAnalysisInfo;
+  executiveBriefing?: ExecutiveBriefingInfo;
 }
 
 export interface RetentionDataPoint {
@@ -106,6 +213,13 @@ export interface ABVariant {
 
 export type AppMode = 'content_manager' | 'metrics_hub';
 
-export type ContentTab = 'overview' | 'episodes' | 'clips_matrix' | 'parrilla' | 'radar' | 'telegram_bot';
+export type ContentTab = 'overview' | 'episodes' | 'clips_matrix' | 'parrilla' | 'radar' | 'telegram_bot' | 'swarm_console';
 
-export type MetricsTab = 'overview' | 'retention' | 'platforms' | 'ab_testing';
+export type MetricsTab =
+  | 'overview'
+  | 'forensic_table'
+  | 'cross_analysis'
+  | 'retention'
+  | 'platforms'
+  | 'ab_testing'
+  | 'ai_insights';

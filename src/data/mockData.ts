@@ -1,4 +1,5 @@
-import { Channel, Episode, Clip, RetentionDataPoint, ABVariant } from '../types';
+import { Channel, Episode, Clip, RetentionDataPoint, ABVariant, ForensicAnalyticsData } from '../types';
+import levelpopForensicJson from './levelpop_forensic_analytics.json';
 
 export const INITIAL_CHANNELS: Channel[] = [
   {
@@ -89,12 +90,13 @@ export const INITIAL_CHANNELS: Channel[] = [
       x: '@levelpopstudio',
     },
     stats: {
-      subscribers: 3,
-      totalViews: 1779,
-      watchHours: 14.8,
-      avgAvd: 64.2,
+      subscribers: 12,
+      totalViews: 8488,
+      watchHours: 113.2,
+      avgAvd: 56.9,
       estimatedRevenue: 0,
       rpm: 0,
+      forensic_analytics: levelpopForensicJson as unknown as ForensicAnalyticsData,
     },
   },
 ];
@@ -140,19 +142,19 @@ export const INITIAL_EPISODES: Episode[] = [
     id: 'lp-ep01',
     channelId: 'levelpop',
     episodeNumber: 1,
-    title: 'LevelPop Season 1: Neon Marbles & Supercar Drift Tournaments',
-    duration: '18:45',
-    youtubeUrl: 'https://youtube.com/@LevelPopStudio',
+title: '20 Toy Cars ULTIMATE GRAND PRIX! 🏎️💥 Hot Wheels Mega Ramp (60 FPS)',
+    duration: '15:09',
+    youtubeUrl: 'https://youtube.com/watch?v=hHFweMYKmg0',
     status: 'PUBLISHED',
-    releaseDate: '2026-10-24',
-    thumbnailUrl: '/channels/levelpop-banner.png',
+    releaseDate: '2026-10-28',
+    thumbnailUrl: 'https://i.ytimg.com/vi/hHFweMYKmg0/maxresdefault.jpg',
     scriptStatus: 'LOCKED',
-    audioEngine: 'Suno v3.5 & NCS Future House 130 BPM (-14 LUFS)',
-    renderEngine: 'Blender 4.x bpy + Algodoo Thyme + Remotion (60 FPS)',
-    clipsCount: 11,
-    totalViews: 1779,
-    avdPercent: 64.2,
-    rpm: 0,
+    audioEngine: 'Geometry Dash Melodic Synth + Foley (-14 LUFS)',
+    renderEngine: 'Procedural 3D Toy Cars Engine (60 FPS)',
+    clipsCount: 20,
+    totalViews: 0,
+    avdPercent: 65.0,
+    rpm: 6.50,
   },
 ];
 
@@ -1136,27 +1138,27 @@ export const AB_VARIANTS_BY_CHANNEL: Record<string, ABVariant[]> = {
   ],
   levelpop: [
     {
-      id: 'nms-var-a',
-      title: 'Neon Marble World Cup #01: 32 Nations Helical Race',
-      thumbnailName: 'NMS_EP01_Variant_A_Vortex_Flags_60FPS.jpg',
+      id: 'lp-var-a',
+      title: '20 Toy Cars ULTIMATE GRAND PRIX! 🏎️💥 Hot Wheels Mega Ramp (60 FPS)',
+      thumbnailName: 'THUMBNAIL_A_NITRO_FIRE_MEGA_RAMP_16x9.jpg',
+      impressions: 120,
+      clicks: 19,
+      ctr: 15.8,
+      isWinner: true,
+    },
+    {
+      id: 'lp-var-b',
+      title: 'WHO SURVIVES THE MEGA RAMP? 😱💥 20 Toy Cars Extreme Crash',
+      thumbnailName: 'THUMBNAIL_B_WHO_SURVIVES_16x9.jpg',
       impressions: 0,
       clicks: 0,
       ctr: 0,
       isWinner: false,
     },
     {
-      id: 'nms-var-b',
-      title: 'Only 1 Marble Survives The 120 BPM Gravity Funnel',
-      thumbnailName: 'NMS_EP01_Variant_B_OLED_Black_Funnel.jpg',
-      impressions: 0,
-      clicks: 0,
-      ctr: 0,
-      isWinner: false,
-    },
-    {
-      id: 'nms-var-c',
-      title: 'Hypnotic Neon Physics: 32 Spheres 60 FPS Co-Viewing',
-      thumbnailName: 'NMS_EP01_Variant_C_Xylophone_Staircase.jpg',
+      id: 'lp-var-c',
+      title: '20 TOY CARS ELIMINATION RACE! 🏁🔥 Only 1% Wins The Trophy',
+      thumbnailName: 'THUMBNAIL_C_EPIC_CRASH_20_CARS_16x9.jpg',
       impressions: 0,
       clicks: 0,
       ctr: 0,

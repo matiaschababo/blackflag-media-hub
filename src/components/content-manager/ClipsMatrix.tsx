@@ -25,7 +25,6 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
     allClips,
     selectedChannelId,
     updateClipStatus,
-    triggerRippleShift,
     setContentTab,
   } = useHolding();
 
@@ -43,20 +42,20 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
     switch (status) {
       case 'PUBLISHED':
         return (
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
+          <span className="px-2 py-0.5 rounded-md text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
             Publicado
           </span>
         );
       case 'SCHEDULED':
         return (
-          <span className="px-1.5 py-0.5 rounded text-[10px] font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20">
+          <span className="px-2 py-0.5 rounded-md text-xs font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20">
             Programado
           </span>
         );
       case 'PENDING':
       default:
         return (
-          <span className="px-1.5 py-0.5 rounded text-[10px] text-[#848d97] bg-[#16181e] border border-[#21242c]">
+          <span className="px-2 py-0.5 rounded-md text-xs text-[#848d97] bg-[#16181e] border border-[#21242c]">
             En stock
           </span>
         );
@@ -100,45 +99,45 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
   });
 
   return (
-    <div className="space-y-4" data-testid="clips-matrix">
+    <div className="space-y-5" data-testid="clips-matrix">
       {/* Top Header Card */}
-      <div className="rounded-xl border border-[#1e2129] bg-[#13151a] p-4">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <div className="flex items-center space-x-3">
+      <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/50 p-6 backdrop-blur-sm">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex items-center space-x-3.5">
             <img
               src={currentChannel.avatarUrl || '/channels/blackflag-logo.png'}
               alt={currentChannel.name}
-              className="h-10 w-10 rounded-lg object-cover border border-[#2a2e39] shrink-0"
+              className="h-12 w-12 rounded-xl object-cover border border-[#2a2e39] shrink-0"
             />
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight">
-                Matriz de Sindicación
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                Matriz de Sindicación Multicanal
               </h2>
-              <div className="text-xs text-[#848d97] font-mono mt-0.5">
-                {currentChannel.name} • {displayedClips.length} piezas
+              <div className="text-xs sm:text-sm text-[#848d97] font-mono mt-0.5">
+                {currentChannel.name} • {displayedClips.length} piezas catalogadas
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 shrink-0">
+          <div className="flex items-center space-x-2.5 shrink-0">
             <button
               onClick={() => setContentTab('parrilla')}
-              className="app-button app-button-secondary text-xs"
+              className="flex items-center space-x-2 px-3.5 py-2 rounded-xl border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 text-xs sm:text-sm font-semibold text-white transition cursor-pointer"
             >
-              <Calendar className="h-3.5 w-3.5 mr-1.5" />
+              <Calendar className="h-4 w-4 text-emerald-400" />
               <span>Parrilla 24/7</span>
             </button>
           </div>
         </div>
 
-        {/* Segmented Filter Strip (Zero secondary labels) */}
-        <div className="mt-4 pt-3 border-t border-[#1e2129] flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center rounded-lg bg-[#0c0d10] p-0.5 border border-[#1e2129] text-xs">
+        {/* Segmented Filter Strip */}
+        <div className="mt-5 pt-4 border-t border-zinc-800 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center rounded-xl bg-zinc-950 p-1 border border-zinc-800 text-xs sm:text-sm">
             <button
               onClick={() => setChannelFilter('all')}
-              className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-medium transition cursor-pointer ${
                 channelFilter === 'all'
-                  ? 'bg-[#1e2129] text-white font-semibold'
+                  ? 'bg-zinc-800 text-white font-bold'
                   : 'text-[#848d97] hover:text-white'
               }`}
             >
@@ -146,9 +145,9 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
             </button>
             <button
               onClick={() => setChannelFilter('levelpop')}
-              className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-medium transition cursor-pointer ${
                 channelFilter === 'levelpop'
-                  ? 'bg-[#1e2129] text-cyan-400 font-semibold'
+                  ? 'bg-zinc-800 text-cyan-400 font-bold'
                   : 'text-[#848d97] hover:text-white'
               }`}
             >
@@ -156,9 +155,9 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
             </button>
             <button
               onClick={() => setChannelFilter('blackflag')}
-              className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-medium transition cursor-pointer ${
                 channelFilter === 'blackflag'
-                  ? 'bg-[#1e2129] text-amber-400 font-semibold'
+                  ? 'bg-zinc-800 text-amber-400 font-bold'
                   : 'text-[#848d97] hover:text-white'
               }`}
             >
@@ -166,9 +165,9 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
             </button>
             <button
               onClick={() => setChannelFilter('podmon')}
-              className={`px-2.5 py-1 rounded-md font-medium transition cursor-pointer ${
+              className={`px-3 py-1 rounded-lg font-medium transition cursor-pointer ${
                 channelFilter === 'podmon'
-                  ? 'bg-[#1e2129] text-yellow-400 font-semibold'
+                  ? 'bg-zinc-800 text-yellow-400 font-bold'
                   : 'text-[#848d97] hover:text-white'
               }`}
             >
@@ -176,35 +175,43 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
             </button>
           </div>
 
-          <div className="flex items-center rounded-lg bg-[#0c0d10] p-0.5 border border-[#1e2129] text-xs">
+          <div className="flex items-center rounded-xl bg-zinc-950 p-1 border border-zinc-800 text-xs sm:text-sm">
             <button
               onClick={() => setStatusFilter('all')}
-              className={`px-2 py-0.5 rounded transition cursor-pointer ${
-                statusFilter === 'all' ? 'bg-[#1e2129] text-white font-semibold' : 'text-[#848d97] hover:text-white'
+              className={`px-3 py-1 rounded-lg transition cursor-pointer font-medium ${
+                statusFilter === 'all'
+                  ? 'bg-zinc-800 text-white font-bold'
+                  : 'text-[#848d97] hover:text-white'
               }`}
             >
               Todos
             </button>
             <button
               onClick={() => setStatusFilter('published')}
-              className={`px-2 py-0.5 rounded transition cursor-pointer ${
-                statusFilter === 'published' ? 'bg-[#1e2129] text-emerald-400 font-semibold' : 'text-[#848d97] hover:text-white'
+              className={`px-3 py-1 rounded-lg transition cursor-pointer font-medium ${
+                statusFilter === 'published'
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold'
+                  : 'text-[#848d97] hover:text-white'
               }`}
             >
               Publicados
             </button>
             <button
               onClick={() => setStatusFilter('scheduled')}
-              className={`px-2 py-0.5 rounded transition cursor-pointer ${
-                statusFilter === 'scheduled' ? 'bg-[#1e2129] text-amber-400 font-semibold' : 'text-[#848d97] hover:text-white'
+              className={`px-3 py-1 rounded-lg transition cursor-pointer font-medium ${
+                statusFilter === 'scheduled'
+                  ? 'bg-amber-950 text-amber-300 border border-amber-800 font-bold'
+                  : 'text-[#848d97] hover:text-white'
               }`}
             >
               Programados
             </button>
             <button
               onClick={() => setStatusFilter('pending')}
-              className={`px-2 py-0.5 rounded transition cursor-pointer ${
-                statusFilter === 'pending' ? 'bg-[#1e2129] text-white font-semibold' : 'text-[#848d97] hover:text-white'
+              className={`px-3 py-1 rounded-lg transition cursor-pointer font-medium ${
+                statusFilter === 'pending'
+                  ? 'bg-zinc-800 text-white font-bold'
+                  : 'text-[#848d97] hover:text-white'
               }`}
             >
               En stock
@@ -214,7 +221,7 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
       </div>
 
       {/* Clips Cards List with Real Visual Thumbnails */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {displayedClips.map((clip) => {
           const ytUrl = clip.platforms?.YOUTUBE_SHORT?.url;
           const isScheduledTt = clip.platforms?.TIKTOK?.status === 'SCHEDULED';
@@ -225,15 +232,15 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
               key={clip.id}
               data-clip-id={clip.id}
               data-channel-id={clip.channelId}
-              className={`rounded-xl border bg-[#13151a] p-4 transition ${
+              className={`rounded-2xl border bg-zinc-900/60 p-5 transition ${
                 clip.isUrgent
-                  ? 'border-amber-500/40 bg-[#16171d]'
-                  : 'border-[#1e2129] hover:border-[#2c313d]'
+                  ? 'border-amber-500/50 bg-amber-950/10'
+                  : 'border-zinc-800/80 hover:border-zinc-700'
               }`}
             >
-              <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row items-start justify-between gap-5">
                 {/* Visual Thumbnail (9:16 Vertical Preview) */}
-                <div className="relative w-20 sm:w-24 h-36 sm:h-40 rounded-lg overflow-hidden border border-[#262a34] bg-black shrink-0 group">
+                <div className="relative w-24 sm:w-28 h-40 sm:h-44 rounded-xl overflow-hidden border border-[#262a34] bg-black shrink-0 group">
                   <img
                     src={thumbSrc}
                     alt={clip.title}
@@ -247,164 +254,157 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
                       rel="noopener noreferrer"
                       className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/20 transition group-hover:bg-black/10"
                     >
-                      <div className="h-8 w-8 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                      <div className="h-9 w-9 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
                         <Play className="h-4 w-4 fill-current ml-0.5" />
                       </div>
                     </a>
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <span className="text-[10px] font-mono text-[#848d97] uppercase px-1.5 py-0.5 rounded bg-black/60">
+                      <span className="text-xs font-mono text-[#848d97] uppercase px-2 py-0.5 rounded bg-black/60">
                         {clip.id}
                       </span>
                     </div>
                   )}
 
-                  <div className="absolute bottom-1 right-1 bg-black/80 text-white font-mono text-[9px] px-1 py-0.2 rounded border border-white/10">
+                  <div className="absolute bottom-1.5 right-1.5 bg-black/80 text-white font-mono text-xs px-1.5 py-0.5 rounded border border-white/10 font-bold">
                     {clip.durationSec}s
                   </div>
                 </div>
 
                 {/* Center: Info, Hook, Actions */}
-                <div className="space-y-2 flex-1 max-w-2xl min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="flex h-5 w-5 items-center justify-center rounded bg-[#1e2129] text-[11px] font-bold text-white tabular-nums">
+                <div className="space-y-2.5 flex-1 max-w-3xl min-w-0">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-zinc-800 text-xs font-bold text-white tabular-nums">
                       {clip.clipNumber}
                     </span>
 
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded font-semibold uppercase ${
-                      clip.channelId === 'levelpop'
-                        ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20'
-                        : clip.channelId === 'blackflag'
-                        ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20'
-                        : 'text-yellow-400 bg-yellow-500/10 border border-yellow-500/20'
-                    }`}>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-md font-bold uppercase ${
+                        clip.channelId === 'levelpop'
+                          ? 'text-cyan-400 bg-cyan-500/10 border border-cyan-500/20'
+                          : clip.channelId === 'blackflag'
+                          ? 'text-amber-400 bg-amber-500/10 border border-amber-500/20'
+                          : 'text-yellow-400 bg-yellow-500/10 border border-yellow-500/20'
+                      }`}
+                    >
                       {clip.channelId}
                     </span>
 
-                    <h3 className="text-sm font-bold text-white truncate max-w-md">
+                    <h3 className="text-sm sm:text-base font-bold text-white truncate max-w-md">
                       {clip.title}
                     </h3>
 
-                    <span className="text-[11px] text-[#848d97] font-mono">
+                    <span className="text-xs text-[#848d97] font-mono">
                       {clip.timestamps.start} - {clip.timestamps.end}
                     </span>
 
                     {(clip.views ?? 0) > 0 && (
-                      <span className="text-[10px] text-emerald-400 font-mono font-medium">
+                      <span className="text-xs text-emerald-400 font-mono font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
                         {(clip.views ?? 0).toLocaleString()} vistas
                       </span>
                     )}
 
                     {clip.isUrgent && (
-                      <span className="text-[10px] text-amber-400 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/20 font-medium">
+                      <span className="text-xs text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-bold">
                         Prioritario
                       </span>
                     )}
                   </div>
 
-                  {/* Clean Quoted Hook (No 'Gancho' label) */}
+                  {/* Clean Quoted Hook */}
                   {clip.hook && (
-                    <blockquote className="rounded-lg bg-[#0c0d10] p-2.5 border border-[#1e2129] text-xs text-[#f0f2f5] italic font-sans line-clamp-2">
+                    <blockquote className="rounded-xl bg-[#0c0d10] p-3 border border-zinc-800 text-xs sm:text-sm text-[#f0f2f5] italic font-sans line-clamp-2 leading-relaxed">
                       &ldquo;{clip.hook}&rdquo;
                     </blockquote>
                   )}
 
                   {/* Actions Toolbar */}
-                  <div className="flex flex-wrap items-center gap-2 text-xs pt-0.5">
+                  <div className="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm pt-1">
                     {ytUrl && (
                       <a
                         href={ytUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-2 py-0.5 rounded border border-red-500/40 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition cursor-pointer flex items-center space-x-1"
+                        className="px-2.5 py-1 rounded-lg border border-red-500/40 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition cursor-pointer flex items-center space-x-1.5 font-bold"
                       >
-                        <PlatformIcon platform="YOUTUBE" size={12} />
+                        <PlatformIcon platform="YOUTUBE" size={14} />
                         <span>Shorts</span>
                         <ExternalLink className="h-3 w-3 ml-0.5" />
                       </a>
                     )}
 
                     {isScheduledTt && (
-                      <span className="px-2 py-0.5 rounded border border-pink-500/30 bg-pink-500/10 text-pink-400 flex items-center space-x-1 text-[11px]">
-                        <PlatformIcon platform="TIKTOK" size={12} />
+                      <span className="px-2.5 py-1 rounded-lg border border-pink-500/30 bg-pink-500/10 text-pink-400 flex items-center space-x-1.5 text-xs font-semibold">
+                        <PlatformIcon platform="TIKTOK" size={14} />
                         <span>Buffer</span>
                       </span>
                     )}
 
                     <button
                       onClick={() => handleCopy(clip.title, `t-${clip.id}`)}
-                      className="px-2 py-0.5 rounded border border-[#21242c] bg-[#16181e] text-[#848d97] hover:text-white transition cursor-pointer flex items-center space-x-1"
+                      className="px-2.5 py-1 rounded-lg border border-[#21242c] bg-[#16181e] text-[#848d97] hover:text-white transition cursor-pointer flex items-center space-x-1.5"
                     >
                       {copiedId === `t-${clip.id}` ? (
                         <>
-                          <Check className="h-3 w-3 text-emerald-400" />
-                          <span className="text-emerald-400">Copiado</span>
+                          <Check className="h-3.5 w-3.5 text-emerald-400" />
+                          <span className="text-emerald-400 font-semibold">Copiado</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="h-3 w-3" />
-                          <span>Título</span>
+                          <Copy className="h-3.5 w-3.5" />
+                          <span>Copiar título</span>
                         </>
                       )}
                     </button>
 
                     <button
-                      onClick={() => handleCopy(clip.captions?.youtube || clip.captions?.instagram || clip.title, `c-${clip.id}`)}
-                      className="px-2 py-0.5 rounded border border-[#21242c] bg-[#16181e] text-[#848d97] hover:text-white transition cursor-pointer flex items-center space-x-1"
+                      onClick={() =>
+                        handleCopy(
+                          `${clip.title}\n\n${clip.hook}\n\n${clip.timestamps.start} - ${clip.timestamps.end}`,
+                          `f-${clip.id}`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-lg border border-[#21242c] bg-[#16181e] text-[#848d97] hover:text-white transition cursor-pointer flex items-center space-x-1.5"
                     >
-                      {copiedId === `c-${clip.id}` ? (
+                      {copiedId === `f-${clip.id}` ? (
                         <>
-                          <Check className="h-3 w-3 text-emerald-400" />
-                          <span className="text-emerald-400">Copiado</span>
+                          <Check className="h-3.5 w-3.5 text-emerald-400" />
+                          <span className="text-emerald-400 font-semibold">Ficha Copiada</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="h-3 w-3" />
-                          <span>Copy</span>
+                          <Smartphone className="h-3.5 w-3.5" />
+                          <span>Ficha Móvil</span>
                         </>
                       )}
                     </button>
 
                     <button
                       onClick={() => onOpenClipDetail(clip)}
-                      className="px-2 py-0.5 rounded border border-[#21242c] bg-[#16181e] text-[#848d97] hover:text-white transition cursor-pointer flex items-center space-x-1"
+                      className="px-3 py-1 rounded-lg border border-[#262a34] bg-[#181b21] hover:bg-[#20242c] text-sky-400 hover:text-sky-300 transition cursor-pointer font-semibold ml-auto"
                     >
-                      <Smartphone className="h-3 w-3" />
-                      <span>Simulador</span>
+                      Ver Detalle
                     </button>
                   </div>
                 </div>
 
-                {/* Right: Self-Explanatory Distribution Grid */}
-                <div className="flex flex-col space-y-1.5 sm:items-end w-full sm:w-auto shrink-0">
-                  <div className="grid grid-cols-5 gap-1.5 w-full sm:w-auto">
-                    {platformsList.map((p) => {
-                      const record = clip.platforms[p.key] || { status: 'PENDING' };
-                      return (
-                        <div
-                          key={p.key}
-                          onClick={() => cycleStatus(clip.id, p.key, record.status)}
-                          className="flex flex-col items-center justify-between p-2 rounded-lg bg-[#0c0d10] border border-[#1e2129] hover:border-[#2c313d] transition cursor-pointer min-w-[64px] text-center"
-                        >
-                          <div className="flex items-center space-x-1 mb-1">
-                            <PlatformIcon platform={p.iconKey} size={13} />
-                            <span className="text-[10px] text-white font-medium">{p.label}</span>
-                          </div>
-                          {getStatusBadge(record.status)}
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="pt-1 flex items-center justify-end w-full">
-                    <button
-                      onClick={() => triggerRippleShift(clip.id)}
-                      className="flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-semibold text-amber-400 border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 transition cursor-pointer"
-                    >
-                      <Zap className="h-2.5 w-2.5 fill-current" />
-                      <span>Despachar turno</span>
-                    </button>
-                  </div>
+                {/* Right: Platforms Matrix Status Pills */}
+                <div className="flex sm:flex-col items-center gap-1.5 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#1e2129] w-full sm:w-auto justify-end">
+                  {platformsList.map((p) => {
+                    const st = clip.platforms[p.key]?.status || 'PENDING';
+                    return (
+                      <button
+                        key={p.key}
+                        onClick={() => cycleStatus(clip.id, p.key, st)}
+                        title={`Cambiar estado ${p.label} (Clic para ciclar)`}
+                        className="flex items-center space-x-2 px-2.5 py-1 rounded-lg border border-[#1e2129] bg-[#0c0d10] hover:border-[#2a2f3a] transition cursor-pointer"
+                      >
+                        <PlatformIcon platform={p.iconKey} size={14} />
+                        <span className="text-xs text-[#848d97] hidden lg:inline">{p.label}</span>
+                        {getStatusBadge(st)}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>

@@ -1,0 +1,479 @@
+{
+  "generated_at_utc": "2026-10-27T13:57:29Z",
+  "engine_version": "3.0-gemini-cmo-swarm",
+  "routine_1_channel_audit": {
+    "checked_at_utc": "2026-10-27T12:58:00Z",
+    "channel_id": "UCVGUx_o5h_LUqdlZw1u9OUA",
+    "total_views": 3000,
+    "subscribers": 4,
+    "empirical_median_views": 44.0,
+    "winners_count": 3,
+    "flops_count": 5,
+    "scheduled_count": 4,
+    "winners": [
+      {
+        "video_id": "i-MyMEtZIwg",
+        "title": "WHICH MARBLE SURVIVES THE LAVA? 🔥 Lava Run",
+        "views": 1130,
+        "likes": 9,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-25T20:00:34Z",
+        "url": "https://youtube.com/shorts/i-MyMEtZIwg",
+        "ratio_vs_channel_median": 25.68,
+        "issues": [],
+        "classification": "🟢 WINNER (Tier S/A)"
+      },
+      {
+        "video_id": "KucVnUkQgPY",
+        "title": "PAUSE & PICK: Only 1% Guess The Winning Cyber-Marble! 🟢⚡",
+        "views": 971,
+        "likes": 7,
+        "comments": 1,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-26T22:14:51Z",
+        "url": "https://youtube.com/shorts/KucVnUkQgPY",
+        "ratio_vs_channel_median": 22.07,
+        "issues": [],
+        "classification": "🟢 WINNER (Tier S/A)"
+      },
+      {
+        "video_id": "-TIuBtPr-ng",
+        "title": "CHOOSE YOUR NUMBER 1 TO 20! 🚀 World Cup",
+        "views": 803,
+        "likes": 12,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-26T20:00:10Z",
+        "url": "https://youtube.com/shorts/-TIuBtPr-ng",
+        "ratio_vs_channel_median": 18.25,
+        "issues": [],
+        "classification": "🟢 WINNER (Tier S/A)"
+      }
+    ],
+    "flops": [
+      {
+        "video_id": "dCgDp1A919Y",
+        "title": "CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Bridge Assault #Shorts",
+        "views": 2,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-27T00:50:01Z",
+        "url": "https://youtube.com/shorts/dCgDp1A919Y",
+        "ratio_vs_channel_median": 0.05,
+        "issues": [
+          "CRITICAL_SOP_VIOLATION: '#Shorts' incrustado en el título (contamina CTR y estética).",
+          "UNDERPERFORMING_FLOP: Solo 2 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "Lv1TMRE0mu8",
+        "title": "PICK YOUR SUPERCAR BEFORE LIGHTS OUT! 🏎️💨",
+        "views": 2,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-24T14:00:29Z",
+        "url": "https://youtube.com/shorts/Lv1TMRE0mu8",
+        "ratio_vs_channel_median": 0.05,
+        "issues": [
+          "UNDERPERFORMING_FLOP: Solo 2 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "ILZQKudQ3J4",
+        "title": "PICK YOUR NEON MARBLE! ⚡ Cyberpunk Neon Run",
+        "views": 4,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-24T20:00:36Z",
+        "url": "https://youtube.com/shorts/ILZQKudQ3J4",
+        "ratio_vs_channel_median": 0.09,
+        "issues": [
+          "UNDERPERFORMING_FLOP: Solo 4 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "AHCXTcAL__o",
+        "title": "OFF-ROAD RALLY: CHOOSE YOUR BUGGY! 🏁🏜️",
+        "views": 41,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-25T14:00:26Z",
+        "url": "https://youtube.com/shorts/AHCXTcAL__o",
+        "ratio_vs_channel_median": 0.93,
+        "issues": [
+          "UNDERPERFORMING_FLOP: Solo 41 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "4uUPgMOHpW0",
+        "title": "MICRO CAR SLALOM: PICK YOUR HATCH! 🍭🚗 #Shorts",
+        "views": 47,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-26T14:00:26Z",
+        "url": "https://youtube.com/shorts/4uUPgMOHpW0",
+        "ratio_vs_channel_median": 1.07,
+        "issues": [
+          "CRITICAL_SOP_VIOLATION: '#Shorts' incrustado en el título (contamina CTR y estética).",
+          "UNDERPERFORMING_FLOP: Solo 47 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      }
+    ],
+    "scheduled": [
+      {
+        "video_id": "AjY92mH40FA",
+        "title": "DON'T LET YOUR MARBLE FALL! ☣️ Reactor Run",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "private",
+        "publishAt": "2026-10-28T20:00:00Z",
+        "url": "https://youtube.com/shorts/AjY92mH40FA",
+        "ratio_vs_channel_median": 0.0,
+        "issues": []
+      },
+      {
+        "video_id": "_aOrDMRJ6nc",
+        "title": "3... 2... 1... PICK THE WINNING CAR! ⚡🏆",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "private",
+        "publishAt": "2026-10-28T14:00:00Z",
+        "url": "https://youtube.com/shorts/_aOrDMRJ6nc",
+        "ratio_vs_channel_median": 0.0,
+        "issues": [
+          "CRITICAL_SOP_VIOLATION: Cuenta regresiva '3... 2... 1...' en título (destruye VVSA 0-3s)."
+        ]
+      },
+      {
+        "video_id": "A8hBVxWB994",
+        "title": "PICK YOUR CANDY COLOR! 🍬 Relaxing Candy Run",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "private",
+        "publishAt": "2026-10-27T20:00:00Z",
+        "url": "https://youtube.com/shorts/A8hBVxWB994",
+        "ratio_vs_channel_median": 0.0,
+        "issues": []
+      },
+      {
+        "video_id": "fVM1RObTpPQ",
+        "title": "4X4 TRUCK BATTLE: WHO WINS THE CUP? 🛻💥",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "private",
+        "publishAt": "2026-10-27T14:00:00Z",
+        "url": "https://youtube.com/shorts/fVM1RObTpPQ",
+        "ratio_vs_channel_median": 0.0,
+        "issues": []
+      }
+    ],
+    "target_rescue_videos": [
+      {
+        "video_id": "dCgDp1A919Y",
+        "title": "CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Bridge Assault #Shorts",
+        "views": 2,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-27T00:50:01Z",
+        "url": "https://youtube.com/shorts/dCgDp1A919Y",
+        "ratio_vs_channel_median": 0.05,
+        "issues": [
+          "CRITICAL_SOP_VIOLATION: '#Shorts' incrustado en el título (contamina CTR y estética).",
+          "UNDERPERFORMING_FLOP: Solo 2 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "4uUPgMOHpW0",
+        "title": "MICRO CAR SLALOM: PICK YOUR HATCH! 🍭🚗 #Shorts",
+        "views": 47,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-26T14:00:26Z",
+        "url": "https://youtube.com/shorts/4uUPgMOHpW0",
+        "ratio_vs_channel_median": 1.07,
+        "issues": [
+          "CRITICAL_SOP_VIOLATION: '#Shorts' incrustado en el título (contamina CTR y estética).",
+          "UNDERPERFORMING_FLOP: Solo 47 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "AHCXTcAL__o",
+        "title": "OFF-ROAD RALLY: CHOOSE YOUR BUGGY! 🏁🏜️",
+        "views": 41,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-25T14:00:26Z",
+        "url": "https://youtube.com/shorts/AHCXTcAL__o",
+        "ratio_vs_channel_median": 0.93,
+        "issues": [
+          "UNDERPERFORMING_FLOP: Solo 41 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "ILZQKudQ3J4",
+        "title": "PICK YOUR NEON MARBLE! ⚡ Cyberpunk Neon Run",
+        "views": 4,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-24T20:00:36Z",
+        "url": "https://youtube.com/shorts/ILZQKudQ3J4",
+        "ratio_vs_channel_median": 0.09,
+        "issues": [
+          "UNDERPERFORMING_FLOP: Solo 4 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "Lv1TMRE0mu8",
+        "title": "PICK YOUR SUPERCAR BEFORE LIGHTS OUT! 🏎️💨",
+        "views": 2,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "public",
+        "publishAt": "2026-10-24T14:00:29Z",
+        "url": "https://youtube.com/shorts/Lv1TMRE0mu8",
+        "ratio_vs_channel_median": 0.05,
+        "issues": [
+          "UNDERPERFORMING_FLOP: Solo 2 vistas (frente a 1130 del Top Winner)."
+        ],
+        "classification": "🔴 FLOP (Requiere Rescate)"
+      },
+      {
+        "video_id": "_aOrDMRJ6nc",
+        "title": "3... 2... 1... PICK THE WINNING CAR! ⚡🏆",
+        "views": 0,
+        "likes": 0,
+        "comments": 0,
+        "privacyStatus": "private",
+        "publishAt": "2026-10-28T14:00:00Z",
+        "url": "https://youtube.com/shorts/_aOrDMRJ6nc",
+        "ratio_vs_channel_median": 0.0,
+        "issues": [
+          "CRITICAL_SOP_VIOLATION: Cuenta regresiva '3... 2... 1...' en título (destruye VVSA 0-3s)."
+        ]
+      }
+    ]
+  },
+  "routine_2_flop_rescue": {
+    "analyst_diagnosis": {
+      "winner_pattern_diagnosis": "El éxito de los 3 ganadores (803 a 1130 vistas) radica en la aplicación estricta de ganchos interactivos de alta fricción cognitiva y visual sin texto muerto. 'WHICH MARBLE SURVIVES THE LAVA? 🔥 Lava Run' activa la supervivencia extrema y la narrativa visual inmediata. 'PAUSE & PICK: Only 1% Guess The Winning Cyber-Marble! 🟢⚡' explota la urgencia de pausa obligatoria y la validación de estatus (retando al ego del espectador con un 1% exclusivo). 'CHOOSE YOUR NUMBER 1 TO 20! 🚀 World Cup' utiliza un rango de selección amplio que aumenta la retención al obligar al ojo a buscar un número específico en la retícula 9:16. Ninguno de estos títulos contiene metainformación basura como '#Shorts' ni cuentas regresivas lentas '3... 2... 1...', lo que maximiza el porcentaje de espectadores que se quedan (VVSA) en los primeros 3 segundos.",
+      "flop_root_causes": [
+        "Contaminación severa de metadata y SEO amateur con la inclusión explícita del hashtag '#Shorts' en los títulos (ej. dCgDp1A919Y y 4uUPgMOHpW0), penalizando la estética profesional y el CTR orgánico según las directrices del enjambre.",
+        "Uso de patrones prohibidos como la cuenta regresiva explícita '3... 2... 1...' en el título (_aOrDMRJ6nc), matando el factor sorpresa y generando fatiga anticipada en el espectador antes del primer segundo.",
+        "Falta de fricción interactiva y desafíos de ego en los títulos de bajo rendimiento (ej. Lv1TMRE0mu8 y AHCXTcAL__o), limitándose a describir pasivamente el contenido en lugar de forzar una decisión de usuario obligatoria."
+      ],
+      "psychological_triggers_to_inject": [
+        "Reto al ego y exclusividad numérica ('Only 1%', 'Choose 1 to 20')",
+        "Urgencia de supervivencia y peligro visual inminente ('Survives The Lava', 'Bridge Assault')",
+        "Llamado a la acción de fricción instantánea ('Pause & Pick', 'Pick Before Lights Out')"
+      ]
+    },
+    "rescued_videos": [
+      {
+        "video_id": "dCgDp1A919Y",
+        "old_title": "CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Bridge Assault #Shorts",
+        "recommended_live_title": "ONLY 1% GUESS THE SURVIVOR! 🚗 Bridge Assault",
+        "title_variant_a_scarcity": "PAUSE & PICK: Only 1% Guess The Survivor!",
+        "title_variant_b_question": "WHICH CAR SURVIVES THE BRIDGE ASSAULT?",
+        "title_variant_c_bet": "LOCK YOUR COLOR BEFORE THE BRIDGE COLLAPSE!",
+        "clean_description": "Choose your vehicle before the bridge collapses and test your predictive instincts instantly.\n\n#ToyCars #Racing #OddlySatisfying",
+        "pinned_comment_bet": "Drop your exact car number right now before the bridge drops!"
+      },
+      {
+        "video_id": "4uUPgMOHpW0",
+        "old_title": "MICRO CAR SLALOM: PICK YOUR HATCH! 🍭🚗 #Shorts",
+        "recommended_live_title": "99% FAIL THIS SLALOM PICK! 🍭",
+        "title_variant_a_scarcity": "99% Fail To Pick The Winning Hatch!",
+        "title_variant_b_question": "WHICH HATCH SURVIVES THE SLALOM?",
+        "title_variant_c_bet": "LOCK YOUR COLOR BEFORE THE SLALOM DROP!",
+        "clean_description": "Pick your micro hatch and track it through the high-speed slalom course without blinking.\n\n#ToyCars #Racing #OddlySatisfying",
+        "pinned_comment_bet": "Which hatch made it through clean? Lock your pick below!"
+      },
+      {
+        "video_id": "AHCXTcAL__o",
+        "old_title": "OFF-ROAD RALLY: CHOOSE YOUR BUGGY! 🏁🏜️",
+        "recommended_live_title": "ONLY 1% PICK THE WINNING BUGGY! 🏁",
+        "title_variant_a_scarcity": "PAUSE & PICK: Only 1% Guess The Winner!",
+        "title_variant_b_question": "WHICH BUGGY SURVIVES THE RALLY?",
+        "title_variant_c_bet": "LOCK YOUR COLOR BEFORE THE DIRT DROP!",
+        "clean_description": "Select your off-road buggy and survive the brutal terrain obstacle course.\n\n#ToyCars #Racing #OddlySatisfying",
+        "pinned_comment_bet": "Pick your buggy color before the dust clears!"
+      },
+      {
+        "video_id": "ILZQKudQ3J4",
+        "old_title": "PICK YOUR NEON MARBLE! ⚡ Cyberpunk Neon Run",
+        "recommended_live_title": "ONLY 1% PICK THE NEON WINNER! ⚡",
+        "title_variant_a_scarcity": "PAUSE & PICK: Only 1% Guess The Neon Marble!",
+        "title_variant_b_question": "WHICH NEON MARBLE SURVIVES THE RUN?",
+        "title_variant_c_bet": "LOCK YOUR COLOR BEFORE THE NEON DROP!",
+        "clean_description": "Choose your cyberpunk neon marble and track its high-speed descent to the finish line.\n\n#MarbleRace #OddlySatisfying #ASMR",
+        "pinned_comment_bet": "Which neon marble took the crown? Drop your pick!"
+      },
+      {
+        "video_id": "Lv1TMRE0mu8",
+        "old_title": "PICK YOUR SUPERCAR BEFORE LIGHTS OUT! 🏎️💨",
+        "recommended_live_title": "99% FAIL TO PICK THE SUPERCAR! 🏎️",
+        "title_variant_a_scarcity": "99% Fail To Pick The Winning Supercar!",
+        "title_variant_b_question": "WHICH SUPERCAR WINS LIGHTS OUT?",
+        "title_variant_c_bet": "LOCK YOUR COLOR BEFORE LIGHTS OUT!",
+        "clean_description": "Pick your supercar before the starting lights go out and race to the finish.\n\n#ToyCars #Racing #OddlySatisfying",
+        "pinned_comment_bet": "Did your supercar cross first? Prove it in the comments!"
+      },
+      {
+        "video_id": "_aOrDMRJ6nc",
+        "old_title": "3... 2... 1... PICK THE WINNING CAR! ⚡🏆",
+        "recommended_live_title": "ONLY 1% PICK THE WINNING CAR! 🏆",
+        "title_variant_a_scarcity": "PAUSE & PICK: Only 1% Guess The Winner!",
+        "title_variant_b_question": "WHICH CAR SURVIVES THE FINAL SPRINT?",
+        "title_variant_c_bet": "LOCK YOUR COLOR BEFORE THE GATES OPEN!",
+        "clean_description": "Pick the winning car instantly and track its path through the ultimate racing gauntlet.\n\n#ToyCars #Racing #OddlySatisfying",
+        "pinned_comment_bet": "Lock your winning car color right now before the race starts!"
+      }
+    ],
+    "qa_audit": {
+      "score": 16,
+      "approved": true,
+      "violations": [],
+      "feedback_for_agent4": "Audit passed successfully. All recommended live titles are under 70 characters, free of '#Shorts' or countdown phrases ('3... 2... 1'), and clean descriptions contain exactly 3 hashtags without prohibited terms. Pre-flight QC certificate approved."
+    },
+    "loop_iterations": 1,
+    "loop_history": [
+      {
+        "iteration": 1,
+        "approved": true,
+        "score": 16,
+        "violations": []
+      }
+    ],
+    "youtube_live_updates": [
+      {
+        "video_id": "dCgDp1A919Y",
+        "old_title": "CAN 100 BLUE RUNNERS CROSS THE BRIDGE? 🚗💨 Bridge Assault #Shorts",
+        "new_title": "ONLY 1% GUESS THE SURVIVOR! 🚗 Bridge Assault",
+        "made_for_kids": false,
+        "status": "UPDATED_LIVE_ON_YOUTUBE"
+      },
+      {
+        "video_id": "4uUPgMOHpW0",
+        "old_title": "MICRO CAR SLALOM: PICK YOUR HATCH! 🍭🚗 #Shorts",
+        "new_title": "99% FAIL THIS SLALOM PICK! 🍭",
+        "made_for_kids": false,
+        "status": "UPDATED_LIVE_ON_YOUTUBE"
+      },
+      {
+        "video_id": "AHCXTcAL__o",
+        "old_title": "OFF-ROAD RALLY: CHOOSE YOUR BUGGY! 🏁🏜️",
+        "new_title": "ONLY 1% PICK THE WINNING BUGGY! 🏁",
+        "made_for_kids": false,
+        "status": "UPDATED_LIVE_ON_YOUTUBE"
+      },
+      {
+        "video_id": "ILZQKudQ3J4",
+        "old_title": "PICK YOUR NEON MARBLE! ⚡ Cyberpunk Neon Run",
+        "new_title": "ONLY 1% PICK THE NEON WINNER! ⚡",
+        "made_for_kids": false,
+        "status": "UPDATED_LIVE_ON_YOUTUBE"
+      },
+      {
+        "video_id": "Lv1TMRE0mu8",
+        "old_title": "PICK YOUR SUPERCAR BEFORE LIGHTS OUT! 🏎️💨",
+        "new_title": "99% FAIL TO PICK THE SUPERCAR! 🏎️",
+        "made_for_kids": false,
+        "status": "UPDATED_LIVE_ON_YOUTUBE"
+      },
+      {
+        "video_id": "_aOrDMRJ6nc",
+        "old_title": "3... 2... 1... PICK THE WINNING CAR! ⚡🏆",
+        "new_title": "ONLY 1% PICK THE WINNING CAR! 🏆",
+        "made_for_kids": false,
+        "status": "UPDATED_LIVE_ON_YOUTUBE"
+      }
+    ]
+  },
+  "routine_3_multichannel_syndication": {
+    "model_used": "gemini-3.5-flash-lite",
+    "channels_viral_pack": {
+      "blackflag_blueprint": {
+        "sniper_replies_today": [
+          {
+            "target_handle": "@levelsio",
+            "trigger_topic": "Nomad tax exemption and foreign source income logic",
+            "statutory_citation": "IRC § 861(a)(3)",
+            "reply_text": "Relying purely on nomadic lifestyle flags without structuring source-of-income rules under IRC § 861(a)(3) leaves your active services exposed to domestic withholding jurisdiction regardless of where you bank."
+          },
+          {
+            "target_handle": "@doolaHQ",
+            "trigger_topic": "LLC anonymity and asset protection limits",
+            "statutory_citation": "Wyo. Stat. § 17-29-503(g)",
+            "reply_text": "Standard formation papers don't automatically trigger charging order protection. Without strict adherence to single-member operating agreements under Wyo. Stat. § 17-29-503(g), corporate veil piercing remains a trivial risk for creditors."
+          },
+          {
+            "target_handle": "@codie_sanchez",
+            "trigger_topic": "Boring business cash flow holding structures",
+            "statutory_citation": "Rev. Rul. 77-137",
+            "reply_text": "Passing operational revenue through standard pass-through entities without addressing distributive share allocations under Rev. Rul. 77-137 invites immediate scrutiny on retained earnings distribution timing."
+          }
+        ],
+        "x_ascii_bookmark_post": {
+          "main_tweet_no_link": "How domestic asset seizure bypasses standard LLC veils:\n\n[Personal Assets] ---> [Standard LLC] ---> [Creditor Charging Order]\n                                                      |\n                                         (Pierce Veil via Alter-Ego)\n                                                      |\n                                                      v\n                                            [Total Liquidation]\n\nBookmark this schema before signing your next operating agreement.",
+          "auto_reply_with_link": "Detailed breakdown of statutory asset protection walls and foreign source shielding: https://www.youtube.com/watch?v=XjuwDvF6xac"
+        },
+        "vertical_syndication": {
+          "tiktok_search_pill_keyword": "Wyoming LLC asset protection strategy",
+          "tiktok_caption": "Why your single-member LLC offers zero asset protection without this exact statutory clause. #blackflagblueprint #assetprotection #businessstructure",
+          "ig_dm_share_caption": "Send this to your co-founder before signing the next operating agreement. If your charging order protection isn't locked down, your personal bank account is exposed.",
+          "fb_debate_caption": "Is corporate anonymity dead for digital holding companies? Drop your compliance workflow below and let's examine the statutory exposure."
+        }
+      },
+      "levelpop_studio": {
+        "buffer_tiktok_queue_pack": [
+          {
+            "source_video_id": "WHICH_MARBLE_SURVIVES_LAVA_RUN",
+            "recommended_slot_utc": "12:30 UTC (09:30 ART)",
+            "thumbnail_offset_ms": 1000,
+            "tiktok_caption": "Which marble survives the lava run? #levelpop #marblerun #simulation",
+            "ig_dm_challenge_caption": "Pause at 0:03 and guess the exact survival path before sending this to a friend who loves physics sims."
+          },
+          {
+            "source_video_id": "PAUSE_AND_PICK_WINNING_CYBER_MARBLE",
+            "recommended_slot_utc": "18:00 UTC (15:00 ART)",
+            "thumbnail_offset_ms": 1000,
+            "tiktok_caption": "Only 1% guess the winning cyber marble. #cybermarble #levelpop #viral",
+            "ig_dm_challenge_caption": "Tag someone who always loses in marble races and bet them on this run."
+          }
+        ]
+      },
+      "podmon_storytelling": {
+        "ep04_vertical_clip_bridge": {
+          "hook_0_3s_voiceover": "60 days until the cartel invoice hits zero. $3,303 in current cash flow against $18,000 in pending harvest. The ledger doesn't forgive.",
+          "related_video_cta_last_3s": "Tap the Related Video button below to audit the full continuity ledger and live balance sheet.",
+          "youtube_shorts_title": "Surviving the 60-Day Cartel Debt Deadline on $3,303 Cash Flow",
+          "tiktok_roleplay_caption": "When the cartel payment term is 60 days but your server bill is due tomorrow. Continuity ledger day 04. #podmon #bootstrapping #indiehacker",
+          "ig_relatable_gamer_caption": "Running a bootstrapped studio feels like dodging lava with zero health left. Check the full ledger audit in bio."
+        }
+      }
+    }
+  }
+}

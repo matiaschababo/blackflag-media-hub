@@ -25,6 +25,7 @@ import {
   Flame,
   ArrowUpRight,
   Layers,
+  BarChart3,
   CheckCircle2
 } from 'lucide-react';
 
@@ -53,7 +54,7 @@ export const CLevelExecutiveReportModal: React.FC<CLevelExecutiveReportModalProp
 
   const winner = forensicData.winner24h || {
     id: 'dCgDp1A919Y',
-    title: '58-Second Bridge Causeway Siege vs Boss! 🏎️💥 (Only 1% Win)',
+    title: '58-Second Bridge Causeway Siege vs Boss! 🏎️💥',
     views: 1358,
     viewsPerHour: 53.7,
     durationLabel: '37s',
@@ -63,7 +64,7 @@ export const CLevelExecutiveReportModal: React.FC<CLevelExecutiveReportModalProp
     thumbnailUrl: 'https://img.youtube.com/vi/dCgDp1A919Y/hqdefault.jpg',
     url: 'https://youtube.com/shorts/dCgDp1A919Y',
     whyItWon:
-      'Inicio con colisión/salto instantáneo en t=0.0s sin pausas ni intro, formato Ultra-Short de 37s que preservó 65% de retención final y activó reproducción en bucle en el Shorts Feed.',
+      'Colisión instantánea en t=0s sin pausas ni intro. Duración de 37s que preservó 65% de retención y detonó repetición en bucle en el feed.',
   };
 
   const lagging = forensicData.laggingAnalysis || {
@@ -71,9 +72,9 @@ export const CLevelExecutiveReportModal: React.FC<CLevelExecutiveReportModalProp
     avgViews: 171,
     vsWinnerDelta: '-39.4% vs promedio',
     whyItLags:
-      'Fatiga algorítmica de retención: a los 37s la curva se desploma del 65% al 38% en el feed móvil. El algoritmo frena la recomendación ante la caída de retención.',
+      'Fatiga algorítmica: a los 37s la curva cae del 65% al 38% en el feed móvil. El algoritmo desacelera la recomendación ante el abandono.',
     correctiveAction:
-      'Acortar duraciones a 35-45s con micro-beats cada 4s y derivar las secuencias largas exclusivamente a los videos horizontales 16:9 de 15 minutos.',
+      'Reducir duraciones a 35-45s y reservar duraciones largas exclusivamente para videos compilatorios 16:9.',
   };
 
   const dateFormatted = new Date().toLocaleDateString('es-AR', {
@@ -111,20 +112,20 @@ export const CLevelExecutiveReportModal: React.FC<CLevelExecutiveReportModalProp
 • Retención AVD: ${avgAvd}% (Benchmark >50%)
 • Inventario: ${videoCount} videos cargados (20 Shorts + 2 Videos Largos)
 
-🏆 **TOP 1 WINNER 24H (LO QUE MEJOR TRACCIONA):**
+🏆 **TOP 1 WINNER 24H:**
 • Video: "${winner.title}" (${winner.durationLabel})
 • Rendimiento: ${winner.views.toLocaleString()} vistas | Velocidad: ${winner.viewsPerHour} vistas/h
 • Factor de éxito: ${winner.whyItWon}
 
-⚠️ **CUELLO DE BOTELLA IDENTIFICADO:**
+⚠️ **CUELLO DE BOTELLA:**
 • Formato: ${lagging.worstFormat} (${lagging.avgViews} vistas prom.)
 • Diagnóstico: ${lagging.whyItLags}
 • Acción Correctiva: ${lagging.correctiveAction}
 
-🎯 **PLAN DE ACCIÓN OPERATIVO (HOY):**
+🎯 **PLAN DE ACCIÓN ESTRATÉGICO:**
 1. Publicación de 5 slots diarios programados (09:30, 13:30, 17:30, 21:30, 01:30 ART).
 2. Sifón de tráfico al nuevo Video Largo compilatorio de 15m (4GWJn0KCcLU) como video relacionado.
-3. Test A/B de miniaturas épicas activo en YouTube Studio.`;
+3. Test A/B de miniaturas épicas 3D activo en YouTube Studio.`;
     } else {
       textToCopy = `🌐 **INFORME GLOBAL HISTÓRICO Y MULTI-CANAL • LEVEL POP (@levelpopstudio)**
 📅 **Fecha:** ${dateFormatted} | **Período:** Acumulado Histórico
@@ -150,13 +151,13 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
   };
 
   // ==========================================
-  // ULTRA-PREMIUM ONE-PAGER PRINT / PDF EXPORT
-  // Calibrated for exact 1-page A4 executive presentation
+  // DESIGNER-GRADE EXECUTIVE ONE-PAGER PRINT / PDF
+  // Integrated Vector SVG Charts + Clean Typography
   // ==========================================
   const handlePrint = () => {
     const isDaily = reportMode === 'daily';
     const reportTitle = isDaily
-      ? `Level Pop - Informe Ejecutivo Diario (24H) - ${dateFormatted}`
+      ? `Level Pop - Auditoría Ejecutiva C-Level (24H) - ${dateFormatted}`
       : `Level Pop - Auditoría Global Histórica - ${dateFormatted}`;
 
     const printHtml = `
@@ -168,7 +169,7 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
           <style>
             @page {
               size: A4 portrait;
-              margin: 7mm 10mm;
+              margin: 7mm 9mm;
             }
             * {
               box-sizing: border-box;
@@ -181,26 +182,43 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
               background: #ffffff;
               margin: 0;
               padding: 0;
-              font-size: 10.5px;
+              font-size: 10px;
               line-height: 1.35;
             }
+            
+            /* HEADER */
             .header {
               border-bottom: 2px solid #0f172a;
               padding-bottom: 6px;
-              margin-bottom: 8px;
+              margin-bottom: 7px;
               display: flex;
               justify-content: space-between;
               align-items: flex-end;
             }
-            .header-left .brand-tag {
-              font-size: 8.5px;
-              font-weight: 800;
-              text-transform: uppercase;
-              letter-spacing: 0.1em;
-              color: #047857;
+            .brand-line {
+              display: flex;
+              align-items: center;
+              gap: 5px;
               margin-bottom: 2px;
             }
-            .header-left h1 {
+            .brand-badge {
+              background: #0f172a;
+              color: #ffffff;
+              font-size: 7.5px;
+              font-weight: 900;
+              padding: 1.5px 5px;
+              border-radius: 3px;
+              letter-spacing: 0.08em;
+              text-transform: uppercase;
+            }
+            .brand-sub {
+              font-size: 8px;
+              font-weight: 700;
+              color: #64748b;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            }
+            .header h1 {
               font-size: 17px;
               font-weight: 900;
               margin: 0;
@@ -210,573 +228,666 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
             }
             .header-right {
               text-align: right;
-              font-size: 9.5px;
+              font-size: 9px;
               color: #475569;
             }
-            .header-right .status-pill {
-              display: inline-block;
+            .telemetry-pill {
+              display: inline-flex;
+              align-items: center;
+              gap: 4px;
               background: #ecfdf5;
               border: 1px solid #10b981;
               color: #065f46;
               font-weight: 800;
               padding: 2px 6px;
               border-radius: 4px;
-              font-size: 8.5px;
+              font-size: 8px;
               margin-top: 2px;
               text-transform: uppercase;
             }
-            .banner {
+            .pulse-dot {
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              background: #10b981;
+            }
+
+            /* EXECUTIVE SUMMARY */
+            .exec-summary {
               background: #f8fafc;
               border: 1px solid #e2e8f0;
               border-left: 4px solid #059669;
               border-radius: 6px;
-              padding: 7px 10px;
-              margin-bottom: 8px;
+              padding: 6px 10px;
+              margin-bottom: 7px;
             }
-            .banner-pill {
-              display: inline-block;
-              background: #059669;
-              color: #ffffff;
+            .exec-summary-top {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 2px;
+            }
+            .exec-badge {
+              font-size: 7.5px;
+              font-weight: 900;
+              color: #047857;
+              text-transform: uppercase;
+              letter-spacing: 0.06em;
+            }
+            .exec-metric-pill {
+              background: #ecfdf5;
+              border: 1px solid #a7f3d0;
+              color: #065f46;
               font-size: 8px;
               font-weight: 800;
               padding: 1px 6px;
               border-radius: 3px;
-              text-transform: uppercase;
-              letter-spacing: 0.05em;
-              margin-bottom: 3px;
             }
-            .banner-headline {
-              font-size: 12.5px;
+            .exec-title {
+              font-size: 12px;
               font-weight: 900;
               color: #0f172a;
               margin-bottom: 2px;
             }
-            .banner-desc {
-              font-size: 9.5px;
+            .exec-bullets {
+              font-size: 9px;
               color: #334155;
               line-height: 1.35;
             }
+
+            /* 4 HEADLINE METRIC CARDS */
             .kpis-grid {
               display: grid;
-              grid-template-columns: repeat(5, 1fr);
+              grid-template-columns: repeat(4, 1fr);
               gap: 6px;
-              margin-bottom: 8px;
+              margin-bottom: 7px;
             }
             .kpi-card {
               background: #ffffff;
               border: 1px solid #cbd5e1;
               border-top: 3px solid #0f172a;
               border-radius: 6px;
-              padding: 6px 7px;
+              padding: 6px 8px;
             }
             .kpi-card:nth-child(1) { border-top-color: #059669; }
             .kpi-card:nth-child(2) { border-top-color: #0284c7; }
-            .kpi-card:nth-child(3) { border-top-color: #8b5cf6; }
+            .kpi-card:nth-child(3) { border-top-color: #7c3aed; }
             .kpi-card:nth-child(4) { border-top-color: #f59e0b; }
-            .kpi-card:nth-child(5) { border-top-color: #0f172a; }
+            .kpi-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 2px;
+            }
             .kpi-label {
-              font-size: 8px;
+              font-size: 7.5px;
               font-weight: 700;
               color: #64748b;
               text-transform: uppercase;
               letter-spacing: 0.04em;
             }
-            .kpi-value {
-              font-size: 15px;
+            .kpi-delta {
+              font-size: 7.5px;
+              font-weight: 800;
+              padding: 1px 4px;
+              border-radius: 3px;
+            }
+            .delta-green { background: #ecfdf5; color: #047857; }
+            .delta-blue { background: #e0f2fe; color: #0369a1; }
+            .delta-purple { background: #f3e8ff; color: #6b21a8; }
+            .delta-amber { background: #fef3c7; color: #b45309; }
+            .kpi-val {
+              font-size: 17px;
               font-weight: 900;
               color: #0f172a;
-              margin: 1px 0;
+              line-height: 1.1;
+              margin-bottom: 1px;
             }
-            .kpi-sub {
-              font-size: 8px;
-              font-weight: 700;
-              color: #059669;
+            .kpi-meta {
+              font-size: 7.5px;
+              color: #64748b;
             }
-            .ypp-tracker {
-              background: #f8fafc;
-              border: 1px solid #e2e8f0;
+
+            /* 2 VISUAL CHARTS SIDE BY SIDE */
+            .charts-row {
+              display: grid;
+              grid-template-columns: 1.15fr 0.85fr;
+              gap: 7px;
+              margin-bottom: 7px;
+            }
+            .chart-panel {
+              background: #ffffff;
+              border: 1px solid #cbd5e1;
               border-radius: 6px;
-              padding: 6px 10px;
-              margin-bottom: 8px;
+              padding: 7px 9px;
             }
-            .ypp-header {
+            .panel-header {
               display: flex;
               justify-content: space-between;
               align-items: center;
+              margin-bottom: 4px;
+              padding-bottom: 3px;
+              border-bottom: 1px solid #f1f5f9;
+            }
+            .panel-title {
               font-size: 8.5px;
               font-weight: 800;
-              color: #475569;
               text-transform: uppercase;
-              margin-bottom: 4px;
-            }
-            .ypp-grid {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 10px;
-            }
-            .prog-label {
-              display: flex;
-              justify-content: space-between;
-              font-size: 8.5px;
-              font-weight: 700;
               color: #0f172a;
-              margin-bottom: 2px;
+              display: flex;
+              align-items: center;
+              gap: 4px;
             }
-            .prog-bar-bg {
-              height: 6px;
-              background: #e2e8f0;
-              border-radius: 999px;
-              overflow: hidden;
+            .panel-tag {
+              font-size: 7.5px;
+              font-weight: 700;
+              color: #64748b;
             }
-            .prog-bar-fill-emerald {
-              height: 100%;
-              width: ${Math.min(((totalWatchHours / 4000) * 100), 100).toFixed(1)}%;
-              background: linear-gradient(90deg, #10b981, #059669);
-            }
-            .prog-bar-fill-blue {
-              height: 100%;
-              width: ${Math.min(((totalSubs / 1000) * 100), 100).toFixed(1)}%;
-              background: linear-gradient(90deg, #38bdf8, #0284c7);
-            }
-            .split-grid {
+
+            /* WINNER VS BOTTLENECK */
+            .exception-grid {
               display: grid;
               grid-template-columns: 1fr 1fr;
-              gap: 8px;
-              margin-bottom: 8px;
+              gap: 7px;
+              margin-bottom: 7px;
             }
-            .card {
+            .exception-card {
               border-radius: 6px;
-              padding: 7px 9px;
+              padding: 6px 9px;
               border: 1px solid #cbd5e1;
               background: #ffffff;
             }
-            .card-winner {
+            .card-win {
               border-color: #fde68a;
               background: #fffdf5;
             }
-            .card-lagging {
+            .card-loss {
               border-color: #fecaca;
               background: #fff8f8;
             }
-            .card-header {
+            .card-top {
               display: flex;
               justify-content: space-between;
               align-items: center;
-              margin-bottom: 5px;
+              margin-bottom: 4px;
             }
-            .card-title-pill {
-              font-size: 8px;
-              font-weight: 800;
-              text-transform: uppercase;
+            .pill-win {
+              background: #d97706;
+              color: #ffffff;
+              font-size: 7.5px;
+              font-weight: 900;
               padding: 1.5px 5px;
               border-radius: 3px;
+              text-transform: uppercase;
             }
-            .pill-winner { background: #d97706; color: #ffffff; }
-            .pill-lagging { background: #dc2626; color: #ffffff; }
-            .card-badge-right {
-              font-size: 8.5px;
-              font-weight: 800;
+            .pill-loss {
+              background: #dc2626;
+              color: #ffffff;
+              font-size: 7.5px;
+              font-weight: 900;
+              padding: 1.5px 5px;
+              border-radius: 3px;
+              text-transform: uppercase;
             }
-            .badge-winner { color: #b45309; }
-            .badge-lagging { color: #dc2626; }
-            .winner-layout {
+            .stat-win { font-size: 8.5px; font-weight: 800; color: #b45309; }
+            .stat-loss { font-size: 8.5px; font-weight: 800; color: #dc2626; }
+            
+            .win-body {
               display: flex;
-              gap: 8px;
+              gap: 7px;
             }
-            .winner-img {
-              width: 58px;
-              height: 85px;
+            .win-img {
+              width: 52px;
+              height: 74px;
               object-fit: cover;
               border-radius: 4px;
               border: 1px solid #cbd5e1;
               flex-shrink: 0;
             }
-            .winner-info h4 {
-              margin: 0 0 3px 0;
-              font-size: 10.5px;
+            .win-text h4 {
+              margin: 0 0 2px 0;
+              font-size: 10px;
               font-weight: 800;
               color: #0f172a;
-              line-height: 1.25;
+              line-height: 1.2;
             }
-            .pills-row {
+            .chip-row {
               display: flex;
-              gap: 4px;
-              margin-bottom: 4px;
+              gap: 3px;
+              margin-bottom: 3px;
               flex-wrap: wrap;
             }
-            .stat-chip {
+            .chip {
               background: #f1f5f9;
               border: 1px solid #cbd5e1;
               padding: 1px 4px;
-              border-radius: 3px;
-              font-size: 8px;
+              border-radius: 2px;
+              font-size: 7.5px;
               font-weight: 700;
               color: #334155;
             }
-            .stat-chip-green {
-              background: #ecfdf5;
-              border-color: #a7f3d0;
-              color: #065f46;
-            }
-            .winner-desc {
-              font-size: 8.5px;
+            .chip-green { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+            .bullet-text {
+              font-size: 8px;
               color: #475569;
               line-height: 1.3;
             }
-            .scorecard-card {
+
+            /* FORMAT SCORECARD */
+            .scorecard-panel {
+              background: #ffffff;
               border: 1px solid #cbd5e1;
               border-radius: 6px;
-              padding: 7px 10px;
-              margin-bottom: 8px;
-              background: #ffffff;
+              padding: 6px 9px;
+              margin-bottom: 7px;
             }
-            .scorecard-title {
-              font-size: 8.5px;
-              font-weight: 800;
-              text-transform: uppercase;
-              color: #475569;
-              margin-bottom: 5px;
-              display: flex;
-              justify-content: space-between;
-            }
-            .format-row {
+            .fmt-row {
               display: grid;
               grid-template-columns: 140px 1fr 90px 105px;
               align-items: center;
-              gap: 8px;
-              padding: 4px 0;
+              gap: 7px;
+              padding: 3px 0;
               border-bottom: 1px solid #f1f5f9;
             }
-            .format-row:last-child {
+            .fmt-row:last-child {
               border-bottom: none;
               padding-bottom: 0;
             }
-            .format-name {
-              font-size: 9px;
+            .fmt-name {
+              font-size: 8.5px;
               font-weight: 800;
               color: #0f172a;
             }
-            .format-name span {
+            .fmt-name span {
               display: block;
-              font-size: 7.5px;
+              font-size: 7px;
               font-weight: 500;
               color: #64748b;
             }
-            .bar-track {
+            .fmt-track {
               height: 5px;
               background: #f1f5f9;
               border-radius: 999px;
               overflow: hidden;
             }
-            .bar-fill {
-              height: 100%;
-              border-radius: 999px;
-            }
-            .bar-ultra { width: 100%; background: #059669; }
-            .bar-asmr { width: 65%; background: #0284c7; }
-            .bar-extended { width: 16%; background: #e11d48; }
-            .bar-longform { width: 45%; background: #7c3aed; }
-            .format-stat {
+            .fmt-fill { height: 100%; border-radius: 999px; }
+            .fill-ultra { width: 100%; background: #059669; }
+            .fill-asmr { width: 65%; background: #0284c7; }
+            .fill-ext { width: 16%; background: #e11d48; }
+            .fill-long { width: 45%; background: #7c3aed; }
+            .fmt-stat {
               text-align: right;
-              font-size: 9px;
+              font-size: 8.5px;
               font-weight: 800;
               color: #0f172a;
             }
-            .format-stat span {
+            .fmt-stat span {
               display: block;
-              font-size: 7.5px;
+              font-size: 7px;
               font-weight: 500;
               color: #64748b;
             }
-            .format-pill {
-              font-size: 7.5px;
+            .fmt-pill {
+              font-size: 7px;
               font-weight: 800;
               text-align: center;
-              padding: 2px 4px;
+              padding: 1.5px 4px;
               border-radius: 3px;
               text-transform: uppercase;
             }
-            .pill-leader { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
-            .pill-stable { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+            .pill-lider { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+            .pill-estable { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
             .pill-refactor { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; }
-            .pill-active { background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
-            .actions-card {
+            .pill-largo { background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; }
+
+            /* ACTION ROADMAP (100% Growth focused, zero video-editor rules) */
+            .roadmap-panel {
+              background: #f8fafc;
               border: 1px solid #cbd5e1;
               border-radius: 6px;
-              padding: 6px 10px;
-              margin-bottom: 7px;
-              background: #f8fafc;
+              padding: 6px 9px;
+              margin-bottom: 6px;
             }
-            .actions-title {
-              font-size: 8.5px;
-              font-weight: 800;
-              text-transform: uppercase;
-              color: #0f172a;
-              margin-bottom: 4px;
-              display: flex;
-              align-items: center;
-              gap: 4px;
-            }
-            .actions-grid {
+            .roadmap-grid {
               display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 5px 10px;
-              font-size: 8.5px;
-              color: #334155;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 6px;
+              margin-top: 3px;
             }
-            .action-item {
-              display: flex;
-              gap: 5px;
-              align-items: flex-start;
+            .roadmap-item {
+              background: #ffffff;
+              border: 1px solid #e2e8f0;
+              border-radius: 4px;
+              padding: 4px 6px;
             }
-            .action-chip {
-              font-size: 7.5px;
-              font-weight: 800;
+            .item-badge {
+              font-size: 7px;
+              font-weight: 900;
               padding: 1px 4px;
               border-radius: 2px;
-              background: #e2e8f0;
-              color: #1e293b;
-              white-space: nowrap;
+              text-transform: uppercase;
+              display: inline-block;
+              margin-bottom: 2px;
             }
+            .badge-cadencia { background: #ecfdf5; color: #047857; }
+            .badge-sifon { background: #e0f2fe; color: #0369a1; }
+            .badge-test { background: #fef3c7; color: #b45309; }
+            .item-text {
+              font-size: 8px;
+              color: #334155;
+              line-height: 1.25;
+            }
+
+            /* FOOTER */
             .footer {
               border-top: 1px solid #cbd5e1;
               padding-top: 4px;
               display: flex;
               justify-content: space-between;
-              font-size: 7.5px;
+              font-size: 7px;
               color: #64748b;
             }
           </style>
         </head>
         <body>
+          <!-- HEADER -->
           <div class="header">
-            <div class="header-left">
-              <div class="brand-tag">BlackFlag Media Holding • División Canales Automatizados</div>
-              <h1>${isDaily ? 'Level Pop: Auditoría Ejecutiva de Rendimiento (24H)' : 'Level Pop: Auditoría de Rendimiento Global & Multi-Canal'}</h1>
+            <div>
+              <div class="brand-line">
+                <span class="brand-badge">BlackFlag Media</span>
+                <span class="brand-sub">Holding de Medios Digitales • División Canales Automatizados</span>
+              </div>
+              <h1>Level Pop: Auditoría Ejecutiva de Rendimiento (${isDaily ? '24H' : 'Global'})</h1>
             </div>
             <div class="header-right">
               <div><strong>Canal:</strong> @levelpopstudio • <strong>Fecha:</strong> ${dateFormatted}</div>
-              <div class="status-pill">● Telemetría Oficial YouTube & Supabase</div>
+              <div class="telemetry-pill">
+                <span class="pulse-dot"></span>
+                <span>Telemetría Oficial YouTube API v3 & Supabase</span>
+              </div>
             </div>
           </div>
 
-          <div class="banner">
-            <div class="banner-pill">${isDaily ? '⚡ Diagnóstico Ejecutivo del Día' : '🌐 Diagnóstico Global del Canal'}</div>
-            <div class="banner-headline">${dailyHeadline}</div>
-            <div class="banner-desc">${dailySummary}</div>
+          <!-- EXECUTIVE SUMMARY -->
+          <div class="exec-summary">
+            <div class="exec-summary-top">
+              <span class="exec-badge">⚡ Diagnóstico Ejecutivo del Día</span>
+              <span class="exec-metric-pill">13.121 Vistas Auditadas • 15 Subs</span>
+            </div>
+            <div class="exec-title">${dailyHeadline}</div>
+            <div class="exec-bullets">
+              • <strong>Hallazgo Clave:</strong> Shorts Rápidos (&lt;45s) lideran con 1.061 vistas promedio (+2.6x) y 65% de retención en t=37s.<br/>
+              • <strong>Excepción Detectada:</strong> Shorts de 120s sufren fatiga en feed a los 37s (caída al 38%), desacelerando la recomendación algorítmica.<br/>
+              • <strong>Decisión Estratégica:</strong> Acortar shorts a duraciones óptimas de 35-45s y concentrar el tiempo largo en videos horizontales 16:9 de 15m.
+            </div>
           </div>
 
+          <!-- 4 HEADLINE METRICS -->
           <div class="kpis-grid">
             <div class="kpi-card">
-              <div class="kpi-label">Vistas Auditadas</div>
-              <div class="kpi-value">${totalAuditedViews.toLocaleString()}</div>
-              <div class="kpi-sub">+3.105 en 48h</div>
+              <div class="kpi-header">
+                <span class="kpi-label">Vistas Auditadas</span>
+                <span class="kpi-delta delta-green">+3.105 (48h)</span>
+              </div>
+              <div class="kpi-val">${totalAuditedViews.toLocaleString()}</div>
+              <div class="kpi-meta">YouTube Data API v3 En Vivo</div>
             </div>
+
             <div class="kpi-card">
-              <div class="kpi-label">Suscriptores Netos</div>
-              <div class="kpi-value">${totalSubs}</div>
-              <div class="kpi-sub">+150% orgánico</div>
+              <div class="kpi-header">
+                <span class="kpi-label">Suscriptores Netos</span>
+                <span class="kpi-delta delta-blue">+150% orgánico</span>
+              </div>
+              <div class="kpi-val">${totalSubs}</div>
+              <div class="kpi-meta">Meta YPP: 1.000 (${((totalSubs/1000)*100).toFixed(1)}%)</div>
             </div>
+
             <div class="kpi-card">
-              <div class="kpi-label">Watch Time</div>
-              <div class="kpi-value">${totalWatchHours} hs</div>
-              <div class="kpi-sub">Meta: 4.000 hs (${((totalWatchHours/4000)*100).toFixed(1)}%)</div>
+              <div class="kpi-header">
+                <span class="kpi-label">Watch Time Total</span>
+                <span class="kpi-delta delta-purple">4.4% de Meta</span>
+              </div>
+              <div class="kpi-val">${totalWatchHours} hs</div>
+              <div class="kpi-meta">Meta YPP: 4.000 hs acumuladas</div>
             </div>
+
             <div class="kpi-card">
-              <div class="kpi-label">AVD % Retención</div>
-              <div class="kpi-value">${avgAvd}%</div>
-              <div class="kpi-sub">Benchmark &gt;50%</div>
-            </div>
-            <div class="kpi-card">
-              <div class="kpi-label">Catálogo en Red</div>
-              <div class="kpi-value">${videoCount} Videos</div>
-              <div class="kpi-sub">20 Shorts • 2 Largos 15m</div>
+              <div class="kpi-header">
+                <span class="kpi-label">Retención Media</span>
+                <span class="kpi-delta delta-amber">&gt; Benchmark</span>
+              </div>
+              <div class="kpi-val">${avgAvd}%</div>
+              <div class="kpi-meta">Benchmark industria: 50.0%</div>
             </div>
           </div>
 
-          <div class="ypp-tracker">
-            <div class="ypp-header">
-              <span>Camino al Programa de Socios de YouTube (YPP Monetización)</span>
-              <span>Margen Operativo: 100% • Costo de Servidor: $0</span>
+          <!-- 2 REAL VECTOR CHARTS SIDE BY SIDE -->
+          <div class="charts-row">
+            <!-- CHART 1: RETENTION CURVE -->
+            <div class="chart-panel">
+              <div class="panel-header">
+                <span class="panel-title">📈 Curva Forense de Retención por Duración</span>
+                <span class="panel-tag">Segundos transcurridos vs % Retención</span>
+              </div>
+              <svg viewBox="0 0 380 95" style="width: 100%; height: auto; overflow: visible;">
+                <!-- Grid lines -->
+                <line x1="30" y1="12" x2="365" y2="12" stroke="#f1f5f9" stroke-width="1"/>
+                <line x1="30" y1="35" x2="365" y2="35" stroke="#f1f5f9" stroke-width="1"/>
+                <line x1="30" y1="58" x2="365" y2="58" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+                <line x1="30" y1="80" x2="365" y2="80" stroke="#f1f5f9" stroke-width="1"/>
+                
+                <!-- Y labels -->
+                <text x="25" y="15" font-size="7" fill="#94a3b8" text-anchor="end" font-family="sans-serif">100%</text>
+                <text x="25" y="38" font-size="7" fill="#94a3b8" text-anchor="end" font-family="sans-serif">75%</text>
+                <text x="25" y="61" font-size="7" fill="#64748b" text-anchor="end" font-family="sans-serif" font-weight="bold">50%</text>
+                <text x="25" y="83" font-size="7" fill="#94a3b8" text-anchor="end" font-family="sans-serif">25%</text>
+                
+                <text x="365" y="55" font-size="6.5" fill="#64748b" text-anchor="end" font-family="sans-serif">Benchmark 50%</text>
+                
+                <!-- X labels -->
+                <text x="35" y="92" font-size="7" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">0s</text>
+                <text x="110" y="92" font-size="7" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">15s</text>
+                <text x="180" y="92" font-size="7" fill="#047857" text-anchor="middle" font-family="sans-serif" font-weight="bold">37s (Fuga)</text>
+                <text x="260" y="92" font-size="7" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">60s</text>
+                <text x="345" y="92" font-size="7" fill="#94a3b8" text-anchor="middle" font-family="sans-serif">120s</text>
+                
+                <!-- Green Line: Shorts Rápidos (<45s) -->
+                <path d="M 35 18 C 70 20, 110 26, 180 43" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- Loop bounce up -->
+                <path d="M 180 43 C 190 30, 205 22, 225 19" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="2,2"/>
+                <circle cx="180" cy="43" r="3" fill="#059669"/>
+                <text x="180" y="38" font-size="7.5" fill="#047857" font-weight="bold" text-anchor="middle" font-family="sans-serif">65% (Bucle)</text>
+                
+                <!-- Red Line: Shorts Extendidos (120s) -->
+                <path d="M 35 18 C 70 20, 110 26, 180 44 C 215 65, 260 76, 345 81" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="180" cy="44" r="2.5" fill="#e11d48"/>
+                <circle cx="345" cy="81" r="2.5" fill="#e11d48"/>
+                <text x="270" y="70" font-size="7" fill="#be123c" font-weight="bold" font-family="sans-serif">Caída a 38%</text>
+              </svg>
             </div>
-            <div class="ypp-grid">
-              <div>
-                <div class="prog-label">
-                  <span>Horas de Reproducción Requeridas</span>
-                  <span><strong>${totalWatchHours} hs</strong> / 4.000 hs (${((totalWatchHours/4000)*100).toFixed(1)}%)</span>
+
+            <!-- CHART 2: YPP MONETIZATION RADIAL GAUGES -->
+            <div class="chart-panel">
+              <div class="panel-header">
+                <span class="panel-title">🎯 Camino a Monetización (YPP)</span>
+                <span class="panel-tag">Margen 100% • Servidor $0</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px;">
+                <!-- Gauge 1: Watch hours -->
+                <div style="display: flex; align-items: center; gap: 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px;">
+                  <svg viewBox="0 0 36 36" style="width: 32px; height: 32px; flex-shrink: 0;">
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#059669" stroke-dasharray="4.4, 100" stroke-width="4" stroke-linecap="round"/>
+                    <text x="18" y="20.5" font-size="7.5" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">4.4%</text>
+                  </svg>
+                  <div>
+                    <div style="font-size: 7px; font-weight: 700; color: #64748b; text-transform: uppercase;">Watch Hours</div>
+                    <div style="font-size: 10px; font-weight: 900; color: #0f172a;">175 <span style="font-size: 7px; font-weight: 500; color: #94a3b8;">/ 4.000 hs</span></div>
+                  </div>
                 </div>
-                <div class="prog-bar-bg">
-                  <div class="prog-bar-fill-emerald"></div>
+
+                <!-- Gauge 2: Subscribers -->
+                <div style="display: flex; align-items: center; gap: 6px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px;">
+                  <svg viewBox="0 0 36 36" style="width: 32px; height: 32px; flex-shrink: 0;">
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#0284c7" stroke-dasharray="1.5, 100" stroke-width="4" stroke-linecap="round"/>
+                    <text x="18" y="20.5" font-size="7.5" font-weight="900" fill="#0f172a" text-anchor="middle" font-family="sans-serif">1.5%</text>
+                  </svg>
+                  <div>
+                    <div style="font-size: 7px; font-weight: 700; color: #64748b; text-transform: uppercase;">Suscriptores</div>
+                    <div style="font-size: 10px; font-weight: 900; color: #0f172a;">15 <span style="font-size: 7px; font-weight: 500; color: #94a3b8;">/ 1.000 subs</span></div>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div class="prog-label">
-                  <span>Suscriptores Requeridos</span>
-                  <span><strong>${totalSubs} subs</strong> / 1.000 subs (${((totalSubs/1000)*100).toFixed(1)}%)</span>
-                </div>
-                <div class="prog-bar-bg">
-                  <div class="prog-bar-fill-blue"></div>
-                </div>
+              <div style="margin-top: 5px; font-size: 7.5px; color: #64748b; text-align: center;">
+                Sifón activo desde Shorts hacia videos compilatorios 16:9 para acelerar horas.
               </div>
             </div>
           </div>
 
-          ${isDaily ? `
-            <div class="split-grid">
-              <div class="card card-winner">
-                <div class="card-header">
-                  <span class="card-title-pill pill-winner">🏆 Top Winner 24H (Lo que Funciona)</span>
-                  <span class="card-badge-right badge-winner">${winner.viewsPerHour} vistas/h</span>
-                </div>
-                <div class="winner-layout">
-                  <img src="${winner.thumbnailUrl}" class="winner-img" alt="Thumbnail" />
-                  <div class="winner-info">
-                    <h4>${winner.title}</h4>
-                    <div class="pills-row">
-                      <span class="stat-chip stat-chip-green">⏱️ ${winner.durationLabel}</span>
-                      <span class="stat-chip">👁️ ${winner.views.toLocaleString()} vistas</span>
-                      <span class="stat-chip">🔥 ER: ${winner.er}%</span>
-                    </div>
-                    <div class="winner-desc"><strong>Por qué superó la media:</strong> ${winner.whyItWon}</div>
-                  </div>
-                </div>
+          <!-- WINNER VS BOTTLENECK -->
+          <div class="exception-grid">
+            <!-- WINNER -->
+            <div class="exception-card card-win">
+              <div class="card-top">
+                <span class="pill-win">🏆 Top Performer 24H</span>
+                <span class="stat-win">${winner.viewsPerHour} vistas/h</span>
               </div>
-
-              <div class="card card-lagging">
-                <div class="card-header">
-                  <span class="card-title-pill pill-lagging">⚠️ Cuello de Botella Detectado</span>
-                  <span class="card-badge-right badge-lagging">${lagging.vsWinnerDelta}</span>
-                </div>
-                <div>
-                  <h4 style="margin: 0 0 2px 0; font-size: 10.5px; font-weight: 800; color: #0f172a;">${lagging.worstFormat}</h4>
-                  <div class="pills-row" style="margin-bottom: 3px;">
-                    <span class="stat-chip">⏱️ 120s (2 min)</span>
-                    <span class="stat-chip">👁️ 171 vistas prom.</span>
-                    <span class="stat-chip" style="color: #b91c1c;">📉 Retención: 38%</span>
+              <div class="win-body">
+                <img src="${winner.thumbnailUrl}" class="win-img" alt="Thumbnail" />
+                <div class="win-text">
+                  <h4>${winner.title}</h4>
+                  <div class="chip-row">
+                    <span class="chip chip-green">⏱️ ${winner.durationLabel}</span>
+                    <span class="chip">👁️ ${winner.views.toLocaleString()} vistas</span>
+                    <span class="chip">🔥 ER: ${winner.er}%</span>
                   </div>
-                  <div class="winner-desc" style="margin-bottom: 3px;"><strong>Diagnóstico de retención:</strong> ${lagging.whyItLags}</div>
-                  <div class="winner-desc"><strong>Acción de ingeniería:</strong> ${lagging.correctiveAction}</div>
+                  <div class="bullet-text"><strong>Por qué superó la media:</strong> ${winner.whyItWon}</div>
                 </div>
               </div>
             </div>
-          ` : `
-            <div class="scorecard-card">
-              <div class="scorecard-title">
-                <span>Desglose por Categoría de Formato</span>
-                <span>Auditado v3</span>
+
+            <!-- BOTTLENECK -->
+            <div class="exception-card card-loss">
+              <div class="card-top">
+                <span class="pill-loss">⚠️ Cuello de Botella Detectado</span>
+                <span class="stat-loss">${lagging.vsWinnerDelta}</span>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-                ${formatList.map(f => `
-                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px;">
-                    <div style="font-size: 8px; font-weight: 700; color: #64748b;">${f.category}</div>
-                    <div style="font-size: 12px; font-weight: 900; color: #059669; margin: 1px 0;">${f.avgViewsPerShort} v/short</div>
-                    <div style="font-size: 7.5px; color: #475569;">${f.totalViews.toLocaleString()} vistas • ${f.totalLikes} likes</div>
-                  </div>
-                `).join('')}
+              <div>
+                <h4 style="margin: 0 0 2px 0; font-size: 10px; font-weight: 800; color: #0f172a;">${lagging.worstFormat}</h4>
+                <div class="chip-row" style="margin-bottom: 3px;">
+                  <span class="chip">⏱️ 120s (2 min)</span>
+                  <span class="chip">👁️ 171 vistas prom.</span>
+                  <span class="chip" style="color: #b91c1c;">📉 Retención: 38%</span>
+                </div>
+                <div class="bullet-text" style="margin-bottom: 2px;"><strong>Diagnóstico de retención:</strong> ${lagging.whyItLags}</div>
+                <div class="bullet-text"><strong>Acción de ingeniería:</strong> ${lagging.correctiveAction}</div>
               </div>
             </div>
-          `}
+          </div>
 
-          <div class="scorecard-card">
-            <div class="scorecard-title">
-              <span>Scorecard Visual: Rendimiento y Retención por Duración</span>
-              <span>Base empírica YouTube Shorts Feed</span>
+          <!-- FORMAT SCORECARD -->
+          <div class="scorecard-panel">
+            <div class="panel-header" style="margin-bottom: 3px;">
+              <span class="panel-title">📊 Rendimiento Comparativo por Categoría y Duración</span>
+              <span class="panel-tag">YouTube Shorts Feed Benchmark</span>
             </div>
 
-            <div class="format-row">
-              <div class="format-name">
+            <div class="fmt-row">
+              <div class="fmt-name">
                 Shorts Rápidos (&lt;45s)
                 <span>Bridge Assault & Obby (30-37s)</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill bar-ultra"></div>
+              <div class="fmt-track">
+                <div class="fmt-fill fill-ultra"></div>
               </div>
-              <div class="format-stat">
+              <div class="fmt-stat">
                 1.061 vistas
                 <span>65% retención (bucle)</span>
               </div>
               <div>
-                <div class="format-pill pill-leader">🔥 Líder Algorítmico</div>
+                <div class="fmt-pill pill-lider">🔥 Líder Algorítmico</div>
               </div>
             </div>
 
-            <div class="format-row">
-              <div class="format-name">
+            <div class="fmt-row">
+              <div class="fmt-name">
                 Shorts ASMR (46-90s)
                 <span>Neon Marbles Cup (Canicas Neón)</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill bar-asmr"></div>
+              <div class="fmt-track">
+                <div class="fmt-fill fill-asmr"></div>
               </div>
-              <div class="format-stat">
+              <div class="fmt-stat">
                 687 vistas
                 <span>58% retención ASMR</span>
               </div>
               <div>
-                <div class="format-pill pill-stable">⚡ Fidelidad Estable</div>
+                <div class="fmt-pill pill-estable">⚡ Fidelidad Estable</div>
               </div>
             </div>
 
-            <div class="format-row">
-              <div class="format-name">
+            <div class="fmt-row">
+              <div class="fmt-name">
                 Shorts Extendidos (120s)
                 <span>Toy Cars & Supercars (2 Min)</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill bar-extended"></div>
+              <div class="fmt-track">
+                <div class="fmt-fill fill-ext"></div>
               </div>
-              <div class="format-stat">
+              <div class="fmt-stat">
                 171 vistas
                 <span>Caída brusca a los 37s</span>
               </div>
               <div>
-                <div class="format-pill pill-refactor">⚠️ Refactor a &lt;45s</div>
+                <div class="fmt-pill pill-refactor">⚠️ Refactor a &lt;45s</div>
               </div>
             </div>
 
-            <div class="format-row">
-              <div class="format-name">
+            <div class="fmt-row">
+              <div class="fmt-name">
                 Videos Largos 16:9 (15 min)
                 <span>Compilatorios Máster Ep 01 & 02</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill bar-longform"></div>
+              <div class="fmt-track">
+                <div class="fmt-fill fill-long"></div>
               </div>
-              <div class="format-stat">
-                2 en Canal
+              <div class="fmt-stat">
+                2 en Catálogo
                 <span>Sifón masivo de horas</span>
               </div>
               <div>
-                <div class="format-pill pill-active">🚀 Test A/B Miniaturas</div>
+                <div class="fmt-pill pill-largo">🚀 Test A/B Miniaturas</div>
               </div>
             </div>
           </div>
 
-          <div class="actions-card">
-            <div class="actions-title">⚡ Plan de Acción Estratégico y Operativo</div>
-            <div class="actions-grid">
-              <div class="action-item">
-                <span class="action-chip">CADENCIA 5X</span>
-                <span><strong>5 Shorts diarios fijos:</strong> Slots clave programados (09:30, 13:30, 17:30, 21:30 y 01:30 ART).</span>
+          <!-- STRATEGIC ROADMAP (Puro Crecimiento y Métricas, CERO reglas de producción de video) -->
+          <div class="roadmap-panel">
+            <div class="panel-header" style="margin-bottom: 2px;">
+              <span class="panel-title">⚡ Plan de Acción Estratégico de Crecimiento</span>
+              <span class="panel-tag">Prioridades de Viralización</span>
+            </div>
+            <div class="roadmap-grid">
+              <div class="roadmap-item">
+                <span class="item-badge badge-cadencia">CADENCIA 5X</span>
+                <div class="item-text"><strong>5 Shorts Diarios Fijos:</strong> Publicaciones programadas en franjas pico de tráfico (09:30, 13:30, 17:30, 21:30 y 01:30 ART).</div>
               </div>
-              <div class="action-item">
-                <span class="action-chip">CONVERSIÓN</span>
-                <span><strong>Sifón de Tráfico:</strong> Enlazar los 3 Shorts ganadores como 'Video Relacionado' hacia el video largo de 15 min.</span>
+              <div class="roadmap-item">
+                <span class="item-badge badge-sifon">SIFÓN DE TRÁFICO</span>
+                <div class="item-text"><strong>Enlace a Video Largo 15m:</strong> Configurar en YouTube Studio los shorts virales como 'Video Relacionado' hacia el compilatorio de 15 min.</div>
               </div>
-              <div class="action-item">
-                <span class="action-chip">TEST A/B/C</span>
-                <span><strong>Prueba y Compara en Studio:</strong> 3 miniaturas épicas 3D en rotación para maximizar CTR en el Episodio 02.</span>
-              </div>
-              <div class="action-item">
-                <span class="action-chip">PRODUCCIÓN</span>
-                <span><strong>Regla de Oro Ro:</strong> Binarios maestros 100% intactos sin re-compresión de video ni audio.</span>
+              <div class="roadmap-item">
+                <span class="item-badge badge-test">TEST A/B/C MINIATURAS</span>
+                <div class="item-text"><strong>Prueba y Compara en Studio:</strong> 3 variantes épicas 3D en rotación equitativa para maximizar CTR en el Episodio 02.</div>
               </div>
             </div>
           </div>
 
+          <!-- FOOTER -->
           <div class="footer">
-            <div>Holding Media Hub • blackflag-media-hub.vercel.app • Telemetría Cloud 24/7</div>
-            <div>Auditoría e Ingeniería: Matías Chababo (Lic. en Comercialización - UAI) • Documento Confidencial (Página 1/1)</div>
+            <div>BlackFlag Media Holding • Telemetría Cloud 24/7 • blackflag-media-hub.vercel.app</div>
+            <div>Auditoría e Ingeniería: Matías Chababo (Lic. en Comercialización - UAI) • Documento Confidencial C-Level (Página 1/1)</div>
           </div>
 
           <script>
@@ -910,11 +1021,11 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
             </p>
           </div>
 
-          {/* 5 Primary Executive KPIs */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          {/* 4 Primary Executive KPIs */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-3.5">
               <div className="text-[10px] font-mono text-zinc-400 uppercase">Vistas Auditadas</div>
-              <div className="mt-1 text-xl font-black text-white tabular-nums">
+              <div className="mt-1 text-2xl font-black text-white tabular-nums">
                 {totalAuditedViews.toLocaleString()}
               </div>
               <div className="text-[10px] text-emerald-400 font-bold font-mono mt-0.5">
@@ -924,7 +1035,7 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
 
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-3.5">
               <div className="text-[10px] font-mono text-zinc-400 uppercase">Suscriptores Netos</div>
-              <div className="mt-1 text-xl font-black text-white tabular-nums">
+              <div className="mt-1 text-2xl font-black text-white tabular-nums">
                 {totalSubs}
               </div>
               <div className="text-[10px] text-emerald-400 font-bold font-mono mt-0.5">
@@ -934,7 +1045,7 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
 
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-3.5">
               <div className="text-[10px] font-mono text-zinc-400 uppercase">Watch Time</div>
-              <div className="mt-1 text-xl font-black text-white tabular-nums">
+              <div className="mt-1 text-2xl font-black text-white tabular-nums">
                 {totalWatchHours} hs
               </div>
               <div className="text-[10px] text-zinc-400 font-mono mt-0.5">
@@ -944,21 +1055,11 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
 
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-3.5">
               <div className="text-[10px] font-mono text-zinc-400 uppercase">AVD % Retención</div>
-              <div className="mt-1 text-xl font-black text-emerald-400 tabular-nums">
+              <div className="mt-1 text-2xl font-black text-emerald-400 tabular-nums">
                 {avgAvd}%
               </div>
               <div className="text-[10px] text-zinc-400 font-mono mt-0.5">
                 Benchmark &gt;50%
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-3.5 col-span-2 sm:col-span-1">
-              <div className="text-[10px] font-mono text-zinc-400 uppercase">Videos en Canal</div>
-              <div className="mt-1 text-xl font-black text-white tabular-nums">
-                {videoCount} Total
-              </div>
-              <div className="text-[10px] text-sky-400 font-mono mt-0.5">
-                20 Shorts • 2 Largos
               </div>
             </div>
           </div>
@@ -975,7 +1076,7 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
                   <span className="text-zinc-400">Horas de Reproducción</span>
                   <span className="font-bold text-white">{totalWatchHours} hs / 4.000 hs ({((totalWatchHours/4000)*100).toFixed(1)}%)</span>
                 </div>
-                <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
                   <div className="bg-emerald-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.min(((totalWatchHours/4000)*100), 100)}%` }} />
                 </div>
               </div>
@@ -984,7 +1085,7 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
                   <span className="text-zinc-400">Suscriptores Requeridos</span>
                   <span className="font-bold text-white">{totalSubs} subs / 1.000 subs ({((totalSubs/1000)*100).toFixed(1)}%)</span>
                 </div>
-                <div className="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-zinc-800 h-2.5 rounded-full overflow-hidden">
                   <div className="bg-sky-500 h-full rounded-full transition-all duration-500" style={{ width: `${Math.min(((totalSubs/1000)*100), 100)}%` }} />
                 </div>
               </div>
@@ -1173,16 +1274,16 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
             </div>
           </div>
 
-          {/* Action Plan for Today */}
+          {/* Action Plan (Puro Crecimiento, 0 Reglas de Video Editor) */}
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4 space-y-2">
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white flex items-center space-x-1.5">
               <Zap className="h-4 w-4 text-amber-400" />
-              <span>Plan de Acción Operativo (Próximas 24 Horas)</span>
+              <span>Plan de Acción Estratégico de Crecimiento</span>
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-zinc-300">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-zinc-300">
               <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800 space-y-1">
                 <div className="font-mono text-[10px] font-bold text-emerald-400 uppercase">CADENCIA 5X</div>
-                <div><strong>5 Shorts Diarios Fijos:</strong> Publicaciones programadas a las 09:30, 13:30, 17:30, 21:30 y 01:30 ART.</div>
+                <div><strong>5 Shorts Diarios:</strong> Programados en horas pico (09:30, 13:30, 17:30, 21:30, 01:30 ART).</div>
               </div>
               <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800 space-y-1">
                 <div className="font-mono text-[10px] font-bold text-sky-400 uppercase">SIFÓN DE TRÁFICO</div>
@@ -1192,16 +1293,12 @@ ${formatList.map(f => `• ${f.category}: ${f.totalViews.toLocaleString()} vista
                 <div className="font-mono text-[10px] font-bold text-amber-400 uppercase">TEST & COMPARE A/B/C</div>
                 <div><strong>Packaging Épico 3D:</strong> Rotación del 33% entre las 3 variantes de miniatura para maximizar CTR en el Episodio 02.</div>
               </div>
-              <div className="p-2.5 rounded-lg bg-zinc-950/60 border border-zinc-800 space-y-1">
-                <div className="font-mono text-[10px] font-bold text-purple-400 uppercase">PRODUCCIÓN RO INTACTA</div>
-                <div><strong>Regla de Oro:</strong> Cero modificación o remuxing a los renders de Ro. Binarios 100% intactos.</div>
-              </div>
             </div>
           </div>
 
           {/* Footer Signature */}
           <div className="pt-4 border-t border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between text-[11px] font-mono text-zinc-500">
-            <div>Holding Media Hub • blackflag-media-hub.vercel.app • Telemetría Cloud 24/7</div>
+            <div>BlackFlag Media Holding • blackflag-media-hub.vercel.app • Telemetría Cloud 24/7</div>
             <div className="mt-1 sm:mt-0">Auditoría e Ingeniería: Matías Chababo (Lic. en Comercialización - UAI)</div>
           </div>
         </div>

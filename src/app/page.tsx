@@ -8,6 +8,9 @@ import { Check } from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { Sidebar } from '../components/layout/Sidebar';
 import { SubnavHeader } from '../components/layout/SubnavHeader';
+import { ChannelAndPlatformBar } from '../components/layout/ChannelAndPlatformBar';
+import { GlobalHoldingOverview } from '../components/content-manager/GlobalHoldingOverview';
+import { LongformManager } from '../components/content-manager/LongformManager';
 import { ClipsMatrix } from '../components/content-manager/ClipsMatrix';
 import { ParrillaPublicacion } from '../components/content-manager/ParrillaPublicacion';
 import { EpisodeManager } from '../components/content-manager/EpisodeManager';
@@ -27,7 +30,16 @@ import { NewChannelModal } from '../components/modals/NewChannelModal';
 import { ClipDetailModal } from '../components/modals/ClipDetailModal';
 
 export default function Home() {
-  const { mode, contentTab, metricsTab, toastMessage, currentChannel } = useHolding();
+  const {
+    mode,
+    contentTab,
+    metricsTab,
+    toastMessage,
+    currentChannel,
+    selectedChannelId,
+    selectedFormat,
+  } = useHolding();
+
   const [isNewChannelModalOpen, setIsNewChannelModalOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [selectedClipForDetail, setSelectedClipForDetail] = useState<Clip | null>(null);
@@ -50,25 +62,72 @@ export default function Home() {
         {/* Left Sidebar */}
         <Sidebar onOpenNewChannelModal={() => setIsNewChannelModalOpen(true)} />
 
-        {/* Dynamic Center Stage - Wide & Comfortable (no longer cramped) */}
+        {/* Dynamic Center Stage */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 w-full max-w-[1640px] mx-auto overflow-y-auto">
-          {/* Universal Subnav Header (Always accessible across all tabs) */}
+          {/* Universal Channel, Multi-Platform & Format Command Bar */}
+          <ChannelAndPlatformBar onOpenNewChannelModal={() => setIsNewChannelModalOpen(true)} />
+
+          {/* Subnav Header for secondary view tabs */}
           <SubnavHeader onOpenReport={() => setIsReportOpen(true)} />
 
+          {/* ========================================================= */}
+          {/* CONTENT MANAGER (OPERACIONES)                             */}
+          {/* ========================================================= */}
           {mode === 'content_manager' && (
             <>
-              {contentTab === 'clips_matrix' && (
+              {/* If Longform format selected OR longform tab active */}
+              {(contentTab === 'longform' || selectedFormat === 'LONGFORM') && (
+                <LongformManager />
+              )}
+
+              {/* Arbitrage 360 view or Holding Global Overview when in 'all' */}
+              {selectedFormat !== 'LONGFORM' &&
+                (contentTab === 'arbitrage_360' || (selectedChannelId === 'all' && contentTab === 'overview')) && (
+                  <GlobalHoldingOverview />
+                )}
+
+              {/* Standard Channel Overview when a specific channel is selected */}
+              {selectedFormat !== 'LONGFORM' &&
+                selectedChannelId !== 'all' &&
+                contentTab === 'overview' && (
+                  <ContentOverview />
+                )}
+
+              {/* Clips Matrix (Shorts) */}
+              {selectedFormat !== 'LONGFORM' && contentTab === 'clips_matrix' && (
                 <ClipsMatrix onOpenClipDetail={(clip) => setSelectedClipForDetail(clip)} />
               )}
-              {contentTab === 'parrilla' && <ParrillaPublicacion />}
-              {contentTab === 'telegram_bot' && <TelegramBotEngine />}
-              {contentTab === 'episodes' && <EpisodeManager />}
-              {contentTab === 'radar' && <StockRadar />}
-              {contentTab === 'overview' && <ContentOverview />}
-              {contentTab === 'swarm_console' && <SwarmCommandCenter />}
+
+              {/* Parrilla Editorial */}
+              {selectedFormat !== 'LONGFORM' && contentTab === 'parrilla' && (
+                <ParrillaPublicacion />
+              )}
+
+              {/* Stock & Runway Radar */}
+              {selectedFormat !== 'LONGFORM' && contentTab === 'radar' && (
+                <StockRadar />
+              )}
+
+              {/* Legacy Episode Manager */}
+              {selectedFormat !== 'LONGFORM' && contentTab === 'episodes' && (
+                <EpisodeManager />
+              )}
+
+              {/* Swarm Console */}
+              {contentTab === 'swarm_console' && (
+                <SwarmCommandCenter />
+              )}
+
+              {/* Telegram Engine */}
+              {contentTab === 'telegram_bot' && (
+                <TelegramBotEngine />
+              )}
             </>
           )}
 
+          {/* ========================================================= */}
+          {/* METRICS HUB (BUSINESS INTELLIGENCE)                       */}
+          {/* ========================================================= */}
           {mode === 'metrics_hub' && (
             <>
               {metricsTab === 'overview' && (
@@ -101,16 +160,15 @@ export default function Home() {
         onClose={() => setIsNewChannelModalOpen(false)}
       />
 
-      <ClipDetailModal
-        clip={selectedClipForDetail}
-        onClose={() => setSelectedClipForDetail(null)}
-      />
-
-      {/* C-Level Executive Report Modal (accessible globally) */}
       <CLevelExecutiveReportModal
         isOpen={isReportOpen}
         onClose={() => setIsReportOpen(false)}
         forensicData={forensicData}
+      />
+
+      <ClipDetailModal
+        clip={selectedClipForDetail}
+        onClose={() => setSelectedClipForDetail(null)}
       />
     </div>
   );

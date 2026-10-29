@@ -19,6 +19,10 @@ import {
   Table,
   Sliders,
   Sparkles,
+  Film,
+  Smartphone,
+  ShieldCheck,
+  Globe,
 } from 'lucide-react';
 import { PlatformIcon } from '../ui/PlatformIcon';
 
@@ -38,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
     metricsTab,
     setMetricsTab,
     filteredClips,
+    globalStats,
   } = useHolding();
 
   const [isChannelDropdownOpen, setIsChannelDropdownOpen] = useState(false);
@@ -61,7 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
     <aside className="w-full shrink-0 border-r border-[#1e2129] bg-[#0c0d10] p-4 md:w-64 lg:w-72 md:min-h-[calc(100vh-3.5rem)] flex flex-col justify-between">
       <div className="space-y-5">
         {/* ========================================================= */}
-        {/* 1. CHANNEL SELECTOR */}
+        {/* 1. CHANNEL SELECTOR                                       */}
         {/* ========================================================= */}
         <div className="relative" ref={dropdownRef}>
           <button
@@ -70,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
           >
             <div className="flex items-center justify-between">
               <span className="text-xs text-[#848d97] font-semibold uppercase tracking-wider">
-                Canal activo
+                Propiedad Digital
               </span>
               <div className="flex items-center space-x-1.5 text-[#848d97]">
                 <span className="text-xs">Cambiar</span>
@@ -83,11 +88,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
             </div>
 
             <div className="mt-2.5 flex items-center space-x-3">
-              <img
-                src={currentChannel.avatarUrl || '/channels/blackflag-logo.png'}
-                alt={currentChannel.name}
-                className="h-10 w-10 rounded-xl object-cover border border-[#262a34] shrink-0"
-              />
+              {currentChannel.id === 'all' ? (
+                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-sky-600 to-indigo-700 flex items-center justify-center border border-sky-400/30 shrink-0">
+                  <Globe className="h-5 w-5 text-white" />
+                </div>
+              ) : (
+                <img
+                  src={currentChannel.avatarUrl || '/channels/blackflag-logo.png'}
+                  alt={currentChannel.name}
+                  className="h-10 w-10 rounded-xl object-cover border border-[#262a34] shrink-0"
+                />
+              )}
               <div className="overflow-hidden flex-1">
                 <div className="text-sm font-bold text-white truncate">
                   {currentChannel.name}
@@ -101,10 +112,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
             {/* Metric Strip */}
             <div className="mt-3 pt-2.5 border-t border-[#1e2129] flex items-center justify-between text-xs tabular-nums">
               <span className="text-[#848d97]">
-                Stock: <strong className="text-white font-semibold">{filteredClips.length} clips</strong>
+                Piezas: <strong className="text-white font-semibold">{currentChannel.id === 'all' ? globalStats.totalUniquePieces : filteredClips.length}</strong>
               </span>
               <span className="text-[#848d97]">
-                Emitidos: <strong className="text-emerald-400 font-semibold">{publishedClipsCount}</strong>
+                Publicaciones: <strong className="text-emerald-400 font-semibold">{currentChannel.id === 'all' ? globalStats.totalPublications : publishedClipsCount}</strong>
               </span>
             </div>
           </button>
@@ -134,9 +145,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
                     </div>
                     <div className="overflow-hidden">
                       <div className="text-xs sm:text-sm font-semibold text-white truncate">
-                        Todos los Canales
+                        Holding Global
                       </div>
-                      <div className="text-xs text-[#848d97] truncate">Holding global</div>
+                      <div className="text-xs text-[#848d97] truncate">Todos los canales consolidados</div>
                     </div>
                   </div>
                   {selectedChannelId === 'all' && <Check className="h-4 w-4 text-white shrink-0 ml-2" />}
@@ -196,11 +207,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
         </div>
 
         {/* ========================================================= */}
-        {/* 2. REDES VINCULADAS */}
+        {/* 2. REDES VINCULADAS                                       */}
         {/* ========================================================= */}
         <div className="rounded-xl border border-[#1e2129] bg-[#13151a] p-3">
           <div className="text-xs font-semibold uppercase tracking-wider text-[#848d97] mb-2 px-1">
-            Redes oficiales
+            Cuentas Oficiales
           </div>
 
           <div className="space-y-1 text-xs sm:text-sm">
@@ -211,7 +222,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               className="flex items-center justify-between rounded-lg px-2.5 py-1.5 hover:bg-[#181b21] transition group cursor-pointer text-[#848d97] hover:text-white"
             >
               <div className="flex items-center space-x-2.5 truncate">
-                <PlatformIcon platform="YOUTUBE" size={16} />
+                <PlatformIcon platform="YOUTUBE_SHORT" size={16} />
                 <span className="text-xs truncate">{currentChannel.accounts.youtube}</span>
               </div>
               <ExternalLink className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition shrink-0" />
@@ -224,7 +235,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               className="flex items-center justify-between rounded-lg px-2.5 py-1.5 hover:bg-[#181b21] transition group cursor-pointer text-[#848d97] hover:text-white"
             >
               <div className="flex items-center space-x-2.5 truncate">
-                <PlatformIcon platform="INSTAGRAM" size={16} />
+                <PlatformIcon platform="INSTAGRAM_REEL" size={16} />
                 <span className="text-xs truncate">{currentChannel.accounts.instagram}</span>
               </div>
               <ExternalLink className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition shrink-0" />
@@ -245,14 +256,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
 
             <div className="flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[#848d97]">
               <div className="flex items-center space-x-2.5 truncate">
-                <PlatformIcon platform="FACEBOOK" size={16} />
+                <PlatformIcon platform="FACEBOOK_REEL" size={16} />
                 <span className="text-xs truncate">{currentChannel.accounts.facebook}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between rounded-lg px-2.5 py-1.5 text-[#848d97]">
               <div className="flex items-center space-x-2.5 truncate">
-                <PlatformIcon platform="TWITTER" size={16} />
+                <PlatformIcon platform="X_TWITTER" size={16} />
                 <span className="text-xs truncate">{currentChannel.accounts.x}</span>
               </div>
             </div>
@@ -260,7 +271,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
         </div>
 
         {/* ========================================================= */}
-        {/* 3. OPERATIONAL MENU */}
+        {/* 3. OPERATIONAL MENU                                       */}
         {/* ========================================================= */}
         <div className="space-y-1">
           <div className="px-2 pb-1.5 text-xs font-semibold uppercase tracking-wider text-[#848d97]">
@@ -279,24 +290,58 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
               >
                 <div className="flex items-center space-x-2.5">
                   <LayoutDashboard className="h-4 w-4 text-sky-400" />
-                  <span>Inicio Resumen</span>
+                  <span>{selectedChannelId === 'all' ? 'Holding General' : 'Inicio Resumen'}</span>
                 </div>
               </button>
 
               <button
-                onClick={() => setContentTab('episodes')}
+                onClick={() => setContentTab('arbitrage_360')}
                 className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
-                  contentTab === 'episodes'
+                  contentTab === 'arbitrage_360'
                     ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
                     : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
                 }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Tv className="h-4 w-4 text-amber-400" />
-                  <span>Episodios VOD</span>
+                  <ShieldCheck className="h-4 w-4 text-indigo-400" />
+                  <span>Arbitraje 360°</span>
                 </div>
-                <span className="text-xs font-mono text-[#848d97] px-1.5 py-0.5 rounded bg-zinc-800">
-                  1440p
+                <span className="text-xs font-mono text-indigo-400 font-bold">
+                  {globalStats.arbitrageRatio}x
+                </span>
+              </button>
+
+              <button
+                onClick={() => setContentTab('longform')}
+                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
+                  contentTab === 'longform'
+                    ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
+                    : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <Film className="h-4 w-4 text-amber-400" />
+                  <span>Videos Largos (16:9)</span>
+                </div>
+                <span className="text-xs font-mono text-amber-400 font-bold px-1.5 py-0.5 rounded bg-zinc-800">
+                  {globalStats.uniqueEpisodesCount}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setContentTab('clips_matrix')}
+                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
+                  contentTab === 'clips_matrix'
+                    ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
+                    : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <Smartphone className="h-4 w-4 text-sky-400" />
+                  <span>Shorts &amp; Clips (9:16)</span>
+                </div>
+                <span className="text-xs font-mono text-white bg-zinc-800 px-2 py-0.5 rounded-full font-bold">
+                  {filteredClips.length}
                 </span>
               </button>
 
@@ -327,24 +372,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
                   <Radar className="h-4 w-4 text-purple-400" />
                   <span>Stock &amp; Runway</span>
                 </div>
-                <span className="text-xs font-mono text-purple-400">Runway</span>
-              </button>
-
-              <button
-                onClick={() => setContentTab('clips_matrix')}
-                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
-                  contentTab === 'clips_matrix'
-                    ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
-                    : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
-                }`}
-              >
-                <div className="flex items-center space-x-2.5">
-                  <Layers className="h-4 w-4 text-sky-400" />
-                  <span>Matriz de Clips</span>
-                </div>
-                <span className="text-xs font-mono text-white bg-zinc-800 px-2 py-0.5 rounded-full font-bold">
-                  {filteredClips.length}
-                </span>
+                <span className="text-xs font-mono text-purple-400">{globalStats.runwayDays}d</span>
               </button>
 
               <button
@@ -373,7 +401,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4 text-emerald-400" />
-                <span>Visión Global</span>
+                <span>Métricas Generales</span>
               </button>
 
               <button
@@ -389,7 +417,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
                   <span>Short por Short</span>
                 </div>
                 <span className="text-xs text-emerald-400 font-mono font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">
-                  20
+                  {globalStats.uniqueClipsCount}
                 </span>
               </button>
 
@@ -407,17 +435,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
 
               <button
                 onClick={() => setMetricsTab('retention')}
-                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
+                className={`flex w-full items-center space-x-2.5 rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
                   metricsTab === 'retention'
                     ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
                     : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
                 }`}
               >
-                <div className="flex items-center space-x-2.5">
-                  <LineChart className="h-4 w-4 text-cyan-400" />
-                  <span>Curvas Retención</span>
-                </div>
-                <span className="text-xs text-cyan-400 font-mono font-bold">&gt;50%</span>
+                <LineChart className="h-4 w-4 text-cyan-400" />
+                <span>Curvas de Retención</span>
               </button>
 
               <button
@@ -429,47 +454,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenNewChannelModal }) => {
                 }`}
               >
                 <Share2 className="h-4 w-4 text-amber-400" />
-                <span>Multi-Red</span>
+                <span>Comparativa 5 Redes</span>
               </button>
 
               <button
                 onClick={() => setMetricsTab('ab_testing')}
-                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
+                className={`flex w-full items-center space-x-2.5 rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
                   metricsTab === 'ab_testing'
                     ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
                     : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
                 }`}
               >
-                <div className="flex items-center space-x-2.5">
-                  <SplitSquareVertical className="h-4 w-4 text-pink-400" />
-                  <span>Packaging CTR</span>
-                </div>
-                <span className="text-xs text-pink-400 font-mono font-bold">A/B</span>
+                <SplitSquareVertical className="h-4 w-4 text-pink-400" />
+                <span>A/B Miniaturas</span>
               </button>
 
               <button
                 onClick={() => setMetricsTab('ai_insights')}
-                className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
+                className={`flex w-full items-center space-x-2.5 rounded-xl px-3 py-2 text-sm font-medium transition cursor-pointer ${
                   metricsTab === 'ai_insights'
                     ? 'bg-[#1e2129] text-white font-semibold border border-zinc-700/60'
                     : 'text-[#848d97] hover:bg-[#13151a] hover:text-white'
                 }`}
               >
-                <div className="flex items-center space-x-2.5">
-                  <Sparkles className="h-4 w-4 text-purple-400" />
-                  <span>Diagnóstico IA</span>
-                </div>
-                <span className="text-xs text-purple-400 font-mono font-bold">IA</span>
+                <Sparkles className="h-4 w-4 text-purple-400" />
+                <span>Diagnóstico Enjambre</span>
               </button>
             </>
           )}
         </div>
-      </div>
-
-      {/* Simple footer */}
-      <div className="mt-5 pt-3.5 border-t border-[#1e2129] text-xs text-[#848d97] flex items-center justify-between">
-        <span className="font-medium">Holding Studio</span>
-        <span className="font-mono">ART (UTC-3)</span>
       </div>
     </aside>
   );

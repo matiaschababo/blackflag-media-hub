@@ -1,5 +1,11 @@
 export type Platform = 'YOUTUBE_SHORT' | 'INSTAGRAM_REEL' | 'FACEBOOK_REEL' | 'TIKTOK' | 'X_TWITTER';
 
+export type PlatformFilter = 'ALL' | Platform;
+
+export type ContentFormat = 'ALL' | 'LONGFORM' | 'SHORTS';
+
+export type ProductionStage = 'ALL' | 'PRODUCTION' | 'QA_CORRECTION' | 'VIRGIN_STOCK' | 'SCHEDULED' | 'PUBLISHED';
+
 export type PublicationStatus = 'PUBLISHED' | 'SCHEDULED' | 'PENDING' | 'FAILED';
 
 export interface PublicationRecord {
@@ -19,6 +25,7 @@ export interface Clip {
   file: string;
   hook: string;
   durationSec: number;
+  stage?: 'PRODUCTION' | 'QA_CORRECTION' | 'VIRGIN_STOCK' | 'SCHEDULED' | 'PUBLISHED';
   timestamps: {
     start: string;
     end: string;
@@ -45,9 +52,13 @@ export interface Episode {
   title: string;
   duration: string;
   youtubeUrl: string;
+  driveUrl?: string;
   status: 'PUBLISHED' | 'SCHEDULED' | 'IN_PRODUCTION';
   releaseDate: string;
   thumbnailUrl?: string;
+  thumbnailStatus?: 'PENDING' | 'DONE' | 'UPLOADED';
+  thumbnailNotes?: string;
+  producerNotes?: string;
   scriptStatus: 'DRAFT' | 'REVIEWED' | 'LOCKED';
   audioEngine: string;
   renderEngine: string;
@@ -55,6 +66,9 @@ export interface Episode {
   totalViews?: number;
   avdPercent?: number;
   rpm?: number;
+  watchHours?: number;
+  likes?: number;
+  comments?: number;
 }
 
 export interface Channel {
@@ -85,9 +99,40 @@ export interface Channel {
     avgAvd: number;
     estimatedRevenue: number;
     rpm: number;
+    uniqueClipsCount?: number;
+    totalPublicationsCount?: number;
+    arbitrageRatio?: number;
+    orphanedClipsCount?: number;
     lastSyncedAt?: string;
     forensic_analytics?: ForensicAnalyticsData;
   };
+}
+
+export interface GlobalHoldingStats {
+  totalChannels: number;
+  totalUniquePieces: number; // Unique clips + episodes
+  uniqueClipsCount: number;
+  uniqueEpisodesCount: number;
+  totalPublications: number; // Across all social platforms
+  publicationsByPlatform: Record<Platform, number>;
+  arbitrageRatio: number; // totalPublications / totalUniquePieces
+  orphanedPiecesCount: number; // Pieces published in some networks but pending in others
+  totalViews: number;
+  totalSubscribers: number;
+  totalWatchHours: number;
+  runwayDays: number;
+  channelMetrics: Array<{
+    channelId: string;
+    channelName: string;
+    shortCode: string;
+    uniquePieces: number;
+    publications: number;
+    arbitrageRatio: number;
+    virginStock: number;
+    runwayDays: number;
+    totalViews: number;
+    subscribers: number;
+  }>;
 }
 
 export interface ForensicVideo {
@@ -213,10 +258,20 @@ export interface ABVariant {
 
 export type AppMode = 'content_manager' | 'metrics_hub';
 
-export type ContentTab = 'overview' | 'episodes' | 'clips_matrix' | 'parrilla' | 'radar' | 'telegram_bot' | 'swarm_console';
+export type ContentTab =
+  | 'overview'
+  | 'arbitrage_360'
+  | 'longform'
+  | 'episodes'
+  | 'clips_matrix'
+  | 'parrilla'
+  | 'radar'
+  | 'telegram_bot'
+  | 'swarm_console';
 
 export type MetricsTab =
   | 'overview'
+  | 'longform_bi'
   | 'forensic_table'
   | 'cross_analysis'
   | 'retention'

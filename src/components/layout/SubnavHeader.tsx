@@ -17,6 +17,9 @@ import {
   Radar,
   Layers,
   Cpu,
+  Film,
+  Smartphone,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface SubnavHeaderProps {
@@ -24,13 +27,8 @@ interface SubnavHeaderProps {
 }
 
 export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
-  const { mode, metricsTab, setMetricsTab, contentTab, setContentTab, currentChannel, allClips } =
+  const { mode, metricsTab, setMetricsTab, contentTab, setContentTab, currentChannel, allClips, globalStats } =
     useHolding();
-
-  const channelClipsCount =
-    currentChannel.id === 'all'
-      ? allClips.length
-      : allClips.filter((c) => c.channelId === currentChannel.id).length;
 
   return (
     <div className="mb-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-2 backdrop-blur-md shadow-lg">
@@ -48,7 +46,7 @@ export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
                 }`}
               >
                 <Activity className="h-4 w-4 text-emerald-400" />
-                <span>Visión Global</span>
+                <span>Métricas Generales</span>
               </button>
 
               <button
@@ -60,9 +58,9 @@ export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
                 }`}
               >
                 <Table className="h-4 w-4 text-emerald-400" />
-                <span>Short por Short (20)</span>
-                <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/50">
-                  Auditado
+                <span>Auditoría Short por Short</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800/50">
+                  {allClips.length}
                 </span>
               </button>
 
@@ -99,7 +97,7 @@ export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
                 }`}
               >
                 <Share2 className="h-4 w-4 text-amber-400" />
-                <span>Multi-Red</span>
+                <span>Comparativa 5 Plataformas</span>
               </button>
 
               <button
@@ -128,6 +126,7 @@ export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
             </>
           ) : (
             <>
+              {/* CONTENT MANAGER TABS */}
               <button
                 onClick={() => setContentTab('overview')}
                 className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer shrink-0 ${
@@ -137,21 +136,48 @@ export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
                 }`}
               >
                 <LayoutDashboard className="h-4 w-4 text-sky-400" />
-                <span>Inicio Resumen</span>
+                <span>{currentChannel.id === 'all' ? 'Holding General' : 'Inicio Resumen'}</span>
               </button>
 
               <button
-                onClick={() => setContentTab('episodes')}
+                onClick={() => setContentTab('arbitrage_360')}
                 className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer shrink-0 ${
-                  contentTab === 'episodes'
+                  contentTab === 'arbitrage_360'
+                    ? 'bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
+                }`}
+              >
+                <ShieldCheck className="h-4 w-4 text-indigo-400" />
+                <span>Arbitraje 360° ({globalStats.arbitrageRatio}x)</span>
+              </button>
+
+              <button
+                onClick={() => setContentTab('longform')}
+                className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer shrink-0 ${
+                  contentTab === 'longform'
                     ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-sm'
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
                 }`}
               >
-                <Tv className="h-4 w-4 text-amber-400" />
-                <span>Episodios VOD</span>
-                <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">
-                  1440p
+                <Film className="h-4 w-4 text-amber-400" />
+                <span>Videos Largos (16:9)</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300">
+                  {globalStats.uniqueEpisodesCount}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setContentTab('clips_matrix')}
+                className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer shrink-0 ${
+                  contentTab === 'clips_matrix'
+                    ? 'bg-sky-500/15 text-sky-300 border border-sky-500/30 shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
+                }`}
+              >
+                <Smartphone className="h-4 w-4 text-sky-400" />
+                <span>Shorts &amp; Clips (9:16)</span>
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-400 border border-sky-800/50">
+                  {globalStats.uniqueClipsCount}
                 </span>
               </button>
 
@@ -176,47 +202,33 @@ export const SubnavHeader: React.FC<SubnavHeaderProps> = ({ onOpenReport }) => {
                 }`}
               >
                 <Radar className="h-4 w-4 text-purple-400" />
-                <span>Stock &amp; Runway</span>
-              </button>
-
-              <button
-                onClick={() => setContentTab('clips_matrix')}
-                className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer shrink-0 ${
-                  contentTab === 'clips_matrix'
-                    ? 'bg-sky-500/15 text-sky-300 border border-sky-500/30 shadow-sm'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
-                }`}
-              >
-                <Layers className="h-4 w-4 text-sky-400" />
-                <span>Matriz de Clips ({channelClipsCount})</span>
+                <span>Stock &amp; Runway ({globalStats.runwayDays}d)</span>
               </button>
 
               <button
                 onClick={() => setContentTab('swarm_console')}
                 className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer shrink-0 ${
                   contentTab === 'swarm_console'
-                    ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-sm'
+                    ? 'bg-pink-500/15 text-pink-300 border border-pink-500/30 shadow-sm'
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
                 }`}
               >
-                <Cpu className="h-4 w-4 text-emerald-400" />
-                <span>Enjambre IA</span>
+                <Cpu className="h-4 w-4 text-pink-400" />
+                <span>Consola Enjambre</span>
               </button>
             </>
           )}
         </div>
 
-        {/* Right CTA / Information */}
-        {mode === 'metrics_hub' && onOpenReport && (
-          <div className="shrink-0 flex items-center justify-end">
-            <button
-              onClick={onOpenReport}
-              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition cursor-pointer shadow-md border border-emerald-400/30"
-            >
-              <FileText className="h-4 w-4" />
-              <span>Exportar Informe C-Level</span>
-            </button>
-          </div>
+        {/* C-Level Report Modal Trigger */}
+        {onOpenReport && (
+          <button
+            onClick={onOpenReport}
+            className="flex items-center justify-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-xs sm:text-sm shadow-md shadow-emerald-950/40 transition cursor-pointer shrink-0 border border-emerald-400/30"
+          >
+            <FileText className="h-4 w-4" />
+            <span>Informe Ejecutivo CMO</span>
+          </button>
         )}
       </div>
     </div>

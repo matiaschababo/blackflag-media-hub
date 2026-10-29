@@ -10,11 +10,10 @@ import {
   Film,
   Smartphone,
   Layers,
-  Sparkles,
   CheckCircle2,
   Clock,
   Archive,
-  ArrowRight,
+  ExternalLink,
 } from 'lucide-react';
 import { PlatformIcon } from '../ui/PlatformIcon';
 
@@ -40,8 +39,6 @@ export const ChannelAndPlatformBar: React.FC<ChannelAndPlatformBarProps> = ({
     isSyncing,
     lastSyncedTime,
     triggerManualSync,
-    mode,
-    setMode,
   } = useHolding();
 
   const platformsList: Array<{ key: PlatformFilter; label: string; iconKey: string }> = [
@@ -51,6 +48,61 @@ export const ChannelAndPlatformBar: React.FC<ChannelAndPlatformBarProps> = ({
     { key: 'INSTAGRAM_REEL', label: 'Instagram', iconKey: 'INSTAGRAM' },
     { key: 'FACEBOOK_REEL', label: 'Facebook', iconKey: 'FACEBOOK' },
     { key: 'X_TWITTER', label: 'X (Twitter)', iconKey: 'TWITTER' },
+  ];
+
+  // Helper to build direct external URLs for channel accounts
+  const getAccountData = (platformKey: Platform) => {
+    const acc = currentChannel.accounts;
+    switch (platformKey) {
+      case 'YOUTUBE_SHORT':
+        return {
+          handle: acc.youtube,
+          url:
+            acc.youtube.startsWith('@')
+              ? `https://youtube.com/${acc.youtube}`
+              : `https://youtube.com/results?search_query=${encodeURIComponent(acc.youtube)}`,
+          statusBadge: 'API Oficial Conectada',
+          statusColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
+        };
+      case 'TIKTOK':
+        return {
+          handle: acc.tiktok,
+          url: acc.tiktok.startsWith('@')
+            ? `https://tiktok.com/${acc.tiktok}`
+            : `https://tiktok.com/@${acc.tiktok}`,
+          statusBadge: 'Buffer Sincronizado',
+          statusColor: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
+        };
+      case 'INSTAGRAM_REEL':
+        return {
+          handle: acc.instagram,
+          url: `https://instagram.com/${acc.instagram.replace('@', '')}`,
+          statusBadge: 'Meta Graph API',
+          statusColor: 'text-pink-400 bg-pink-500/10 border-pink-500/30',
+        };
+      case 'FACEBOOK_REEL':
+        return {
+          handle: acc.facebook,
+          url: `https://facebook.com/${encodeURIComponent(acc.facebook.replace(/\s+/g, ''))}`,
+          statusBadge: 'Página Vinculada',
+          statusColor: 'text-sky-400 bg-sky-500/10 border-sky-500/30',
+        };
+      case 'X_TWITTER':
+        return {
+          handle: acc.x,
+          url: `https://x.com/${acc.x.replace('@', '')}`,
+          statusBadge: 'X API v2 Feed',
+          statusColor: 'text-zinc-300 bg-zinc-800 border-zinc-700',
+        };
+    }
+  };
+
+  const accountPlatforms: Platform[] = [
+    'YOUTUBE_SHORT',
+    'TIKTOK',
+    'INSTAGRAM_REEL',
+    'FACEBOOK_REEL',
+    'X_TWITTER',
   ];
 
   return (
@@ -237,9 +289,70 @@ export const ChannelAndPlatformBar: React.FC<ChannelAndPlatformBarProps> = ({
       </div>
 
       {/* ───────────────────────────────────────────────────────────── */}
+      {/* ROW 2.5: CUENTAS OFICIALES, ESTADOS Y ENLACES DIRECTOS        */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <div className="bg-[#12141a] border border-[#1e222d] rounded-xl p-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center space-x-2">
+            <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-mono font-bold">
+              Cuentas Oficiales y Enlaces Directos ({currentChannel.name}):
+            </span>
+          </div>
+          <span className="text-[10px] text-zinc-400 font-mono">
+            {selectedChannelId === 'all' ? 'Holding Consolidado' : `Handle Base: ${currentChannel.accounts.youtube}`}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+          {accountPlatforms.map((plat) => {
+            const data = getAccountData(plat);
+            const isPlatformFiltered = selectedPlatform === plat;
+
+            return (
+              <div
+                key={plat}
+                onClick={() => setSelectedPlatform(isPlatformFiltered ? 'ALL' : plat)}
+                className={`p-2 rounded-lg border transition cursor-pointer flex flex-col justify-between ${
+                  isPlatformFiltered
+                    ? 'bg-[#1a1e28] border-sky-500/60 shadow-md'
+                    : 'bg-[#151821] border-[#222633] hover:border-[#2f3547]'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-1">
+                  <div className="flex items-center space-x-1.5 truncate">
+                    <PlatformIcon platform={plat} size={14} />
+                    <span className="text-xs font-bold text-white truncate">{data.handle}</span>
+                  </div>
+                  <a
+                    href={data.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="h-5 w-5 rounded bg-[#1e2330] hover:bg-[#282f42] text-zinc-400 hover:text-white flex items-center justify-center shrink-0 transition"
+                    title={`Abrir perfil oficial en ${plat}`}
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+
+                <div className="mt-1.5 flex items-center justify-between pt-1 border-t border-[#1e222d]">
+                  <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded border font-semibold ${data.statusColor}`}>
+                    {data.statusBadge}
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-400">
+                    {globalStats.publicationsByPlatform[plat] || 0} pubs
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ───────────────────────────────────────────────────────────── */}
       {/* ROW 3: PRODUCTION STAGE / USER JOURNEY FILTER                */}
       {/* ───────────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between pt-2 border-t border-[#1a1d24] text-xs">
+      <div className="flex items-center justify-between pt-1 border-t border-[#1a1d24] text-xs">
         <div className="flex items-center space-x-2 overflow-x-auto scrollbar-none">
           <span className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold mr-1 shrink-0">
             Etapa de Contenido:

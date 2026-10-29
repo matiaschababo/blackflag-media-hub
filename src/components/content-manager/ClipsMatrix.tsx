@@ -266,6 +266,10 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
                     </div>
                   )}
 
+                  <div className="absolute top-1.5 left-1.5 bg-black/85 text-sky-400 font-mono text-[9px] px-1.5 py-0.5 rounded border border-sky-500/30 font-bold">
+                    9:16 SHORT
+                  </div>
+
                   <div className="absolute bottom-1.5 right-1.5 bg-black/80 text-white font-mono text-xs px-1.5 py-0.5 rounded border border-white/10 font-bold">
                     {clip.durationSec}s
                   </div>
@@ -296,6 +300,10 @@ export const ClipsMatrix: React.FC<ClipsMatrixProps> = ({ onOpenClipDetail }) =>
 
                     <span className="text-xs text-[#848d97] font-mono">
                       {clip.timestamps.start} - {clip.timestamps.end}
+                    </span>
+
+                    <span className="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                      Subtítulos ASS Dorados #FFD700 (60 FPS)
                     </span>
 
                     {(clip.views ?? 0) > 0 && (

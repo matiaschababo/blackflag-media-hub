@@ -45,6 +45,16 @@ export interface Clip {
   completionRate?: number; // e.g. 48.5%
 }
 
+export interface ThumbnailVariant {
+  id: string;
+  label: string;
+  variantKey: 'A' | 'B' | 'C';
+  url: string;
+  ctrPrediction: string;
+  concept: string;
+  isWinner?: boolean;
+}
+
 export interface Episode {
   id: string;
   channelId: string;
@@ -57,6 +67,7 @@ export interface Episode {
   releaseDate: string;
   thumbnailUrl?: string;
   thumbnailStatus?: 'PENDING' | 'DONE' | 'UPLOADED';
+  thumbnailVariants?: ThumbnailVariant[];
   thumbnailNotes?: string;
   producerNotes?: string;
   scriptStatus: 'DRAFT' | 'REVIEWED' | 'LOCKED';
